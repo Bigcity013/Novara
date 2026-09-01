@@ -3,8 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Novara — Modern banking for a connected world.">
+
   <title>Novara | Banking</title>
+
+  <meta
+    name="description"
+    content="Novara — a modern banking experience for managing your financial life."
+  >
 
   <style>
     * {
@@ -15,34 +20,39 @@
 
     :root {
       --navy: #0b1220;
+      --blue: #315bea;
+      --blue-dark: #2447c7;
       --text: #172033;
       --muted: #667085;
+      --light: #f6f8fb;
       --border: #e5e7eb;
-      --background: #f7f9fc;
       --white: #ffffff;
-      --blue: #1648e8;
+      --success: #137a4b;
+      --warning: #9a6700;
+      --danger: #b42318;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
       color: var(--text);
-      background: var(--white);
+      background: var(--light);
       line-height: 1.5;
     }
 
     button,
-    input {
+    input,
+    select {
       font: inherit;
     }
 
-    button,
-    a {
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
+    button {
+      cursor: pointer;
     }
 
     .hidden {
@@ -53,15 +63,15 @@
 
     .navbar {
       height: 76px;
+      padding: 0 6%;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 6%;
-      border-bottom: 1px solid var(--border);
       background: rgba(255,255,255,.96);
+      border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
-      z-index: 20;
+      z-index: 100;
       backdrop-filter: blur(12px);
     }
 
@@ -80,16 +90,12 @@
     }
 
     .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
       min-height: 44px;
-      padding: 12px 19px;
+      padding: 11px 18px;
       border-radius: 10px;
       border: 1px solid transparent;
       font-size: 14px;
       font-weight: 700;
-      cursor: pointer;
       transition: .2s ease;
     }
 
@@ -97,27 +103,40 @@
       transform: translateY(-1px);
     }
 
-    .button-primary {
+    .primary {
       background: var(--navy);
       color: white;
     }
 
-    .button-outline {
-      background: white;
-      border-color: var(--border);
-      color: var(--text);
+    .primary:hover {
+      background: #192437;
     }
 
-    /* HERO */
+    .blue {
+      background: var(--blue);
+      color: white;
+    }
+
+    .blue:hover {
+      background: var(--blue-dark);
+    }
+
+    .outline {
+      background: white;
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    /* HOME */
 
     .hero {
       padding: 100px 6% 90px;
       background:
         radial-gradient(circle at 85% 20%, #e8edff 0, transparent 32%),
-        linear-gradient(180deg,#fff 0%,#f8faff 100%);
+        linear-gradient(180deg, #fff 0%, #f8faff 100%);
     }
 
-    .hero-container {
+    .hero-inner {
       max-width: 1180px;
       margin: auto;
       display: grid;
@@ -128,6 +147,7 @@
 
     .eyebrow {
       display: inline-block;
+      margin-bottom: 22px;
       padding: 7px 12px;
       border-radius: 999px;
       background: #eef2ff;
@@ -135,28 +155,27 @@
       font-size: 12px;
       font-weight: 800;
       letter-spacing: .08em;
-      margin-bottom: 22px;
     }
 
     h1 {
-      font-size: clamp(52px,7vw,86px);
-      line-height: .97;
-      letter-spacing: -4.5px;
       color: var(--navy);
+      font-size: clamp(52px, 7vw, 84px);
+      line-height: .98;
+      letter-spacing: -4px;
     }
 
-    .hero-text {
-      max-width: 630px;
-      margin-top: 25px;
+    .hero p {
+      max-width: 620px;
+      margin-top: 24px;
       color: var(--muted);
       font-size: 19px;
     }
 
     .hero-buttons {
       display: flex;
+      flex-wrap: wrap;
       gap: 12px;
       margin-top: 32px;
-      flex-wrap: wrap;
     }
 
     .hero-buttons .button {
@@ -164,32 +183,30 @@
     }
 
     .hero-note {
-      margin-top: 20px;
-      color: #98a2b3;
-      font-size: 13px;
+      font-size: 13px !important;
+      color: #98a2b3 !important;
     }
 
-    /* CARD VISUAL */
+    /* CARD */
 
-    .card-container {
+    .card-wrap {
       display: flex;
       justify-content: center;
     }
 
     .bank-card {
-      width: min(400px,100%);
+      width: min(400px, 100%);
       min-height: 250px;
-      border-radius: 25px;
       padding: 28px;
+      border-radius: 25px;
       color: white;
-      background: linear-gradient(145deg,#111827,#293750);
+      background: linear-gradient(145deg, #111827, #293750);
       box-shadow: 0 30px 70px rgba(16,24,40,.22);
     }
 
     .card-top {
       display: flex;
       justify-content: space-between;
-      font-size: 15px;
       font-weight: 700;
     }
 
@@ -204,13 +221,12 @@
     .card-number {
       margin-top: 25px;
       letter-spacing: 3px;
-      font-size: 16px;
     }
 
     .card-bottom {
       display: flex;
       justify-content: space-between;
-      margin-top: 21px;
+      margin-top: 22px;
       font-size: 11px;
       opacity: .8;
     }
@@ -219,26 +235,31 @@
 
     .section {
       padding: 90px 6%;
+      background: white;
     }
 
-    .section-container {
+    .section.alt {
+      background: var(--light);
+    }
+
+    .container {
       max-width: 1180px;
       margin: auto;
     }
 
-    .section-heading {
-      max-width: 680px;
+    .heading {
+      max-width: 700px;
     }
 
-    .section-heading h2 {
+    .heading h2 {
+      color: var(--navy);
       font-size: clamp(35px,5vw,55px);
       line-height: 1.05;
       letter-spacing: -2.5px;
-      color: var(--navy);
     }
 
-    .section-heading p {
-      margin-top: 17px;
+    .heading p {
+      margin-top: 16px;
       color: var(--muted);
       font-size: 17px;
     }
@@ -254,31 +275,27 @@
       padding: 28px;
       border: 1px solid var(--border);
       border-radius: 20px;
+      background: white;
     }
 
     .feature-number {
-      width: 44px;
-      height: 44px;
       display: grid;
       place-items: center;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 20px;
       border-radius: 12px;
-      background: var(--background);
+      background: var(--light);
       font-weight: 800;
-      margin-bottom: 22px;
     }
 
     .feature h3 {
-      font-size: 19px;
       margin-bottom: 8px;
     }
 
     .feature p {
       color: var(--muted);
       font-size: 14px;
-    }
-
-    .global-section {
-      background: var(--background);
     }
 
     .global-box {
@@ -290,7 +307,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 35px;
+      gap: 30px;
     }
 
     .global-box h3 {
@@ -299,52 +316,29 @@
     }
 
     .global-box p {
-      margin-top: 9px;
-      max-width: 580px;
+      max-width: 600px;
+      margin-top: 8px;
       color: #b6bfce;
-    }
-
-    .security {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 50px;
-      align-items: center;
-    }
-
-    .security-box {
-      padding: 35px;
-      border: 1px solid var(--border);
-      border-radius: 22px;
-    }
-
-    .security-box h3 {
-      font-size: 22px;
-      margin-bottom: 10px;
-    }
-
-    .security-box p {
-      color: var(--muted);
-      font-size: 15px;
     }
 
     /* AUTH */
 
     .auth-page {
       min-height: calc(100vh - 76px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
       padding: 60px 20px;
-      background: var(--background);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: var(--light);
     }
 
     .auth-card {
       width: 100%;
       max-width: 440px;
       padding: 38px;
-      background: white;
       border: 1px solid var(--border);
       border-radius: 22px;
+      background: white;
       box-shadow: 0 20px 50px rgba(16,24,40,.08);
     }
 
@@ -365,7 +359,7 @@
     }
 
     .field {
-      margin-bottom: 18px;
+      margin-bottom: 17px;
     }
 
     .field label {
@@ -375,44 +369,217 @@
       font-weight: 700;
     }
 
-    .field input {
+    .field input,
+    .field select {
       width: 100%;
       height: 48px;
       padding: 0 14px;
       border: 1px solid var(--border);
       border-radius: 10px;
       outline: none;
-      color: var(--text);
       background: white;
+      color: var(--text);
     }
 
-    .field input:focus {
+    .field input:focus,
+    .field select:focus {
       border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(22,72,232,.08);
+      box-shadow: 0 0 0 3px rgba(49,91,234,.08);
     }
 
-    .form-submit {
+    .full {
       width: 100%;
-      margin-top: 5px;
     }
 
-    .auth-message {
-      margin-top: 16px;
+    .message {
+      display: none;
+      margin-top: 15px;
       padding: 12px;
       border-radius: 10px;
-      background: var(--background);
+      background: var(--light);
       color: var(--muted);
       font-size: 13px;
-      display: none;
     }
 
-    .back-link {
+    .back {
       display: inline-block;
-      margin-top: 22px;
+      margin-top: 21px;
       color: var(--muted);
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
+    }
+
+    /* DASHBOARD */
+
+    .dashboard {
+      min-height: calc(100vh - 76px);
+      padding: 35px 5%;
+    }
+
+    .dashboard-container {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .dashboard-header h1 {
+      font-size: 38px;
+      letter-spacing: -2px;
+    }
+
+    .dashboard-header p {
+      color: var(--muted);
+      margin-top: 4px;
+      font-size: 14px;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 20px;
+    }
+
+    .panel {
+      padding: 25px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: white;
+    }
+
+    .panel h3 {
+      font-size: 18px;
+      margin-bottom: 18px;
+    }
+
+    .balance {
+      padding: 30px;
+      border-radius: 20px;
+      background: var(--navy);
+      color: white;
+    }
+
+    .balance-label {
+      color: #b6bfce;
+      font-size: 13px;
+    }
+
+    .balance-amount {
+      margin-top: 8px;
+      font-size: 42px;
+      letter-spacing: -2px;
+      font-weight: 800;
+    }
+
+    .account-number {
+      margin-top: 18px;
+      color: #b6bfce;
+      font-size: 13px;
+    }
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 10px;
+    }
+
+    .action {
+      padding: 17px;
+      text-align: left;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: white;
+      font-weight: 700;
+    }
+
+    .action:hover {
+      border-color: #b9c4db;
+      background: #fafbff;
+    }
+
+    .activity {
+      margin-top: 20px;
+    }
+
+    .activity-row {
+      padding: 15px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .activity-row:last-child {
+      border-bottom: none;
+    }
+
+    .activity-title {
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .activity-meta {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    .status {
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .status.completed {
+      color: var(--success);
+    }
+
+    .status.pending {
+      color: var(--warning);
+    }
+
+    /* TRANSFER */
+
+    .transfer-page {
+      min-height: calc(100vh - 76px);
+      padding: 45px 20px;
+      background: var(--light);
+    }
+
+    .transfer-card {
+      max-width: 600px;
+      margin: auto;
+      padding: 32px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: white;
+    }
+
+    .transfer-card h2 {
+      font-size: 30px;
+      letter-spacing: -1px;
+      color: var(--navy);
+    }
+
+    .transfer-card > p {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .notice {
+      margin: 20px 0;
+      padding: 14px;
+      border-radius: 12px;
+      background: #f5f7ff;
+      color: #44516b;
+      font-size: 13px;
     }
 
     /* FOOTER */
@@ -420,15 +587,19 @@
     footer {
       padding: 35px 6%;
       border-top: 1px solid var(--border);
+      background: white;
       display: flex;
       justify-content: space-between;
       color: #98a2b3;
       font-size: 13px;
     }
 
+    /* MOBILE */
+
     @media(max-width:850px) {
-      .hero-container,
-      .security {
+
+      .hero-inner,
+      .dashboard-grid {
         grid-template-columns: 1fr;
       }
 
@@ -440,14 +611,20 @@
         flex-direction: column;
         align-items: flex-start;
       }
+
+      .dashboard-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
     }
 
     @media(max-width:520px) {
+
       .navbar {
         padding: 0 20px;
       }
 
-      .navbar .button-outline {
+      .navbar .outline {
         display: none;
       }
 
@@ -457,7 +634,7 @@
       }
 
       h1 {
-        font-size: 53px;
+        font-size: 52px;
         letter-spacing: -3px;
       }
 
@@ -469,18 +646,15 @@
         width: 100%;
       }
 
-      .global-box {
-        padding: 32px;
-      }
-
-      .auth-card {
-        padding: 28px 22px;
+      .auth-card,
+      .transfer-card {
+        padding: 25px 20px;
       }
 
       footer {
         padding: 28px 20px;
         flex-direction: column;
-        gap: 8px;
+        gap: 7px;
       }
     }
   </style>
@@ -488,48 +662,103 @@
 
 <body>
 
-  <nav class="navbar">
-    <a class="logo" onclick="showHome()">Novara</a>
+  <!-- NAVBAR -->
 
-    <div class="nav-actions">
-      <button class="button button-outline" onclick="showSignIn()">Sign in</button>
-      <button class="button button-primary" onclick="showSignUp()">Open an account</button>
+  <nav class="navbar">
+
+    <div class="logo" onclick="showHome()">
+      Novara
     </div>
+
+    <div class="nav-actions" id="publicNav">
+
+      <button
+        class="button outline"
+        onclick="showSignIn()"
+      >
+        Sign in
+      </button>
+
+      <button
+        class="button primary"
+        onclick="showSignUp()"
+      >
+        Open an account
+      </button>
+
+    </div>
+
+    <div class="nav-actions hidden" id="userNav">
+
+      <button
+        class="button outline"
+        onclick="showDashboard()"
+      >
+        Dashboard
+      </button>
+
+      <button
+        class="button primary"
+        onclick="signOut()"
+      >
+        Sign out
+      </button>
+
+    </div>
+
   </nav>
+
 
   <!-- HOME -->
 
-  <div id="homePage">
+  <main id="homePage">
 
     <section class="hero">
-      <div class="hero-container">
+
+      <div class="hero-inner">
 
         <div>
-          <div class="eyebrow">GLOBAL BANKING</div>
 
-          <h1>Banking without borders.</h1>
+          <div class="eyebrow">
+            GLOBAL BANKING
+          </div>
 
-          <p class="hero-text">
-            A modern banking experience built to make managing,
-            moving, and accessing your money simple — around the world.
+          <h1>
+            Banking without borders.
+          </h1>
+
+          <p>
+            A modern banking experience built to make
+            managing, moving, and accessing your money
+            simple — around the world.
           </p>
 
           <div class="hero-buttons">
-            <button class="button button-primary" onclick="showSignUp()">
+
+            <button
+              class="button primary"
+              onclick="showSignUp()"
+            >
               Open an account
             </button>
 
-            <button class="button button-outline" onclick="showSignIn()">
+            <button
+              class="button outline"
+              onclick="showSignIn()"
+            >
               Sign in
             </button>
+
           </div>
 
           <p class="hero-note">
             Simple. Secure. Built for modern banking.
           </p>
+
         </div>
 
-        <div class="card-container">
+        <div class="card-wrap">
+
           <div class="bank-card">
 
             <div class="card-top">
@@ -549,21 +778,29 @@
             </div>
 
           </div>
+
         </div>
 
       </div>
+
     </section>
 
-    <section class="section">
-      <div class="section-container">
 
-        <div class="section-heading">
-          <h2>Banking made simple.</h2>
+    <section class="section">
+
+      <div class="container">
+
+        <div class="heading">
+
+          <h2>
+            Banking made simple.
+          </h2>
 
           <p>
-            Everything you need to manage your everyday financial
-            life, organized in one secure experience.
+            Everything you need to manage your everyday
+            financial life, organized in one secure experience.
           </p>
+
         </div>
 
         <div class="features">
@@ -572,8 +809,8 @@
             <div class="feature-number">01</div>
             <h3>Accounts</h3>
             <p>
-              Manage your accounts and keep your financial information
-              organized in one place.
+              Keep your account information organized
+              in one place.
             </p>
           </div>
 
@@ -581,8 +818,8 @@
             <div class="feature-number">02</div>
             <h3>Move money</h3>
             <p>
-              Send and receive money through a simple and convenient
-              banking experience.
+              Transfer funds through a clear and
+              controlled banking experience.
             </p>
           </div>
 
@@ -590,68 +827,65 @@
             <div class="feature-number">03</div>
             <h3>Manage your cards</h3>
             <p>
-              Keep track of your cards and manage your everyday
-              spending from one place.
+              Keep track of your cards and everyday
+              account activity.
             </p>
           </div>
 
         </div>
+
       </div>
+
     </section>
 
-    <section class="section global-section">
-      <div class="section-container">
 
-        <div class="section-heading">
-          <h2>Banking around the world.</h2>
+    <section class="section alt">
+
+      <div class="container">
+
+        <div class="heading">
+
+          <h2>
+            Banking around the world.
+          </h2>
 
           <p>
-            Novara is designed for people living, working, travelling,
-            and building their lives across borders.
+            Novara is designed for people living, working,
+            travelling, and building their lives across borders.
           </p>
+
         </div>
 
         <div class="global-box">
+
           <div>
-            <h3>Your money. Your world.</h3>
+
+            <h3>
+              Your money. Your world.
+            </h3>
+
             <p>
-              A modern banking experience designed to keep your
-              financial life simple wherever you are.
+              A modern banking experience designed to
+              keep your financial life simple wherever you are.
             </p>
+
           </div>
 
-          <button class="button button-outline" onclick="showSignUp()">
+          <button
+            class="button outline"
+            onclick="showSignUp()"
+          >
             Get started
           </button>
+
         </div>
 
       </div>
+
     </section>
 
-    <section class="section">
-      <div class="section-container security">
+  </main>
 
-        <div class="section-heading">
-          <h2>Security you can rely on.</h2>
-
-          <p>
-            Your account information is protected with security
-            controls designed into the Novara experience.
-          </p>
-        </div>
-
-        <div class="security-box">
-          <h3>Account protection</h3>
-          <p>
-            Novara is built with secure authentication, controlled
-            access, and privacy in mind.
-          </p>
-        </div>
-
-      </div>
-    </section>
-
-  </div>
 
   <!-- SIGN UP -->
 
@@ -659,7 +893,9 @@
 
     <div class="auth-card">
 
-      <h2>Open an account</h2>
+      <h2>
+        Open an account
+      </h2>
 
       <p>
         Create your Novara account to get started.
@@ -668,7 +904,11 @@
       <form class="form" id="signUpForm">
 
         <div class="field">
-          <label for="signupEmail">Email address</label>
+
+          <label for="signupEmail">
+            Email address
+          </label>
+
           <input
             id="signupEmail"
             type="email"
@@ -676,45 +916,62 @@
             placeholder="you@example.com"
             required
           >
+
         </div>
 
         <div class="field">
-          <label for="signupPassword">Password</label>
+
+          <label for="signupPassword">
+            Password
+          </label>
+
           <input
             id="signupPassword"
             type="password"
             autocomplete="new-password"
-            placeholder="Create a password"
             minlength="8"
+            placeholder="Create a password"
             required
           >
+
         </div>
 
         <div class="field">
-          <label for="signupConfirm">Confirm password</label>
+
+          <label for="signupConfirm">
+            Confirm password
+          </label>
+
           <input
             id="signupConfirm"
             type="password"
             autocomplete="new-password"
-            placeholder="Confirm your password"
             minlength="8"
+            placeholder="Confirm your password"
             required
           >
+
         </div>
 
-        <button class="button button-primary form-submit" type="submit">
+        <button
+          class="button blue full"
+          type="submit"
+        >
           Create account
         </button>
 
       </form>
 
-      <div id="signupMessage" class="auth-message"></div>
+      <div id="signupMessage" class="message"></div>
 
-      <span class="back-link" onclick="showHome()">← Back to Novara</span>
+      <span class="back" onclick="showHome()">
+        ← Back to Novara
+      </span>
 
     </div>
 
   </section>
+
 
   <!-- SIGN IN -->
 
@@ -722,7 +979,9 @@
 
     <div class="auth-card">
 
-      <h2>Sign in</h2>
+      <h2>
+        Sign in
+      </h2>
 
       <p>
         Access your Novara account.
@@ -731,7 +990,11 @@
       <form class="form" id="signInForm">
 
         <div class="field">
-          <label for="signinEmail">Email address</label>
+
+          <label for="signinEmail">
+            Email address
+          </label>
+
           <input
             id="signinEmail"
             type="email"
@@ -739,10 +1002,15 @@
             placeholder="you@example.com"
             required
           >
+
         </div>
 
         <div class="field">
-          <label for="signinPassword">Password</label>
+
+          <label for="signinPassword">
+            Password
+          </label>
+
           <input
             id="signinPassword"
             type="password"
@@ -750,78 +1018,809 @@
             placeholder="Your password"
             required
           >
+
         </div>
 
-        <button class="button button-primary form-submit" type="submit">
+        <button
+          class="button blue full"
+          type="submit"
+        >
           Sign in
         </button>
 
       </form>
 
-      <div id="signinMessage" class="auth-message"></div>
+      <div id="signinMessage" class="message"></div>
 
-      <span class="back-link" onclick="showHome()">← Back to Novara</span>
+      <span class="back" onclick="showHome()">
+        ← Back to Novara
+      </span>
 
     </div>
 
   </section>
 
+
+  <!-- DASHBOARD -->
+
+  <section id="dashboardPage" class="dashboard hidden">
+
+    <div class="dashboard-container">
+
+      <div class="dashboard-header">
+
+        <div>
+
+          <h1>
+            Dashboard
+          </h1>
+
+          <p id="welcomeEmail">
+            Welcome to Novara.
+          </p>
+
+        </div>
+
+        <button
+          class="button blue"
+          onclick="showTransfer()"
+        >
+          Send money
+        </button>
+
+      </div>
+
+
+      <div class="dashboard-grid">
+
+        <div>
+
+          <div class="balance">
+
+            <div class="balance-label">
+              Available balance
+            </div>
+
+            <div
+              class="balance-amount"
+              id="balanceAmount"
+            >
+              $0.00
+            </div>
+
+            <div class="account-number">
+              Account ending •••• 4827
+            </div>
+
+          </div>
+
+
+          <div class="panel activity">
+
+            <h3>
+              Recent activity
+            </h3>
+
+            <div id="activityList">
+
+              <div class="activity-row">
+
+                <div>
+
+                  <div class="activity-title">
+                    No transactions yet
+                  </div>
+
+                  <div class="activity-meta">
+                    Your account activity will appear here.
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div>
+
+          <div class="panel">
+
+            <h3>
+              Quick actions
+            </h3>
+
+            <div class="quick-actions">
+
+              <button
+                class="action"
+                onclick="showTransfer()"
+              >
+                Send money
+              </button>
+
+              <button
+                class="action"
+                onclick="showTransfer()"
+              >
+                Transfer
+              </button>
+
+              <button
+                class="action"
+                onclick="alert('Card management will be connected to the authorized card system.')"
+              >
+                Manage card
+              </button>
+
+              <button
+                class="action"
+                onclick="alert('Account settings will be added next.')"
+              >
+                Settings
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="panel"
+            style="margin-top:20px"
+          >
+
+            <h3>
+              Account
+            </h3>
+
+            <p
+              id="accountStatus"
+              style="color:#667085;font-size:14px"
+            >
+              Authenticated through Novara.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- TRANSFER -->
+
+  <section id="transferPage" class="transfer-page hidden">
+
+    <div class="transfer-card">
+
+      <h2>
+        Send money
+      </h2>
+
+      <p>
+        Choose how you want to send money.
+      </p>
+
+      <div class="notice">
+        Internal Novara transfers can be completed only after
+        secure server-side validation. External transfers are
+        submitted as authorization requests and do not move
+        funds immediately.
+      </div>
+
+      <form class="form" id="transferForm">
+
+        <div class="field">
+
+          <label for="transferType">
+            Transfer type
+          </label>
+
+          <select id="transferType" required>
+
+            <option value="internal">
+              Novara internal transfer
+            </option>
+
+            <option value="external">
+              External transfer
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="recipient">
+            Recipient
+          </label>
+
+          <input
+            id="recipient"
+            type="text"
+            placeholder="Recipient email or account"
+            required
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="amount">
+            Amount
+          </label>
+
+          <input
+            id="amount"
+            type="number"
+            min="0.01"
+            step="0.01"
+            placeholder="0.00"
+            required
+          >
+
+        </div>
+
+
+        <button
+          class="button blue full"
+          type="submit"
+        >
+          Continue
+        </button>
+
+      </form>
+
+      <div id="transferMessage" class="message"></div>
+
+      <span
+        class="back"
+        onclick="showDashboard()"
+      >
+        ← Back to dashboard
+      </span>
+
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+
   <footer>
-    <span>© 2026 Novara</span>
-    <span>Global banking</span>
+
+    <span>
+      © 2026 Novara
+    </span>
+
+    <span>
+      Global banking
+    </span>
+
   </footer>
 
+
+  <!-- SUPABASE AUTH -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
-    const homePage = document.getElementById("homePage");
-    const signUpPage = document.getElementById("signUpPage");
-    const signInPage = document.getElementById("signInPage");
+
+    /*
+      PUBLIC SUPABASE CONFIGURATION
+
+      This is the browser-safe publishable key.
+      Never put a Supabase secret/service-role key here.
+    */
+
+    const SUPABASE_URL =
+      "https://galtogdwvldgtlwdgxwm.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_-KV6yebEl6ntJFVNO2i5sg_Zh5WHVGc";
+
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
+
+
+    const pages = [
+      "homePage",
+      "signUpPage",
+      "signInPage",
+      "dashboardPage",
+      "transferPage"
+    ];
+
+
+    function hideAllPages() {
+
+      pages.forEach(id => {
+
+        document
+          .getElementById(id)
+          .classList.add("hidden");
+
+      });
+
+      window.scrollTo(0, 0);
+
+    }
+
 
     function showHome() {
-      homePage.classList.remove("hidden");
-      signUpPage.classList.add("hidden");
-      signInPage.classList.add("hidden");
-      window.scrollTo(0, 0);
+
+      hideAllPages();
+
+      document
+        .getElementById("homePage")
+        .classList.remove("hidden");
+
     }
+
 
     function showSignUp() {
-      homePage.classList.add("hidden");
-      signUpPage.classList.remove("hidden");
-      signInPage.classList.add("hidden");
-      window.scrollTo(0, 0);
+
+      hideAllPages();
+
+      document
+        .getElementById("signUpPage")
+        .classList.remove("hidden");
+
     }
+
 
     function showSignIn() {
-      homePage.classList.add("hidden");
-      signUpPage.classList.add("hidden");
-      signInPage.classList.remove("hidden");
-      window.scrollTo(0, 0);
+
+      hideAllPages();
+
+      document
+        .getElementById("signInPage")
+        .classList.remove("hidden");
+
     }
 
-    document.getElementById("signUpForm").addEventListener("submit", function(event) {
-      event.preventDefault();
 
-      const password = document.getElementById("signupPassword").value;
-      const confirm = document.getElementById("signupConfirm").value;
-      const message = document.getElementById("signupMessage");
+    async function showDashboard() {
 
-      if (password !== confirm) {
-        message.textContent = "Passwords do not match.";
-        message.style.display = "block";
+      const {
+        data
+      } = await supabaseClient.auth.getSession();
+
+      if (!data.session) {
+
+        showSignIn();
+
         return;
+
       }
 
-      message.textContent = "Account creation will be connected to secure authentication next.";
-      message.style.display = "block";
-    });
+      hideAllPages();
 
-    document.getElementById("signInForm").addEventListener("submit", function(event) {
-      event.preventDefault();
+      document
+        .getElementById("dashboardPage")
+        .classList.remove("hidden");
 
-      const message = document.getElementById("signinMessage");
+      document
+        .getElementById("welcomeEmail")
+        .textContent =
+        data.session.user.email || "Welcome to Novara.";
 
-      message.textContent = "Secure sign-in will be connected next.";
-      message.style.display = "block";
-    });
+    }
+
+
+    async function showTransfer() {
+
+      const {
+        data
+      } = await supabaseClient.auth.getSession();
+
+      if (!data.session) {
+
+        showSignIn();
+
+        return;
+
+      }
+
+      hideAllPages();
+
+      document
+        .getElementById("transferPage")
+        .classList.remove("hidden");
+
+    }
+
+
+    function showMessage(element, text) {
+
+      element.textContent = text;
+
+      element.style.display = "block";
+
+    }
+
+
+    function updateNavigation(session) {
+
+      if (session) {
+
+        document
+          .getElementById("publicNav")
+          .classList.add("hidden");
+
+        document
+          .getElementById("userNav")
+          .classList.remove("hidden");
+
+      } else {
+
+        document
+          .getElementById("publicNav")
+          .classList.remove("hidden");
+
+        document
+          .getElementById("userNav")
+          .classList.add("hidden");
+
+      }
+
+    }
+
+
+    /* CREATE ACCOUNT */
+
+    document
+      .getElementById("signUpForm")
+      .addEventListener(
+        "submit",
+        async function(event) {
+
+          event.preventDefault();
+
+          const email =
+            document
+              .getElementById("signupEmail")
+              .value
+              .trim();
+
+          const password =
+            document
+              .getElementById("signupPassword")
+              .value;
+
+          const confirmPassword =
+            document
+              .getElementById("signupConfirm")
+              .value;
+
+          const message =
+            document.getElementById(
+              "signupMessage"
+            );
+
+
+          if (password !== confirmPassword) {
+
+            showMessage(
+              message,
+              "Passwords do not match."
+            );
+
+            return;
+
+          }
+
+
+          if (password.length < 8) {
+
+            showMessage(
+              message,
+              "Password must be at least 8 characters."
+            );
+
+            return;
+
+          }
+
+
+          showMessage(
+            message,
+            "Creating your account..."
+          );
+
+
+          const {
+            data,
+            error
+          } =
+            await supabaseClient.auth.signUp({
+
+              email,
+
+              password,
+
+              options: {
+
+                emailRedirectTo:
+                  window.location.origin
+
+              }
+
+            });
+
+
+          if (error) {
+
+            showMessage(
+              message,
+              error.message
+            );
+
+            return;
+
+          }
+
+
+          if (data.user) {
+
+            showMessage(
+              message,
+              "Account created. Please check your email to confirm your address."
+            );
+
+          }
+
+        }
+      );
+
+
+    /* SIGN IN */
+
+    document
+      .getElementById("signInForm")
+      .addEventListener(
+        "submit",
+        async function(event) {
+
+          event.preventDefault();
+
+          const email =
+            document
+              .getElementById("signinEmail")
+              .value
+              .trim();
+
+          const password =
+            document
+              .getElementById("signinPassword")
+              .value;
+
+          const message =
+            document.getElementById(
+              "signinMessage"
+            );
+
+
+          showMessage(
+            message,
+            "Signing you in..."
+          );
+
+
+          const {
+            data,
+            error
+          } =
+            await supabaseClient.auth
+              .signInWithPassword({
+
+                email,
+
+                password
+
+              });
+
+
+          if (error) {
+
+            showMessage(
+              message,
+              error.message
+            );
+
+            return;
+
+          }
+
+
+          if (data.session) {
+
+            updateNavigation(
+              data.session
+            );
+
+            await showDashboard();
+
+          }
+
+        }
+      );
+
+
+    /* TRANSFER REQUEST UI */
+
+    document
+      .getElementById("transferForm")
+      .addEventListener(
+        "submit",
+        async function(event) {
+
+          event.preventDefault();
+
+          const {
+            data
+          } =
+            await supabaseClient.auth.getSession();
+
+
+          if (!data.session) {
+
+            showSignIn();
+
+            return;
+
+          }
+
+
+          const type =
+            document
+              .getElementById("transferType")
+              .value;
+
+          const recipient =
+            document
+              .getElementById("recipient")
+              .value
+              .trim();
+
+          const amount =
+            Number(
+              document
+                .getElementById("amount")
+                .value
+            );
+
+          const message =
+            document.getElementById(
+              "transferMessage"
+            );
+
+
+          if (
+            !recipient ||
+            !Number.isFinite(amount) ||
+            amount <= 0
+          ) {
+
+            showMessage(
+              message,
+              "Enter a valid recipient and amount."
+            );
+
+            return;
+
+          }
+
+
+          /*
+            IMPORTANT:
+
+            This frontend does NOT directly create,
+            approve, or move financial funds.
+
+            The Supabase database/RLS/backend layer
+            must validate and process transfers.
+          */
+
+
+          if (type === "internal") {
+
+            showMessage(
+              message,
+              "Internal transfer request prepared. Secure server-side validation is required before completion."
+            );
+
+          } else {
+
+            showMessage(
+              message,
+              "External transfer request submitted for authorization. No external funds have been moved."
+            );
+
+          }
+
+        }
+      );
+
+
+    /* SIGN OUT */
+
+    async function signOut() {
+
+      await supabaseClient.auth.signOut();
+
+      updateNavigation(null);
+
+      showHome();
+
+    }
+
+
+    /* AUTH STATE */
+
+    async function initializeAuth() {
+
+      const {
+        data
+      } =
+        await supabaseClient.auth.getSession();
+
+
+      updateNavigation(
+        data.session
+      );
+
+
+      if (data.session) {
+
+        document
+          .getElementById("welcomeEmail")
+          .textContent =
+          data.session.user.email ||
+          "Welcome to Novara.";
+
+      }
+
+    }
+
+
+    supabaseClient.auth.onAuthStateChange(
+      (event, session) => {
+
+        updateNavigation(session);
+
+        if (session) {
+
+          document
+            .getElementById("welcomeEmail")
+            .textContent =
+            session.user.email ||
+            "Welcome to Novara.";
+
+        }
+
+      }
+    );
+
+
+    initializeAuth();
+
   </script>
 
 </body>
