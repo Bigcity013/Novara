@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Novara — Modern banking designed for a connected world.">
+  <meta name="description" content="Novara — Modern banking for a connected world.">
   <title>Novara | Banking</title>
 
   <style>
@@ -23,10 +23,6 @@
       --blue: #1648e8;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
       color: var(--text);
@@ -34,9 +30,23 @@
       line-height: 1.5;
     }
 
+    button,
+    input {
+      font: inherit;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
     a {
       color: inherit;
       text-decoration: none;
+    }
+
+    .hidden {
+      display: none !important;
     }
 
     /* NAVIGATION */
@@ -48,10 +58,10 @@
       justify-content: space-between;
       padding: 0 6%;
       border-bottom: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.96);
+      background: rgba(255,255,255,.96);
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 20;
       backdrop-filter: blur(12px);
     }
 
@@ -60,15 +70,7 @@
       font-weight: 800;
       letter-spacing: -1.2px;
       color: var(--navy);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 30px;
-      font-size: 14px;
-      font-weight: 600;
-      color: #475467;
+      cursor: pointer;
     }
 
     .nav-actions {
@@ -81,26 +83,29 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      min-height: 44px;
       padding: 12px 19px;
       border-radius: 10px;
+      border: 1px solid transparent;
       font-size: 14px;
       font-weight: 700;
-      transition: 0.2s ease;
       cursor: pointer;
+      transition: .2s ease;
     }
 
     .button:hover {
       transform: translateY(-1px);
     }
 
-    .button-outline {
-      border: 1px solid var(--border);
-      background: white;
-    }
-
     .button-primary {
       background: var(--navy);
       color: white;
+    }
+
+    .button-outline {
+      background: white;
+      border-color: var(--border);
+      color: var(--text);
     }
 
     /* HERO */
@@ -109,14 +114,14 @@
       padding: 100px 6% 90px;
       background:
         radial-gradient(circle at 85% 20%, #e8edff 0, transparent 32%),
-        linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
+        linear-gradient(180deg,#fff 0%,#f8faff 100%);
     }
 
     .hero-container {
       max-width: 1180px;
-      margin: 0 auto;
+      margin: auto;
       display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
+      grid-template-columns: 1.05fr .95fr;
       gap: 70px;
       align-items: center;
     }
@@ -129,13 +134,13 @@
       color: #3045b8;
       font-size: 12px;
       font-weight: 800;
-      letter-spacing: 0.08em;
+      letter-spacing: .08em;
       margin-bottom: 22px;
     }
 
     h1 {
-      font-size: clamp(52px, 7vw, 86px);
-      line-height: 0.97;
+      font-size: clamp(52px,7vw,86px);
+      line-height: .97;
       letter-spacing: -4.5px;
       color: var(--navy);
     }
@@ -164,7 +169,7 @@
       font-size: 13px;
     }
 
-    /* BANK CARD */
+    /* CARD VISUAL */
 
     .card-container {
       display: flex;
@@ -172,26 +177,13 @@
     }
 
     .bank-card {
-      width: min(400px, 100%);
+      width: min(400px,100%);
       min-height: 250px;
       border-radius: 25px;
       padding: 28px;
       color: white;
-      background: linear-gradient(145deg, #111827, #293750);
-      box-shadow: 0 30px 70px rgba(16, 24, 40, 0.22);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .bank-card::after {
-      content: "";
-      position: absolute;
-      width: 230px;
-      height: 230px;
-      border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.12);
-      right: -80px;
-      bottom: -100px;
+      background: linear-gradient(145deg,#111827,#293750);
+      box-shadow: 0 30px 70px rgba(16,24,40,.22);
     }
 
     .card-top {
@@ -206,7 +198,7 @@
       height: 33px;
       margin-top: 52px;
       border-radius: 8px;
-      background: linear-gradient(135deg, #eef2f7, #aeb7c4);
+      background: linear-gradient(135deg,#eef2f7,#aeb7c4);
     }
 
     .card-number {
@@ -220,7 +212,7 @@
       justify-content: space-between;
       margin-top: 21px;
       font-size: 11px;
-      opacity: 0.8;
+      opacity: .8;
     }
 
     /* SECTIONS */
@@ -239,7 +231,7 @@
     }
 
     .section-heading h2 {
-      font-size: clamp(35px, 5vw, 55px);
+      font-size: clamp(35px,5vw,55px);
       line-height: 1.05;
       letter-spacing: -2.5px;
       color: var(--navy);
@@ -253,7 +245,7 @@
 
     .features {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3,1fr);
       gap: 18px;
       margin-top: 45px;
     }
@@ -262,7 +254,6 @@
       padding: 28px;
       border: 1px solid var(--border);
       border-radius: 20px;
-      background: white;
     }
 
     .feature-number {
@@ -285,8 +276,6 @@
       color: var(--muted);
       font-size: 14px;
     }
-
-    /* GLOBAL SECTION */
 
     .global-section {
       background: var(--background);
@@ -315,8 +304,6 @@
       color: #b6bfce;
     }
 
-    /* SECURITY */
-
     .security {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -328,7 +315,6 @@
       padding: 35px;
       border: 1px solid var(--border);
       border-radius: 22px;
-      background: white;
     }
 
     .security-box h3 {
@@ -339,6 +325,94 @@
     .security-box p {
       color: var(--muted);
       font-size: 15px;
+    }
+
+    /* AUTH */
+
+    .auth-page {
+      min-height: calc(100vh - 76px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      background: var(--background);
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+      padding: 38px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: 0 20px 50px rgba(16,24,40,.08);
+    }
+
+    .auth-card h2 {
+      color: var(--navy);
+      font-size: 30px;
+      letter-spacing: -1px;
+    }
+
+    .auth-card > p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .form {
+      margin-top: 28px;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .field input {
+      width: 100%;
+      height: 48px;
+      padding: 0 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      outline: none;
+      color: var(--text);
+      background: white;
+    }
+
+    .field input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(22,72,232,.08);
+    }
+
+    .form-submit {
+      width: 100%;
+      margin-top: 5px;
+    }
+
+    .auth-message {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 10px;
+      background: var(--background);
+      color: var(--muted);
+      font-size: 13px;
+      display: none;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
     }
 
     /* FOOTER */
@@ -352,23 +426,13 @@
       font-size: 13px;
     }
 
-    /* MOBILE */
-
-    @media (max-width: 850px) {
-      .nav-links {
-        display: none;
-      }
-
-      .hero-container {
+    @media(max-width:850px) {
+      .hero-container,
+      .security {
         grid-template-columns: 1fr;
-        gap: 55px;
       }
 
       .features {
-        grid-template-columns: 1fr;
-      }
-
-      .security {
         grid-template-columns: 1fr;
       }
 
@@ -378,19 +442,16 @@
       }
     }
 
-    @media (max-width: 520px) {
+    @media(max-width:520px) {
       .navbar {
         padding: 0 20px;
       }
 
-      .nav-actions .button-outline {
+      .navbar .button-outline {
         display: none;
       }
 
-      .hero {
-        padding: 65px 20px;
-      }
-
+      .hero,
       .section {
         padding: 65px 20px;
       }
@@ -412,6 +473,10 @@
         padding: 32px;
       }
 
+      .auth-card {
+        padding: 28px 22px;
+      }
+
       footer {
         padding: 28px 20px;
         flex-direction: column;
@@ -424,30 +489,22 @@
 <body>
 
   <nav class="navbar">
-
-    <a href="#" class="logo">Novara</a>
-
-    <div class="nav-links">
-      <a href="#accounts">Accounts</a>
-      <a href="#services">Services</a>
-      <a href="#security">Security</a>
-    </div>
+    <a class="logo" onclick="showHome()">Novara</a>
 
     <div class="nav-actions">
-      <a href="#" class="button button-outline">Sign in</a>
-      <a href="#" class="button button-primary">Open an account</a>
+      <button class="button button-outline" onclick="showSignIn()">Sign in</button>
+      <button class="button button-primary" onclick="showSignUp()">Open an account</button>
     </div>
-
   </nav>
 
-  <main>
+  <!-- HOME -->
+
+  <div id="homePage">
 
     <section class="hero">
-
       <div class="hero-container">
 
         <div>
-
           <div class="eyebrow">GLOBAL BANKING</div>
 
           <h1>Banking without borders.</h1>
@@ -458,23 +515,21 @@
           </p>
 
           <div class="hero-buttons">
-            <a href="#" class="button button-primary">
+            <button class="button button-primary" onclick="showSignUp()">
               Open an account
-            </a>
+            </button>
 
-            <a href="#" class="button button-outline">
+            <button class="button button-outline" onclick="showSignIn()">
               Sign in
-            </a>
+            </button>
           </div>
 
           <p class="hero-note">
             Simple. Secure. Built for modern banking.
           </p>
-
         </div>
 
         <div class="card-container">
-
           <div class="bank-card">
 
             <div class="card-top">
@@ -494,15 +549,12 @@
             </div>
 
           </div>
-
         </div>
 
       </div>
-
     </section>
 
-    <section class="section" id="accounts">
-
+    <section class="section">
       <div class="section-container">
 
         <div class="section-heading">
@@ -518,20 +570,16 @@
 
           <div class="feature">
             <div class="feature-number">01</div>
-
             <h3>Accounts</h3>
-
             <p>
               Manage your accounts and keep your financial information
               organized in one place.
             </p>
           </div>
 
-          <div class="feature" id="services">
+          <div class="feature">
             <div class="feature-number">02</div>
-
             <h3>Move money</h3>
-
             <p>
               Send and receive money through a simple and convenient
               banking experience.
@@ -540,9 +588,7 @@
 
           <div class="feature">
             <div class="feature-number">03</div>
-
             <h3>Manage your cards</h3>
-
             <p>
               Keep track of your cards and manage your everyday
               spending from one place.
@@ -550,83 +596,233 @@
           </div>
 
         </div>
-
       </div>
-
     </section>
 
     <section class="section global-section">
-
       <div class="section-container">
 
         <div class="section-heading">
-
           <h2>Banking around the world.</h2>
 
           <p>
             Novara is designed for people living, working, travelling,
             and building their lives across borders.
           </p>
-
         </div>
 
         <div class="global-box">
-
           <div>
             <h3>Your money. Your world.</h3>
-
             <p>
               A modern banking experience designed to keep your
               financial life simple wherever you are.
             </p>
           </div>
 
-          <a href="#" class="button button-outline">
+          <button class="button button-outline" onclick="showSignUp()">
             Get started
-          </a>
-
+          </button>
         </div>
 
       </div>
-
     </section>
 
-    <section class="section" id="security">
-
+    <section class="section">
       <div class="section-container security">
 
         <div class="section-heading">
-
           <h2>Security you can rely on.</h2>
 
           <p>
             Your account information is protected with security
             controls designed into the Novara experience.
           </p>
-
         </div>
 
         <div class="security-box">
-
           <h3>Account protection</h3>
-
           <p>
             Novara is built with secure authentication, controlled
             access, and privacy in mind.
           </p>
-
         </div>
 
       </div>
-
     </section>
 
-  </main>
+  </div>
+
+  <!-- SIGN UP -->
+
+  <section id="signUpPage" class="auth-page hidden">
+
+    <div class="auth-card">
+
+      <h2>Open an account</h2>
+
+      <p>
+        Create your Novara account to get started.
+      </p>
+
+      <form class="form" id="signUpForm">
+
+        <div class="field">
+          <label for="signupEmail">Email address</label>
+          <input
+            id="signupEmail"
+            type="email"
+            autocomplete="email"
+            placeholder="you@example.com"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label for="signupPassword">Password</label>
+          <input
+            id="signupPassword"
+            type="password"
+            autocomplete="new-password"
+            placeholder="Create a password"
+            minlength="8"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label for="signupConfirm">Confirm password</label>
+          <input
+            id="signupConfirm"
+            type="password"
+            autocomplete="new-password"
+            placeholder="Confirm your password"
+            minlength="8"
+            required
+          >
+        </div>
+
+        <button class="button button-primary form-submit" type="submit">
+          Create account
+        </button>
+
+      </form>
+
+      <div id="signupMessage" class="auth-message"></div>
+
+      <span class="back-link" onclick="showHome()">← Back to Novara</span>
+
+    </div>
+
+  </section>
+
+  <!-- SIGN IN -->
+
+  <section id="signInPage" class="auth-page hidden">
+
+    <div class="auth-card">
+
+      <h2>Sign in</h2>
+
+      <p>
+        Access your Novara account.
+      </p>
+
+      <form class="form" id="signInForm">
+
+        <div class="field">
+          <label for="signinEmail">Email address</label>
+          <input
+            id="signinEmail"
+            type="email"
+            autocomplete="email"
+            placeholder="you@example.com"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label for="signinPassword">Password</label>
+          <input
+            id="signinPassword"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Your password"
+            required
+          >
+        </div>
+
+        <button class="button button-primary form-submit" type="submit">
+          Sign in
+        </button>
+
+      </form>
+
+      <div id="signinMessage" class="auth-message"></div>
+
+      <span class="back-link" onclick="showHome()">← Back to Novara</span>
+
+    </div>
+
+  </section>
 
   <footer>
     <span>© 2026 Novara</span>
     <span>Global banking</span>
   </footer>
+
+  <script>
+    const homePage = document.getElementById("homePage");
+    const signUpPage = document.getElementById("signUpPage");
+    const signInPage = document.getElementById("signInPage");
+
+    function showHome() {
+      homePage.classList.remove("hidden");
+      signUpPage.classList.add("hidden");
+      signInPage.classList.add("hidden");
+      window.scrollTo(0, 0);
+    }
+
+    function showSignUp() {
+      homePage.classList.add("hidden");
+      signUpPage.classList.remove("hidden");
+      signInPage.classList.add("hidden");
+      window.scrollTo(0, 0);
+    }
+
+    function showSignIn() {
+      homePage.classList.add("hidden");
+      signUpPage.classList.add("hidden");
+      signInPage.classList.remove("hidden");
+      window.scrollTo(0, 0);
+    }
+
+    document.getElementById("signUpForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const password = document.getElementById("signupPassword").value;
+      const confirm = document.getElementById("signupConfirm").value;
+      const message = document.getElementById("signupMessage");
+
+      if (password !== confirm) {
+        message.textContent = "Passwords do not match.";
+        message.style.display = "block";
+        return;
+      }
+
+      message.textContent = "Account creation will be connected to secure authentication next.";
+      message.style.display = "block";
+    });
+
+    document.getElementById("signInForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const message = document.getElementById("signinMessage");
+
+      message.textContent = "Secure sign-in will be connected next.";
+      message.style.display = "block";
+    });
+  </script>
 
 </body>
 </html>
