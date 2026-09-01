@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Novara — A modern global banking experience, built to make managing, moving, and accessing your money simple around the world.">
+  <title>Novara — Global Banking</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f7f9fc;
+      color: #101828;
+      line-height: 1.5;
+    }
+
+    nav {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 6%;
+      background: white;
+      border-bottom: 1px solid #eaecf0;
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    button,
+    .btn {
+      border: none;
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .login {
+      background: transparent;
+      color: #101828;
+    }
+
+    .signup {
+      background: #111827;
+      color: white;
+    }
+
+    .hero {
+      min-height: calc(100vh - 76px);
+      display: flex;
+      align-items: center;
+      padding: 70px 6%;
+    }
+
+    .hero-content {
+      max-width: 760px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      background: #eef2ff;
+      color: #3730a3;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      font-size: clamp(48px, 7vw, 86px);
+      line-height: 0.98;
+      letter-spacing: -4px;
+      margin-bottom: 26px;
+    }
+
+    .hero p {
+      max-width: 650px;
+      font-size: 20px;
+      color: #667085;
+      margin-bottom: 34px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .primary {
+      background: #111827;
+      color: white;
+      padding: 15px 24px;
+    }
+
+    .secondary {
+      background: white;
+      color: #111827;
+      border: 1px solid #d0d5dd;
+      padding: 15px 24px;
+    }
+
+    .trust {
+      margin-top: 55px;
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+      color: #667085;
+      font-size: 14px;
+    }
+
+    .trust span {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    @media (max-width: 600px) {
+      nav {
+        padding: 0 20px;
+      }
+
+      .nav-actions .login {
+        display: none;
+      }
+
+      .hero {
+        padding: 55px 20px;
+      }
+
+      h1 {
+        letter-spacing: -2.5px;
+      }
+
+      .hero p {
+        font-size: 18px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="logo">Novara</div>
+
+    <div class="nav-actions">
+      <a href="#" class="btn login">Sign in</a>
+      <a href="#" class="btn signup">Open an account</a>
+    </div>
+  </nav>
+
+  <main class="hero">
+    <div class="hero-content">
+
+      <div class="eyebrow">GLOBAL BANKING, REIMAGINED</div>
+
+      <h1>Banking without borders.</h1>
+
+      <p>
+        A modern global banking experience, built to make managing,
+        moving, and accessing your money simple — around the world.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#" class="btn primary">Open an account</a>
+        <a href="#" class="btn secondary">Sign in</a>
+      </div>
+
+      <div class="trust">
+        <span>✓ Secure access</span>
+        <span>✓ Global-ready</span>
+        <span>✓ Built for you</span>
+      </div>
+
+    </div>
+  </main>
+
+</body>
+</html>
