@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Novara — A modern global banking experience, built to make managing, moving, and accessing your money simple around the world.">
+  <meta name="description" content="Novara — A modern global banking experience.">
   <title>Novara — Global Banking</title>
 
   <style>
@@ -13,154 +13,361 @@
       padding: 0;
     }
 
+    :root {
+      --ink: #0b1220;
+      --muted: #667085;
+      --line: #e6eaf0;
+      --soft: #f5f7fa;
+      --white: #ffffff;
+      --accent: #173bff;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f7f9fc;
-      color: #101828;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--white);
+      color: var(--ink);
       line-height: 1.5;
     }
 
-    nav {
-      height: 76px;
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .nav {
+      height: 78px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 6%;
-      background: white;
-      border-bottom: 1px solid #eaecf0;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.94);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
     }
 
     .logo {
-      font-size: 26px;
+      font-size: 27px;
       font-weight: 800;
-      letter-spacing: -1px;
+      letter-spacing: -1.2px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      color: #475467;
+      font-size: 14px;
+      font-weight: 600;
     }
 
     .nav-actions {
       display: flex;
-      gap: 12px;
+      align-items: center;
+      gap: 10px;
     }
 
-    button,
     .btn {
-      border: none;
-      border-radius: 10px;
-      padding: 12px 20px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 14px;
+      font-weight: 700;
+      transition: .2s ease;
     }
 
-    .login {
-      background: transparent;
-      color: #101828;
+    .btn:hover {
+      transform: translateY(-1px);
     }
 
-    .signup {
-      background: #111827;
+    .btn-dark {
+      background: var(--ink);
       color: white;
     }
 
-    .hero {
-      min-height: calc(100vh - 76px);
-      display: flex;
-      align-items: center;
-      padding: 70px 6%;
+    .btn-light {
+      border: 1px solid var(--line);
+      background: white;
     }
 
-    .hero-content {
-      max-width: 760px;
+    .hero {
+      padding: 95px 6% 80px;
+      background:
+        radial-gradient(circle at 85% 20%, #e8edff 0, transparent 30%),
+        linear-gradient(180deg, #fff 0%, #f8faff 100%);
+    }
+
+    .hero-grid {
+      max-width: 1180px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 70px;
+      align-items: center;
     }
 
     .eyebrow {
-      display: inline-block;
-      background: #eef2ff;
-      color: #3730a3;
+      display: inline-flex;
       padding: 7px 12px;
       border-radius: 999px;
-      font-size: 13px;
-      font-weight: 700;
+      background: #eef1ff;
+      color: #3044c9;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
       margin-bottom: 22px;
     }
 
     h1 {
-      font-size: clamp(48px, 7vw, 86px);
-      line-height: 0.98;
-      letter-spacing: -4px;
-      margin-bottom: 26px;
+      font-size: clamp(52px, 7vw, 88px);
+      line-height: .96;
+      letter-spacing: -5px;
+      max-width: 760px;
     }
 
-    .hero p {
-      max-width: 650px;
-      font-size: 20px;
-      color: #667085;
-      margin-bottom: 34px;
+    .hero-copy {
+      margin-top: 25px;
+      max-width: 630px;
+      color: var(--muted);
+      font-size: 19px;
     }
 
-    .hero-actions {
+    .hero-buttons {
       display: flex;
-      gap: 14px;
+      gap: 12px;
+      margin-top: 32px;
       flex-wrap: wrap;
     }
 
-    .primary {
-      background: #111827;
+    .hero-buttons .btn {
+      padding: 15px 23px;
+    }
+
+    .hero-note {
+      margin-top: 22px;
+      color: #98a2b3;
+      font-size: 13px;
+    }
+
+    .card-wrap {
+      display: flex;
+      justify-content: center;
+    }
+
+    .bank-card {
+      width: min(390px, 100%);
+      min-height: 245px;
+      border-radius: 26px;
+      padding: 27px;
       color: white;
-      padding: 15px 24px;
+      background: linear-gradient(145deg, #111827, #26344c);
+      box-shadow: 0 30px 70px rgba(16,24,40,.22);
+      position: relative;
+      overflow: hidden;
     }
 
-    .secondary {
-      background: white;
-      color: #111827;
-      border: 1px solid #d0d5dd;
-      padding: 15px 24px;
+    .bank-card::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.13);
+      right: -70px;
+      bottom: -90px;
     }
 
-    .trust {
-      margin-top: 55px;
+    .card-top {
       display: flex;
-      gap: 28px;
-      flex-wrap: wrap;
-      color: #667085;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .chip {
+      width: 42px;
+      height: 32px;
+      margin-top: 50px;
+      border-radius: 8px;
+      background: linear-gradient(135deg,#e9eef5,#aeb8c6);
+    }
+
+    .card-number {
+      margin-top: 25px;
+      letter-spacing: 3px;
+      font-size: 16px;
+    }
+
+    .card-bottom {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      font-size: 11px;
+      opacity: .82;
+    }
+
+    .section {
+      padding: 90px 6%;
+    }
+
+    .section-inner {
+      max-width: 1180px;
+      margin: auto;
+    }
+
+    .section-title {
+      max-width: 650px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(34px, 5vw, 54px);
+      line-height: 1.05;
+      letter-spacing: -2.5px;
+    }
+
+    .section-title p {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .features {
+      margin-top: 45px;
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 18px;
+    }
+
+    .feature {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 27px;
+      background: white;
+    }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--soft);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      margin-bottom: 22px;
+    }
+
+    .feature h3 {
+      font-size: 19px;
+      margin-bottom: 8px;
+    }
+
+    .feature p {
+      color: var(--muted);
       font-size: 14px;
     }
 
-    .trust span {
-      display: flex;
-      align-items: center;
-      gap: 7px;
+    .global {
+      background: var(--soft);
     }
 
-    @media (max-width: 600px) {
-      nav {
+    .global-box {
+      margin-top: 45px;
+      border-radius: 28px;
+      padding: 45px;
+      background: #101827;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 35px;
+    }
+
+    .global-box h3 {
+      font-size: 30px;
+      letter-spacing: -1px;
+    }
+
+    .global-box p {
+      margin-top: 8px;
+      color: #aeb7c7;
+      max-width: 560px;
+    }
+
+    .footer {
+      padding: 35px 6%;
+      border-top: 1px solid var(--line);
+      color: #98a2b3;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    @media (max-width: 850px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 55px;
+      }
+
+      h1 {
+        letter-spacing: -3px;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      .global-box {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 32px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .nav {
         padding: 0 20px;
       }
 
-      .nav-actions .login {
+      .nav-actions .btn-light {
         display: none;
       }
 
       .hero {
-        padding: 55px 20px;
+        padding: 65px 20px;
+      }
+
+      .section {
+        padding: 65px 20px;
       }
 
       h1 {
-        letter-spacing: -2.5px;
+        font-size: 52px;
       }
 
-      .hero p {
-        font-size: 18px;
-      }
-
-      .hero-actions {
+      .hero-buttons {
         flex-direction: column;
       }
 
-      .hero-actions .btn {
+      .hero-buttons .btn {
         width: 100%;
-        text-align: center;
+      }
+
+      .footer {
+        padding: 28px 20px;
+        flex-direction: column;
       }
     }
   </style>
@@ -168,40 +375,159 @@
 
 <body>
 
-  <nav>
-    <div class="logo">Novara</div>
+  <nav class="nav">
+    <a href="#" class="logo">Novara</a>
+
+    <div class="nav-links">
+      <a href="#accounts">Accounts</a>
+      <a href="#global">Global</a>
+      <a href="#security">Security</a>
+    </div>
 
     <div class="nav-actions">
-      <a href="#" class="btn login">Sign in</a>
-      <a href="#" class="btn signup">Open an account</a>
+      <a href="#" class="btn btn-light">Sign in</a>
+      <a href="#" class="btn btn-dark">Open an account</a>
     </div>
   </nav>
 
-  <main class="hero">
-    <div class="hero-content">
+  <main>
 
-      <div class="eyebrow">GLOBAL BANKING, REIMAGINED</div>
+    <section class="hero">
+      <div class="hero-grid">
 
-      <h1>Banking without borders.</h1>
+        <div>
+          <div class="eyebrow">GLOBAL BANKING, REIMAGINED</div>
 
-      <p>
-        A modern global banking experience, built to make managing,
-        moving, and accessing your money simple — around the world.
-      </p>
+          <h1>Banking without borders.</h1>
 
-      <div class="hero-actions">
-        <a href="#" class="btn primary">Open an account</a>
-        <a href="#" class="btn secondary">Sign in</a>
+          <p class="hero-copy">
+            A modern global banking experience, built to make managing,
+            moving, and accessing your money simple — around the world.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="#" class="btn btn-dark">Open an account</a>
+            <a href="#" class="btn btn-light">Sign in</a>
+          </div>
+
+          <div class="hero-note">
+            Built with security, simplicity and a global-first experience in mind.
+          </div>
+        </div>
+
+        <div class="card-wrap">
+          <div class="bank-card">
+            <div class="card-top">
+              <span>Novara</span>
+              <span>VISA</span>
+            </div>
+
+            <div class="chip"></div>
+
+            <div class="card-number">
+              •••• &nbsp; •••• &nbsp; •••• &nbsp; 4827
+            </div>
+
+            <div class="card-bottom">
+              <span>NOVARA MEMBER</span>
+              <span>12/29</span>
+            </div>
+          </div>
+        </div>
+
       </div>
+    </section>
 
-      <div class="trust">
-        <span>✓ Secure access</span>
-        <span>✓ Global-ready</span>
-        <span>✓ Built for you</span>
+    <section class="section" id="accounts">
+      <div class="section-inner">
+
+        <div class="section-title">
+          <h2>Everything you need, in one place.</h2>
+          <p>
+            A cleaner way to manage your everyday financial life,
+            from one secure experience.
+          </p>
+        </div>
+
+        <div class="features">
+
+          <div class="feature">
+            <div class="feature-icon">01</div>
+            <h3>One account</h3>
+            <p>
+              Keep your financial activity organized in one simple,
+              easy-to-understand experience.
+            </p>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">02</div>
+            <h3>Move money</h3>
+            <p>
+              Send and receive money with a streamlined experience
+              designed for modern users.
+            </p>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">03</div>
+            <h3>Stay in control</h3>
+            <p>
+              Track activity, manage your cards and keep your account
+              information close at hand.
+            </p>
+          </div>
+
+        </div>
       </div>
+    </section>
 
-    </div>
+    <section class="section global" id="global">
+      <div class="section-inner">
+
+        <div class="section-title">
+          <h2>Designed for a world without borders.</h2>
+          <p>
+            Novara is built around the idea that modern financial
+            experiences should feel simple wherever life takes you.
+          </p>
+        </div>
+
+        <div class="global-box">
+          <div>
+            <h3>Your money. Your world.</h3>
+            <p>
+              A global-first experience designed to put your financial
+              life in one place.
+            </p>
+          </div>
+
+          <a href="#" class="btn btn-light">Get started</a>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section" id="security">
+      <div class="section-inner">
+
+        <div class="section-title">
+          <h2>Security at the foundation.</h2>
+          <p>
+            Novara is designed with account-level security and
+            privacy in mind from the ground up.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
   </main>
+
+  <footer class="footer">
+    <span>© 2026 Novara</span>
+    <span>Global banking experience</span>
+  </footer>
 
 </body>
 </html>
