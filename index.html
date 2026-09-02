@@ -3,1237 +3,1815 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Novara — Banking Without Borders</title>
-
-  <meta
-    name="description"
-    content="Novara is a modern global banking experience."
-  />
+  <meta name="description" content="Novara — a modern global banking experience." />
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:#f6f8fb;color:#101828;line-height:1.5
     }
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    a{text-decoration:none;color:inherit}
 
-    :root {
-      --bg: #f7f9fc;
-      --white: #ffffff;
-      --text: #101828;
-      --muted: #667085;
-      --line: #e4e7ec;
-      --primary: #111827;
-      --primary-hover: #1f2937;
-      --soft: #f2f4f7;
-      --success: #027a48;
-      --success-bg: #ecfdf3;
-      --danger: #b42318;
-      --danger-bg: #fef3f2;
-      --shadow: 0 20px 50px rgba(16, 24, 40, 0.08);
-      --radius: 20px;
+    :root{
+      --blue:#1457ff;
+      --blue2:#0d47d9;
+      --dark:#08111f;
+      --muted:#667085;
+      --border:#e4e7ec;
+      --card:#fff;
+      --green:#079455;
+      --red:#d92d20;
     }
 
-    body {
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.5;
-    }
-
-    button,
-    input,
-    select {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    .container {
-      width: min(1120px, calc(100% - 40px));
-      margin: 0 auto;
-    }
-
-    /* NAVIGATION */
-
-    nav {
-      height: 76px;
-      background: rgba(255,255,255,0.92);
-      border-bottom: 1px solid var(--line);
-      display: flex;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(14px);
-    }
-
-    .nav-inner {
-      width: min(1200px, calc(100% - 40px));
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 25px;
-      font-weight: 800;
-      letter-spacing: -1px;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .nav-link {
-      border: 0;
-      background: transparent;
-      padding: 10px 14px;
-      color: #475467;
-      font-weight: 600;
-      border-radius: 10px;
-    }
-
-    .nav-link:hover {
-      background: var(--soft);
-      color: var(--text);
-    }
-
-    .nav-primary {
-      background: var(--primary);
-      color: white;
-      border: 0;
-      border-radius: 11px;
-      padding: 11px 17px;
-      font-weight: 700;
-    }
-
-    .nav-primary:hover {
-      background: var(--primary-hover);
-    }
-
-    /* PAGES */
-
-    .page {
-      min-height: calc(100vh - 76px);
-    }
-
-    /* HERO */
-
-    .hero {
-      padding: 100px 0 90px;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 70px;
-      align-items: center;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 12px;
-      border: 1px solid var(--line);
-      background: white;
-      border-radius: 999px;
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 22px;
-      font-weight: 600;
-    }
-
-    .eyebrow-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #12b76a;
-    }
-
-    h1 {
-      font-size: clamp(48px, 7vw, 78px);
-      line-height: 0.98;
-      letter-spacing: -4px;
-      max-width: 760px;
-      margin-bottom: 26px;
-    }
-
-    .hero-text {
-      font-size: 19px;
-      color: var(--muted);
-      max-width: 600px;
-      margin-bottom: 32px;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .button {
-      border: 0;
-      border-radius: 12px;
-      padding: 14px 20px;
-      font-weight: 700;
-      transition: 0.2s;
-    }
-
-    .button-dark {
-      background: var(--primary);
-      color: white;
-    }
-
-    .button-dark:hover {
-      background: var(--primary-hover);
-      transform: translateY(-1px);
-    }
-
-    .button-light {
-      background: white;
-      border: 1px solid var(--line);
-      color: var(--text);
-    }
-
-    .button-light:hover {
-      background: var(--soft);
-    }
-
-    .hero-card {
-      background: #111827;
-      color: white;
-      border-radius: 28px;
-      padding: 28px;
-      min-height: 350px;
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-card::before {
-      content: "";
-      position: absolute;
-      width: 240px;
-      height: 240px;
-      border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.15);
-      right: -80px;
-      top: -80px;
-    }
-
-    .hero-card-small {
-      color: #98a2b3;
-      font-size: 13px;
-    }
-
-    .hero-card-balance {
-      font-size: 42px;
-      font-weight: 800;
-      letter-spacing: -2px;
-      margin-top: 15px;
-    }
-
-    .hero-card-number {
-      margin-top: 75px;
-      color: #d0d5dd;
-      letter-spacing: 3px;
-    }
-
-    /* SECTIONS */
-
-    section.content-section {
-      padding: 90px 0;
-    }
-
-    .section-heading {
-      max-width: 650px;
-      margin-bottom: 42px;
-    }
-
-    .section-heading h2 {
-      font-size: 42px;
-      letter-spacing: -2px;
-      margin-bottom: 12px;
-    }
-
-    .section-heading p {
-      color: var(--muted);
-      font-size: 17px;
-    }
-
-    .features {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .feature-card {
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 28px;
-    }
-
-    .feature-icon {
-      width: 48px;
-      height: 48px;
-      display: grid;
-      place-items: center;
-      background: var(--soft);
-      border-radius: 14px;
-      font-size: 21px;
-      margin-bottom: 22px;
-    }
-
-    .feature-card h3 {
-      font-size: 20px;
-      margin-bottom: 8px;
-    }
-
-    .feature-card p {
-      color: var(--muted);
-    }
-
-    /* AUTH */
-
-    .auth-page {
-      padding: 70px 0;
-    }
-
-    .auth-card {
-      width: min(460px, 100%);
-      margin: 0 auto;
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 34px;
-      box-shadow: var(--shadow);
-    }
+    .hidden{display:none!important}
 
-    .auth-card h2 {
-      font-size: 30px;
-      letter-spacing: -1px;
-      margin-bottom: 8px;
+    header{
+      height:76px;background:#fff;border-bottom:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 6%;position:sticky;top:0;z-index:50
     }
 
-    .auth-card > p {
-      color: var(--muted);
-      margin-bottom: 28px;
+    .logo{
+      font-size:25px;font-weight:800;letter-spacing:-1px;
+      cursor:pointer;user-select:none
     }
+    .logo span{color:var(--blue)}
 
-    .form-group {
-      margin-bottom: 17px;
+    nav{display:flex;align-items:center;gap:24px}
+    nav button{
+      border:0;background:none;color:#475467;font-weight:600
     }
 
-    .form-group label {
-      display: block;
-      font-size: 14px;
-      font-weight: 650;
-      margin-bottom: 7px;
+    .btn{
+      border:0;border-radius:12px;padding:12px 18px;font-weight:700;
+      transition:.2s
     }
+    .btn:hover{transform:translateY(-1px)}
+    .primary{background:var(--blue);color:#fff}
+    .primary:hover{background:var(--blue2)}
+    .secondary{background:#eef3ff;color:var(--blue)}
+    .danger{background:#fff0ef;color:var(--red)}
+    .success{background:#e9f9f1;color:var(--green)}
 
-    .input {
-      width: 100%;
-      border: 1px solid #d0d5dd;
-      border-radius: 11px;
-      padding: 13px 14px;
-      outline: none;
-      background: white;
-      color: var(--text);
+    .hero{
+      padding:90px 6% 80px;
+      background:linear-gradient(135deg,#fff 0%,#f3f7ff 100%);
+      display:grid;grid-template-columns:1.15fr .85fr;gap:60px;
+      align-items:center
     }
-
-    .input:focus {
-      border-color: #667085;
-      box-shadow: 0 0 0 3px rgba(16,24,40,0.06);
-    }
-
-    .form-submit {
-      width: 100%;
-      margin-top: 8px;
-    }
-
-    .auth-switch {
-      text-align: center;
-      margin-top: 20px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .text-button {
-      background: transparent;
-      border: 0;
-      color: var(--text);
-      font-weight: 700;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-
-    .message {
-      margin-top: 14px;
-      padding: 11px 13px;
-      border-radius: 10px;
-      font-size: 14px;
-      display: none;
-    }
-
-    .message.show {
-      display: block;
-    }
-
-    .message.success {
-      background: var(--success-bg);
-      color: var(--success);
-    }
-
-    .message.error {
-      background: var(--danger-bg);
-      color: var(--danger);
-    }
-
-    /* DASHBOARD */
-
-    .dashboard {
-      padding: 50px 0 80px;
-    }
-
-    .dashboard-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: 20px;
-      margin-bottom: 28px;
-    }
-
-    .dashboard-top h2 {
-      font-size: 36px;
-      letter-spacing: -1.5px;
-    }
-
-    .dashboard-top p {
-      color: var(--muted);
-    }
-
-    .balance-card {
-      background: #111827;
-      color: white;
-      border-radius: 24px;
-      padding: 30px;
-      margin-bottom: 22px;
-      box-shadow: var(--shadow);
-    }
-
-    .balance-label {
-      color: #98a2b3;
-      font-size: 14px;
-    }
-
-    .balance {
-      font-size: 48px;
-      font-weight: 800;
-      letter-spacing: -2px;
-      margin: 5px 0;
-    }
-
-    .account-number {
-      color: #d0d5dd;
-      font-size: 14px;
-      margin-top: 10px;
-    }
-
-    .account-status {
-      display: inline-block;
-      margin-top: 18px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.1);
-      font-size: 12px;
-    }
-
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: 1.25fr 0.75fr;
-      gap: 22px;
-    }
-
-    .panel {
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      overflow: hidden;
-    }
-
-    .panel-header {
-      padding: 21px 22px;
-      border-bottom: 1px solid var(--line);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .panel-header h3 {
-      font-size: 18px;
-    }
-
-    .activity {
-      min-height: 180px;
-    }
-
-    .transaction {
-      padding: 17px 22px;
-      border-bottom: 1px solid var(--line);
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-    }
-
-    .transaction:last-child {
-      border-bottom: 0;
-    }
-
-    .transaction-title {
-      font-weight: 650;
-    }
-
-    .transaction-date {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 3px;
-    }
-
-    .transaction-amount {
-      font-weight: 750;
-      white-space: nowrap;
-    }
-
-    .credit {
-      color: var(--success);
+    .hero h1{
+      font-size:clamp(45px,6vw,76px);line-height:1.02;
+      letter-spacing:-4px;margin-bottom:25px
     }
+    .hero h1 span{color:var(--blue)}
+    .hero p{font-size:19px;color:var(--muted);max-width:620px;margin-bottom:32px}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
 
-    .debit {
-      color: var(--danger);
+    .hero-card{
+      background:#08111f;color:#fff;border-radius:28px;padding:30px;
+      min-height:330px;box-shadow:0 30px 70px rgba(8,17,31,.18)
     }
+    .hero-card small{color:#98a2b3}
+    .hero-balance{font-size:43px;font-weight:800;margin:30px 0}
+    .hero-card-row{display:flex;justify-content:space-between;color:#d0d5dd}
 
-    .empty {
-      padding: 30px;
-      text-align: center;
-      color: var(--muted);
+    .features{
+      padding:75px 6%;background:#fff
     }
+    .section-title{text-align:center;margin-bottom:45px}
+    .section-title h2{font-size:38px;letter-spacing:-1.5px}
+    .section-title p{color:var(--muted);margin-top:10px}
 
-    .quick-actions {
-      padding: 20px;
-      display: grid;
-      gap: 10px;
+    .feature-grid{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:20px
     }
-
-    .quick-action {
-      width: 100%;
-      padding: 14px;
-      background: var(--soft);
-      border: 0;
-      border-radius: 12px;
-      text-align: left;
-      font-weight: 700;
-      color: var(--text);
+    .feature{
+      padding:28px;border:1px solid var(--border);border-radius:20px;
+      background:#fff
     }
-
-    .quick-action:hover {
-      background: #eaecf0;
+    .feature-icon{
+      width:45px;height:45px;border-radius:13px;background:#eef3ff;
+      color:var(--blue);display:grid;place-items:center;font-size:20px;
+      margin-bottom:18px
     }
+    .feature h3{margin-bottom:8px}
+    .feature p{color:var(--muted)}
 
-    /* TRANSFER */
+    .page{padding:35px 6%;max-width:1450px;margin:auto}
 
-    .transfer-page {
-      padding: 60px 0 80px;
+    .auth-wrap{
+      min-height:calc(100vh - 76px);display:grid;place-items:center;
+      padding:30px
     }
-
-    .transfer-card {
-      width: min(650px, 100%);
-      margin: auto;
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 34px;
-      box-shadow: var(--shadow);
-    }
-
-    .transfer-card h2 {
-      font-size: 32px;
-      margin-bottom: 8px;
+    .auth-card{
+      width:100%;max-width:470px;background:#fff;border:1px solid var(--border);
+      border-radius:22px;padding:34px;box-shadow:0 20px 50px rgba(16,24,40,.07)
     }
+    .auth-card h2{font-size:30px;margin-bottom:8px}
+    .muted{color:var(--muted)}
 
-    .transfer-card > p {
-      color: var(--muted);
-      margin-bottom: 28px;
+    .field{margin-top:17px}
+    .field label{display:block;font-size:14px;font-weight:700;margin-bottom:7px}
+    .field input,.field select,.field textarea{
+      width:100%;border:1px solid #d0d5dd;border-radius:11px;
+      padding:13px 14px;outline:none;background:#fff
     }
-
-    .notice {
-      background: #f9fafb;
-      border: 1px solid var(--line);
-      border-radius: 13px;
-      padding: 14px;
-      color: #475467;
-      font-size: 13px;
-      margin-bottom: 20px;
+    .field input:focus,.field select:focus,.field textarea:focus{
+      border-color:var(--blue);box-shadow:0 0 0 3px #e9efff
     }
+    .field textarea{min-height:130px;resize:vertical}
 
-    /* ADMIN */
-
-    .admin-page {
-      padding: 50px 0 90px;
-    }
+    .auth-card .btn{width:100%;margin-top:20px}
+    .switch{text-align:center;margin-top:20px;color:var(--muted)}
+    .switch button{border:0;background:none;color:var(--blue);font-weight:700}
 
-    .admin-container {
-      width: min(1120px, calc(100% - 40px));
-      margin: auto;
+    .dashboard-top{
+      display:flex;align-items:center;justify-content:space-between;
+      gap:20px;margin-bottom:28px
     }
+    .dashboard-top h1{font-size:34px;letter-spacing:-1px}
 
-    .admin-title {
-      margin-bottom: 28px;
+    .balance-grid{
+      display:grid;grid-template-columns:2fr 1fr 1fr;gap:18px;margin-bottom:22px
     }
-
-    .admin-title h2 {
-      font-size: 36px;
-      letter-spacing: -1.5px;
+    .balance-card{
+      background:#fff;border:1px solid var(--border);border-radius:20px;
+      padding:25px
     }
-
-    .admin-title p {
-      color: var(--muted);
+    .balance-card.main{
+      background:linear-gradient(135deg,#0b1730,#1457ff);color:#fff
     }
+    .balance-card small{color:var(--muted)}
+    .balance-card.main small{color:#cbd5e1}
+    .big-balance{font-size:38px;font-weight:800;margin:10px 0}
+    .balance-card h3{margin-top:6px}
 
-    .admin-grid {
-      display: grid;
-      grid-template-columns: 0.8fr 1.2fr;
-      gap: 22px;
+    .dashboard-grid{
+      display:grid;grid-template-columns:1.35fr .65fr;gap:20px
     }
-
-    .admin-card {
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 24px;
+    .panel{
+      background:#fff;border:1px solid var(--border);border-radius:20px;
+      padding:24px;margin-bottom:20px
     }
-
-    .admin-card h3 {
-      margin-bottom: 5px;
+    .panel-head{
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:18px
     }
+    .panel-head h2{font-size:20px}
 
-    .admin-card > p {
-      color: var(--muted);
-      font-size: 14px;
-      margin-bottom: 20px;
+    .transaction{
+      display:flex;align-items:center;justify-content:space-between;
+      gap:15px;padding:15px 0;border-bottom:1px solid #f0f2f5
     }
-
-    .admin-list {
-      display: grid;
-      gap: 10px;
+    .transaction:last-child{border-bottom:0}
+    .transaction-left{display:flex;align-items:center;gap:12px}
+    .tx-icon{
+      width:40px;height:40px;border-radius:50%;display:grid;place-items:center;
+      background:#eef3ff;color:var(--blue);font-weight:800
     }
+    .tx-icon.credit{background:#e9f9f1;color:var(--green)}
+    .tx-icon.debit{background:#fff0ef;color:var(--red)}
+    .tx-amount{font-weight:800}
+    .credit-text{color:var(--green)}
+    .debit-text{color:var(--red)}
 
-    .admin-item {
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 15px;
+    .quick-grid{
+      display:grid;grid-template-columns:repeat(2,1fr);gap:12px
     }
-
-    .admin-item-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
+    .quick{
+      border:1px solid var(--border);background:#fff;border-radius:15px;
+      padding:18px;text-align:left
     }
+    .quick:hover{border-color:#b8c7ff;background:#f8faff}
+    .quick strong{display:block;margin-top:7px}
 
-    .admin-item-title {
-      font-weight: 750;
+    .card-visual{
+      min-height:210px;border-radius:20px;padding:24px;color:#fff;
+      background:linear-gradient(135deg,#0b1730,#1457ff);
+      display:flex;flex-direction:column;justify-content:space-between
     }
+    .card-number{font-size:21px;letter-spacing:3px}
+    .card-bottom{display:flex;justify-content:space-between}
 
-    .admin-item-meta {
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 4px;
+    .admin-badge{
+      display:inline-block;background:#111827;color:#fff;border-radius:20px;
+      padding:5px 10px;font-size:12px;font-weight:800
     }
 
-    .admin-item-amount {
-      font-weight: 800;
-      white-space: nowrap;
+    .admin-grid{
+      display:grid;grid-template-columns:1fr 1fr;gap:20px
     }
 
-    .admin-actions {
-      margin-top: 13px;
-      display: flex;
-      gap: 8px;
-    }
+    .table-wrap{overflow:auto}
+    table{width:100%;border-collapse:collapse;min-width:650px}
+    th,td{text-align:left;padding:13px;border-bottom:1px solid #eaecf0;font-size:14px}
+    th{color:#667085;font-size:12px;text-transform:uppercase}
 
-    .admin-button {
-      border: 0;
-      background: var(--primary);
-      color: white;
-      padding: 9px 13px;
-      border-radius: 9px;
-      font-weight: 700;
+    .modal{
+      position:fixed;inset:0;background:rgba(0,0,0,.45);
+      display:grid;place-items:center;padding:20px;z-index:100
     }
-
-    .admin-button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+    .modal-card{
+      background:#fff;width:100%;max-width:480px;border-radius:20px;
+      padding:28px;max-height:90vh;overflow:auto
     }
 
-    /* FOOTER */
-
-    footer {
-      border-top: 1px solid var(--line);
-      background: white;
-      padding: 28px 0;
-      color: var(--muted);
-      font-size: 13px;
+    .toast{
+      position:fixed;right:20px;bottom:20px;z-index:200;
+      background:#101828;color:#fff;padding:14px 18px;border-radius:12px;
+      box-shadow:0 15px 40px rgba(0,0,0,.2);max-width:360px
     }
 
-    .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
+    footer{
+      padding:45px 6%;background:#08111f;color:#98a2b3;text-align:center
     }
-
-    /* MOBILE */
-
-    @media (max-width: 850px) {
-      .hero-grid,
-      .dashboard-grid,
-      .admin-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .features {
-        grid-template-columns: 1fr;
-      }
-
-      .hero {
-        padding: 70px 0;
-      }
-
-      h1 {
-        letter-spacing: -2.5px;
-      }
+    footer strong{color:#fff}
 
-      .hero-card {
-        min-height: 300px;
-      }
+    @media(max-width:900px){
+      .hero{grid-template-columns:1fr}
+      .feature-grid{grid-template-columns:1fr}
+      .balance-grid{grid-template-columns:1fr}
+      .dashboard-grid,.admin-grid{grid-template-columns:1fr}
     }
-
-    @media (max-width: 600px) {
-      .container,
-      .admin-container,
-      .nav-inner {
-        width: min(100% - 28px, 1120px);
-      }
-
-      nav {
-        height: 68px;
-      }
-
-      .nav-link {
-        padding: 8px;
-        font-size: 13px;
-      }
-
-      .nav-primary {
-        padding: 9px 12px;
-        font-size: 13px;
-      }
-
-      .logo {
-        font-size: 22px;
-      }
-
-      h1 {
-        font-size: 49px;
-      }
-
-      .hero-text {
-        font-size: 17px;
-      }
-
-      .section-heading h2 {
-        font-size: 34px;
-      }
-
-      .auth-card,
-      .transfer-card,
-      .admin-card {
-        padding: 23px;
-      }
-
-      .dashboard-top {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .balance {
-        font-size: 40px;
-      }
-
-      .footer-inner {
-        flex-direction: column;
-      }
+    @media(max-width:600px){
+      header{padding:0 20px}
+      nav{gap:10px}
+      nav button{font-size:13px}
+      .hero{padding:60px 20px}
+      .page{padding:25px 20px}
+      .hero h1{letter-spacing:-2px}
+      .quick-grid{grid-template-columns:1fr}
     }
   </style>
 </head>
 
 <body>
 
-  <!-- =====================================================
-       NAVIGATION
-  ====================================================== -->
+<header>
+  <div class="logo" id="logo">N<span>o</span>vara</div>
 
-  <nav>
-    <div class="nav-inner">
-
-      <div class="logo" id="novaraLogo" onclick="showHome()">
-        Novara
-      </div>
-
-      <div class="nav-links">
-
-        <div id="publicNav" class="nav-links">
-          <button class="nav-link" onclick="showSignIn()">Sign in</button>
-          <button class="nav-primary" onclick="showSignUp()">
-            Open an account
-          </button>
-        </div>
-
-        <div id="userNav" class="nav-links hidden">
-          <button class="nav-link" onclick="showDashboard()">
-            Dashboard
-          </button>
-
-          <button class="nav-link" onclick="showTransfer()">
-            Transfer
-          </button>
-
-          <button class="nav-primary" onclick="signOut()">
-            Sign out
-          </button>
-        </div>
-
-      </div>
-    </div>
+  <nav id="publicNav">
+    <button onclick="showPage('signin')">Sign in</button>
+    <button class="btn primary" onclick="showPage('signup')">Open an account</button>
   </nav>
 
-
-  <!-- =====================================================
-       HOME
-  ====================================================== -->
-
-  <main id="homePage" class="page">
-
-    <section class="hero">
-      <div class="container">
-
-        <div class="hero-grid">
-
-          <div>
-
-            <div class="eyebrow">
-              <span class="eyebrow-dot"></span>
-              Modern global banking experience
-            </div>
-
-            <h1>
-              Banking without borders.
-            </h1>
-
-            <p class="hero-text">
-              A modern financial experience designed to make managing,
-              moving, and accessing your money simple.
-            </p>
-
-            <div class="hero-buttons">
-              <button
-                class="button button-dark"
-                onclick="showSignUp()"
-              >
-                Open an account
-              </button>
-
-              <button
-                class="button button-light"
-                onclick="showSignIn()"
-              >
-                Sign in
-              </button>
-            </div>
-
-          </div>
-
-          <div class="hero-card">
-
-            <div class="hero-card-small">
-              NOVARA ACCOUNT
-            </div>
-
-            <div class="hero-card-balance">
-              $0.00
-            </div>
-
-            <div class="hero-card-number">
-              •••• •••• •••• 2048
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-    </section>
+  <nav id="userNav" class="hidden">
+    <button onclick="showPage('dashboard')">Dashboard</button>
+    <button onclick="signOut()">Sign out</button>
+  </nav>
+</header>
 
 
-    <section class="content-section">
-      <div class="container">
+<!-- ================= PUBLIC HOME ================= -->
 
-        <div class="section-heading">
-          <h2>Everything in one place.</h2>
-          <p>
-            Manage your account, move money, and keep track of your
-            financial activity from one clean experience.
-          </p>
-        </div>
-
-        <div class="features">
-
-          <div class="feature-card">
-            <div class="feature-icon">◉</div>
-            <h3>Accounts</h3>
-            <p>
-              View your account balance and account information
-              from a simple dashboard.
-            </p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon">↗</div>
-            <h3>Move money</h3>
-            <p>
-              Request internal transfers and keep your transfer
-              activity organized.
-            </p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon">▣</div>
-            <h3>Manage cards</h3>
-            <p>
-              Keep your card experience connected to your
-              Novara account.
-            </p>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-
-    <section class="content-section">
-      <div class="container">
-
-        <div class="section-heading">
-          <h2>Built for a global experience.</h2>
-          <p>
-            Novara is designed around a clean, modern approach to
-            digital financial management.
-          </p>
-        </div>
-
-      </div>
-    </section>
-
-  </main>
-
-
-  <!-- =====================================================
-       SIGN UP
-  ====================================================== -->
-
-  <section id="signUpPage" class="page auth-page hidden">
-
-    <div class="auth-card">
-
-      <h2>Create your account</h2>
-
+<section id="homePage">
+  <div class="hero">
+    <div>
+      <h1>Banking<br><span>without borders.</span></h1>
       <p>
-        Start your Novara account in a few simple steps.
+        A modern global banking experience built to make managing,
+        moving and accessing your money simple.
       </p>
 
-      <form id="signUpForm">
-
-        <div class="form-group">
-          <label for="signUpName">Full name</label>
-          <input
-            class="input"
-            id="signUpName"
-            type="text"
-            required
-            placeholder="Your full name"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="signUpEmail">Email</label>
-          <input
-            class="input"
-            id="signUpEmail"
-            type="email"
-            required
-            placeholder="you@example.com"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="signUpPassword">Password</label>
-          <input
-            class="input"
-            id="signUpPassword"
-            type="password"
-            required
-            minlength="6"
-            placeholder="Create a password"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="signUpConfirm">Confirm password</label>
-          <input
-            class="input"
-            id="signUpConfirm"
-            type="password"
-            required
-            minlength="6"
-            placeholder="Confirm your password"
-          />
-        </div>
-
-        <button class="button button-dark form-submit" type="submit">
-          Create account
-        </button>
-
-        <div id="signUpMessage" class="message"></div>
-
-      </form>
-
-      <div class="auth-switch">
-        Already have an account?
-        <button class="text-button" onclick="showSignIn()">
-          Sign in
-        </button>
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       SIGN IN
-  ====================================================== -->
-
-  <section id="signInPage" class="page auth-page hidden">
-
-    <div class="auth-card">
-
-      <h2>Welcome back</h2>
-
-      <p>
-        Sign in to your Novara account.
-      </p>
-
-      <form id="signInForm">
-
-        <div class="form-group">
-          <label for="signInEmail">Email</label>
-          <input
-            class="input"
-            id="signInEmail"
-            type="email"
-            required
-            placeholder="you@example.com"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="signInPassword">Password</label>
-          <input
-            class="input"
-            id="signInPassword"
-            type="password"
-            required
-            placeholder="Your password"
-          />
-        </div>
-
-        <button class="button button-dark form-submit" type="submit">
-          Sign in
-        </button>
-
-        <div id="signInMessage" class="message"></div>
-
-      </form>
-
-      <div class="auth-switch">
-        Don't have an account?
-        <button class="text-button" onclick="showSignUp()">
+      <div class="hero-actions">
+        <button class="btn primary" onclick="showPage('signup')">
           Open an account
         </button>
+        <button class="btn secondary" onclick="showPage('signin')">
+          Sign in
+        </button>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <small>NOVARA ACCOUNT</small>
+      <div class="hero-balance">$24,850.00</div>
+      <div class="hero-card-row">
+        <span>Global access</span>
+        <span>•••• 4821</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="features">
+    <div class="section-title">
+      <h2>Everything in one place.</h2>
+      <p>Designed around a simple, secure banking experience.</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="feature-icon">↗</div>
+        <h3>Move money</h3>
+        <p>Manage internal transfers and payment requests from one dashboard.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">◎</div>
+        <h3>Global access</h3>
+        <p>A clean banking experience designed for customers around the world.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">✓</div>
+        <h3>Security first</h3>
+        <p>Account access and sensitive operations are protected by Supabase authentication and database security.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================= SIGN IN ================= -->
+
+<section id="signinPage" class="page hidden">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <h2>Welcome back</h2>
+      <p class="muted">Sign in to your Novara account.</p>
+
+      <div class="field">
+        <label>Email</label>
+        <input id="loginEmail" type="email" placeholder="you@example.com">
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <input id="loginPassword" type="password" placeholder="Your password">
+      </div>
+
+      <button class="btn primary" onclick="signIn()">Sign in</button>
+
+      <div class="switch">
+        Don't have an account?
+        <button onclick="showPage('signup')">Create one</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================= SIGN UP ================= -->
+
+<section id="signupPage" class="page hidden">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <h2>Create your account</h2>
+      <p class="muted">Open your Novara account in minutes.</p>
+
+      <div class="field">
+        <label>Full name</label>
+        <input id="signupName" type="text" placeholder="Your full name">
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input id="signupEmail" type="email" placeholder="you@example.com">
+      </div>
+
+      <div class="field">
+        <label>Country</label>
+        <input id="signupCountry" type="text" placeholder="Country">
+      </div>
+
+      <div class="field">
+        <label>Phone</label>
+        <input id="signupPhone" type="tel" placeholder="+234...">
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <input id="signupPassword" type="password" placeholder="At least 8 characters">
+      </div>
+
+      <button class="btn primary" onclick="signUp()">Create account</button>
+
+      <div class="switch">
+        Already have an account?
+        <button onclick="showPage('signin')">Sign in</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================= CUSTOMER DASHBOARD ================= -->
+
+<section id="dashboardPage" class="page hidden">
+
+  <div class="dashboard-top">
+    <div>
+      <p class="muted">Welcome back</p>
+      <h1 id="customerName">Novara Customer</h1>
+    </div>
+  </div>
+
+  <div class="balance-grid">
+    <div class="balance-card main">
+      <small>AVAILABLE BALANCE</small>
+      <div class="big-balance" id="balance">$0.00</div>
+      <div id="accountNumber">Novara Account</div>
+    </div>
+
+    <div class="balance-card">
+      <small>ACCOUNT STATUS</small>
+      <h3 id="accountStatus">Active</h3>
+    </div>
+
+    <div class="balance-card">
+      <small>CURRENCY</small>
+      <h3 id="accountCurrency">USD</h3>
+    </div>
+  </div>
+
+  <div class="dashboard-grid">
+
+    <div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Recent transactions</h2>
+        </div>
+
+        <div id="transactions">
+          <p class="muted">Loading transactions...</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2>My card</h2>
+        </div>
+
+        <div class="card-visual">
+          <div>
+            <strong>NOVARA</strong>
+          </div>
+
+          <div class="card-number" id="cardNumber">
+            •••• •••• •••• ••••
+          </div>
+
+          <div class="card-bottom">
+            <span>VIRTUAL</span>
+            <span id="cardStatus">ACTIVE</span>
+          </div>
+        </div>
       </div>
 
     </div>
 
-  </section>
+    <div>
 
-
-  <!-- =====================================================
-       DASHBOARD
-  ====================================================== -->
-
-  <section id="dashboardPage" class="page dashboard hidden">
-
-    <div class="container">
-
-      <div class="dashboard-top">
-
-        <div>
-          <h2>
-            Welcome back.
-          </h2>
-
-          <p id="welcomeEmail">
-            Loading account...
-          </p>
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Quick actions</h2>
         </div>
 
+        <div class="quick-grid">
+          <button class="quick" onclick="openTransfer()">
+            ↗
+            <strong>Transfer</strong>
+            <span class="muted">Move money</span>
+          </button>
+
+          <button class="quick" onclick="openBeneficiary()">
+            +
+            <strong>Beneficiary</strong>
+            <span class="muted">Add recipient</span>
+          </button>
+
+          <button class="quick" onclick="openSupport()">
+            ?
+            <strong>Support</strong>
+            <span class="muted">Contact Novara</span>
+          </button>
+
+          <button class="quick" onclick="loadDashboard()">
+            ↻
+            <strong>Refresh</strong>
+            <span class="muted">Update account</span>
+          </button>
+        </div>
       </div>
 
-
-      <div class="balance-card">
-
-        <div class="balance-label">
-          Available balance
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Account</h2>
         </div>
 
-        <div id="balanceAmount" class="balance">
-          $0.00
-        </div>
+        <p><strong>Name</strong></p>
+        <p class="muted" id="profileName">—</p>
 
-        <div id="accountNumber" class="account-number">
-          Account •••• ----
-        </div>
+        <br>
 
-        <div id="accountStatus" class="account-status">
-          Loading
-        </div>
+        <p><strong>Email</strong></p>
+        <p class="muted" id="profileEmail">—</p>
 
+        <br>
+
+        <p><strong>Country</strong></p>
+        <p class="muted" id="profileCountry">—</p>
       </div>
 
+    </div>
+  </div>
+</section>
 
-      <div class="dashboard-grid">
 
-        <div class="panel">
+<!-- ================= ADMIN ================= -->
 
-          <div class="panel-header">
-            <h3>Recent activity</h3>
+<section id="adminPage" class="page hidden">
+
+  <div class="dashboard-top">
+    <div>
+      <span class="admin-badge">NOVARA ADMIN</span>
+      <h1>Administration</h1>
+      <p class="muted">Private management area.</p>
+    </div>
+
+    <button class="btn secondary" onclick="showPage('dashboard')">
+      Customer dashboard
+    </button>
+  </div>
+
+  <div class="admin-grid">
+
+    <div class="panel">
+      <div class="panel-head">
+        <h2>Customer accounts</h2>
+        <button class="btn secondary" onclick="loadAdminAccounts()">Refresh</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Account</th>
+              <th>Number</th>
+              <th>Balance</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="adminAccounts"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <h2>Pending transfers</h2>
+        <button class="btn secondary" onclick="loadAdminTransfers()">Refresh</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Recipient</th>
+              <th>Amount</th>
+              <th>Type</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="adminTransfers"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="panel">
+    <div class="panel-head">
+      <h2>Customer support</h2>
+      <button class="btn secondary" onclick="loadSupportTickets()">Refresh</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>Message</th>
+            <th>Status</th>
+            <th>Reply</th>
+          </tr>
+        </thead>
+
+        <tbody id="supportTickets"></tbody>
+      </table>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ================= TRANSFER MODAL ================= -->
+
+<div id="transferModal" class="modal hidden">
+  <div class="modal-card">
+    <div class="panel-head">
+      <h2>Transfer money</h2>
+      <button class="btn secondary" onclick="closeModal('transferModal')">×</button>
+    </div>
+
+    <div class="field">
+      <label>Transfer type</label>
+      <select id="transferType">
+        <option value="internal">Internal transfer</option>
+        <option value="external">External transfer request</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Recipient</label>
+      <input id="transferRecipient" placeholder="Account number or email">
+    </div>
+
+    <div class="field">
+      <label>Amount (USD)</label>
+      <input id="transferAmount" type="number" min="0.01" step="0.01" placeholder="0.00">
+    </div>
+
+    <button class="btn primary" onclick="submitTransfer()">Continue</button>
+
+    <p class="muted" style="margin-top:15px;font-size:13px">
+      External transfers are requests only and require authorization.
+      This prototype does not move real-world money.
+    </p>
+  </div>
+</div>
+
+
+<!-- ================= BENEFICIARY MODAL ================= -->
+
+<div id="beneficiaryModal" class="modal hidden">
+  <div class="modal-card">
+    <div class="panel-head">
+      <h2>Add beneficiary</h2>
+      <button class="btn secondary" onclick="closeModal('beneficiaryModal')">×</button>
+    </div>
+
+    <div class="field">
+      <label>Name</label>
+      <input id="beneficiaryName" placeholder="Recipient name">
+    </div>
+
+    <div class="field">
+      <label>Account reference</label>
+      <input id="beneficiaryReference" placeholder="Account number or reference">
+    </div>
+
+    <div class="field">
+      <label>Bank</label>
+      <input id="beneficiaryBank" placeholder="Bank name">
+    </div>
+
+    <div class="field">
+      <label>Country</label>
+      <input id="beneficiaryCountry" placeholder="Country">
+    </div>
+
+    <button class="btn primary" onclick="addBeneficiary()">Save beneficiary</button>
+  </div>
+</div>
+
+
+<!-- ================= SUPPORT MODAL ================= -->
+
+<div id="supportModal" class="modal hidden">
+  <div class="modal-card">
+    <div class="panel-head">
+      <h2>Novara Support</h2>
+      <button class="btn secondary" onclick="closeModal('supportModal')">×</button>
+    </div>
+
+    <div class="field">
+      <label>Subject</label>
+      <input id="supportSubject" placeholder="How can we help?">
+    </div>
+
+    <div class="field">
+      <label>Message</label>
+      <textarea id="supportMessage" placeholder="Describe your issue..."></textarea>
+    </div>
+
+    <button class="btn primary" onclick="submitSupport()">Send message</button>
+  </div>
+</div>
+
+
+<!-- ================= FUND MODAL ================= -->
+
+<div id="fundModal" class="modal hidden">
+  <div class="modal-card">
+    <div class="panel-head">
+      <h2>Fund account</h2>
+      <button class="btn secondary" onclick="closeModal('fundModal')">×</button>
+    </div>
+
+    <input type="hidden" id="fundAccountId">
+
+    <div class="field">
+      <label>Amount (USD)</label>
+      <input id="fundAmount" type="number" min="0.01" step="0.01" placeholder="0.00">
+    </div>
+
+    <div class="field">
+      <label>Description</label>
+      <input id="fundDescription" value="Novara admin funding">
+    </div>
+
+    <button class="btn primary" onclick="fundAccount()">Fund account</button>
+  </div>
+</div>
+
+
+<!-- ================= REPLY MODAL ================= -->
+
+<div id="replyModal" class="modal hidden">
+  <div class="modal-card">
+    <div class="panel-head">
+      <h2>Reply to customer</h2>
+      <button class="btn secondary" onclick="closeModal('replyModal')">×</button>
+    </div>
+
+    <input type="hidden" id="replyTicketId">
+
+    <div class="field">
+      <label>Reply</label>
+      <textarea id="replyText" placeholder="Write your response..."></textarea>
+    </div>
+
+    <div class="field">
+      <label>Status</label>
+      <select id="replyStatus">
+        <option value="resolved">Resolved</option>
+        <option value="pending">Pending</option>
+        <option value="open">Open</option>
+      </select>
+    </div>
+
+    <button class="btn primary" onclick="replySupport()">Send reply</button>
+  </div>
+</div>
+
+
+<footer>
+  <strong>Novara</strong>
+  <p style="margin-top:8px">Banking without borders.</p>
+  <p style="margin-top:15px;font-size:13px">
+    Novara is a prototype banking platform. It is not a licensed bank
+    and does not independently provide regulated financial services.
+  </p>
+</footer>
+
+
+<div id="toast" class="toast hidden"></div>
+
+
+<script>
+/* =========================================================
+   NOVARA CONFIG
+   ========================================================= */
+
+const SUPABASE_URL = "https://galtogdwvldgtlwdgxwm.supabase.co";
+const SUPABASE_KEY = "sb_publishable_-KV6yebEl6ntJFVNO2i5sg_Zh5WHVGc5";
+
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentUser = null;
+let currentAccount = null;
+let isAdmin = false;
+
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+
+function toast(message){
+  const el = document.getElementById("toast");
+  el.textContent = message;
+  el.classList.remove("hidden");
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer = setTimeout(() => {
+    el.classList.add("hidden");
+  }, 3500);
+}
+
+
+function money(amount){
+  return new Intl.NumberFormat("en-US",{
+    style:"currency",
+    currency:"USD"
+  }).format(Number(amount || 0));
+}
+
+
+function showPage(page){
+
+  const pages = [
+    "homePage",
+    "signinPage",
+    "signupPage",
+    "dashboardPage",
+    "adminPage"
+  ];
+
+  pages.forEach(id => {
+    document.getElementById(id).classList.add("hidden");
+  });
+
+  const target = document.getElementById(page + "Page");
+
+  if(target){
+    target.classList.remove("hidden");
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+
+  if(page === "dashboard"){
+    loadDashboard();
+  }
+
+  if(page === "admin"){
+    openAdmin();
+  }
+}
+
+
+function closeModal(id){
+  document.getElementById(id).classList.add("hidden");
+}
+
+
+function openModal(id){
+  document.getElementById(id).classList.remove("hidden");
+}
+
+
+/* =========================================================
+   AUTH
+   ========================================================= */
+
+async function signUp(){
+
+  const name = document.getElementById("signupName").value.trim();
+  const email = document.getElementById("signupEmail").value.trim();
+  const country = document.getElementById("signupCountry").value.trim();
+  const phone = document.getElementById("signupPhone").value.trim();
+  const password = document.getElementById("signupPassword").value;
+
+  if(!name || !email || !country || !password){
+    toast("Please complete all required fields.");
+    return;
+  }
+
+  if(password.length < 8){
+    toast("Password must be at least 8 characters.");
+    return;
+  }
+
+  try{
+
+    const {data,error} = await db.auth.signUp({
+      email,
+      password,
+      options:{
+        data:{
+          full_name:name,
+          country,
+          phone
+        }
+      }
+    });
+
+    if(error) throw error;
+
+    if(!data.user){
+      throw new Error("Account creation failed.");
+    }
+
+    /*
+      The existing Novara database functions are used to
+      create the customer profile and account.
+    */
+
+    try{
+      await db.rpc("novara_create_profile",{
+        p_full_name:name,
+        p_email:email,
+        p_phone:phone,
+        p_country:country
+      });
+    }catch(profileError){
+      console.log("Profile creation:",profileError.message);
+    }
+
+    try{
+      await db.rpc("novara_create_account");
+    }catch(accountError){
+      console.log("Account creation:",accountError.message);
+    }
+
+    toast(
+      "Account created. Check your email if email confirmation is enabled, then sign in."
+    );
+
+    showPage("signin");
+
+  }catch(error){
+    console.error(error);
+    toast(error.message || "Unable to create account.");
+  }
+}
+
+
+async function signIn(){
+
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  if(!email || !password){
+    toast("Enter your email and password.");
+    return;
+  }
+
+  try{
+
+    const {data,error} = await db.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if(error) throw error;
+
+    currentUser = data.user;
+
+    await refreshUserState();
+
+    toast("Welcome back.");
+
+    if(isAdmin){
+      showPage("dashboard");
+    }else{
+      showPage("dashboard");
+    }
+
+  }catch(error){
+    console.error(error);
+    toast(error.message || "Unable to sign in.");
+  }
+}
+
+
+async function signOut(){
+
+  await db.auth.signOut();
+
+  currentUser = null;
+  currentAccount = null;
+  isAdmin = false;
+
+  document.getElementById("publicNav").classList.remove("hidden");
+  document.getElementById("userNav").classList.add("hidden");
+
+  showPage("home");
+
+  toast("Signed out.");
+}
+
+
+/* =========================================================
+   SESSION
+   ========================================================= */
+
+async function refreshUserState(){
+
+  const {data} = await db.auth.getUser();
+
+  currentUser = data.user;
+
+  if(!currentUser){
+    document.getElementById("publicNav").classList.remove("hidden");
+    document.getElementById("userNav").classList.add("hidden");
+    return;
+  }
+
+  document.getElementById("publicNav").classList.add("hidden");
+  document.getElementById("userNav").classList.remove("hidden");
+
+  const {data:adminResult,error:adminError} =
+    await db.rpc("novara_is_admin");
+
+  isAdmin = !adminError && adminResult === true;
+
+  await loadProfile();
+  await loadAccount();
+}
+
+
+/* =========================================================
+   PROFILE
+   ========================================================= */
+
+async function loadProfile(){
+
+  if(!currentUser) return;
+
+  const {data,error} = await db
+    .from("profiles")
+    .select("id,full_name,email,phone,country,avatar_url")
+    .eq("id",currentUser.id)
+    .maybeSingle();
+
+  if(error){
+    console.error(error);
+    return;
+  }
+
+  if(!data) return;
+
+  document.getElementById("customerName").textContent =
+    data.full_name || "Novara Customer";
+
+  document.getElementById("profileName").textContent =
+    data.full_name || "—";
+
+  document.getElementById("profileEmail").textContent =
+    data.email || currentUser.email || "—";
+
+  document.getElementById("profileCountry").textContent =
+    data.country || "—";
+}
+
+
+/* =========================================================
+   ACCOUNT
+   ========================================================= */
+
+async function loadAccount(){
+
+  if(!currentUser) return;
+
+  const {data,error} = await db
+    .from("accounts")
+    .select("id,user_id,account_name,account_number,currency,balance,status")
+    .eq("user_id",currentUser.id)
+    .eq("status","active")
+    .order("created_at",{ascending:true})
+    .limit(1)
+    .maybeSingle();
+
+  if(error){
+    console.error(error);
+    toast("Unable to load account.");
+    return;
+  }
+
+  currentAccount = data;
+
+  if(!data){
+    document.getElementById("balance").textContent = "$0.00";
+    document.getElementById("accountNumber").textContent =
+      "Account not available";
+    return;
+  }
+
+  document.getElementById("balance").textContent =
+    money(data.balance);
+
+  document.getElementById("accountNumber").textContent =
+    data.account_number || data.id;
+
+  document.getElementById("accountStatus").textContent =
+    data.status || "active";
+
+  document.getElementById("accountCurrency").textContent =
+    data.currency || "USD";
+}
+
+
+/* =========================================================
+   DASHBOARD
+   ========================================================= */
+
+async function loadDashboard(){
+
+  if(!currentUser) return;
+
+  await loadProfile();
+  await loadAccount();
+  await loadCard();
+  await loadTransactions();
+}
+
+
+async function loadCard(){
+
+  const {data,error} = await db
+    .from("cards")
+    .select("card_name,card_type,last_four,status")
+    .eq("user_id",currentUser.id)
+    .order("created_at",{ascending:true})
+    .limit(1)
+    .maybeSingle();
+
+  if(error){
+    console.error(error);
+    return;
+  }
+
+  if(!data) return;
+
+  document.getElementById("cardNumber").textContent =
+    "•••• •••• •••• " + (data.last_four || "0000");
+
+  document.getElementById("cardStatus").textContent =
+    String(data.status || "active").toUpperCase();
+}
+
+
+function transactionIsCredit(tx){
+
+  if(tx.type === "admin_funding"){
+    return true;
+  }
+
+  if(
+    tx.type === "internal_transfer" &&
+    String(tx.description || "").toLowerCase().includes("from")
+  ){
+    return true;
+  }
+
+  return false;
+}
+
+
+async function loadTransactions(){
+
+  if(!currentUser) return;
+
+  const {data,error} = await db
+    .from("transactions")
+    .select(
+      "id,account_id,user_id,type,amount,currency,description,reference,status,created_at"
+    )
+    .eq("user_id",currentUser.id)
+    .order("created_at",{ascending:false})
+    .limit(10);
+
+  const box = document.getElementById("transactions");
+
+  if(error){
+    console.error(error);
+    box.innerHTML =
+      '<p class="muted">Unable to load transactions.</p>';
+    return;
+  }
+
+  if(!data || data.length === 0){
+    box.innerHTML =
+      '<p class="muted">No transactions yet.</p>';
+    return;
+  }
+
+  box.innerHTML = data.map(tx => {
+
+    const credit = transactionIsCredit(tx);
+
+    return `
+      <div class="transaction">
+        <div class="transaction-left">
+          <div class="tx-icon ${credit ? "credit":"debit"}">
+            ${credit ? "+" : "−"}
           </div>
 
-          <div id="recentActivity" class="activity">
-            <div class="empty">
-              Loading transactions...
+          <div>
+            <strong>${escapeHtml(tx.description || tx.type)}</strong>
+            <div class="muted" style="font-size:12px">
+              ${new Date(tx.created_at).toLocaleString()}
             </div>
           </div>
-
         </div>
 
-
-        <div class="panel">
-
-          <div class="panel-header">
-            <h3>Quick actions</h3>
-          </div>
-
-          <div class="quick-actions">
-
-            <button
-              class="quick-action"
-              onclick="showTransfer()"
-            >
-              ↗ Transfer money
-            </button>
-
-            <button
-              class="quick-action"
-              onclick="loadAccount()"
-            >
-              ↻ Refresh account
-            </button>
-
-          </div>
-
+        <div class="tx-amount ${credit ? "credit-text":"debit-text"}">
+          ${credit ? "+" : "−"}${money(tx.amount)}
         </div>
-
       </div>
+    `;
 
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       TRANSFER
-  ====================================================== -->
-
-  <section id="transferPage" class="page transfer-page hidden">
-
-    <div class="transfer-card">
-
-      <h2>Move money</h2>
-
-      <p>
-        Create a transfer request from your Novara account.
-      </p>
+  }).join("");
+}
 
 
-      <div class="notice">
-        Internal transfers are processed through the Novara
-        account ledger. External transfers require additional
-        authorization and are not automatically sent to an
-        external financial institution.
-      </div>
+/* =========================================================
+   TRANSFERS
+   ========================================================= */
+
+function openTransfer(){
+  openModal("transferModal");
+}
 
 
-      <form id="transferForm">
+async function submitTransfer(){
 
-        <div class="form-group">
+  const recipient =
+    document.getElementById("transferRecipient").value.trim();
 
-          <label for="transferType">
-            Transfer type
-          </label>
+  const amount =
+    Number(document.getElementById("transferAmount").value);
 
-          <select
-            class="input"
-            id="transferType"
+  const transferType =
+    document.getElementById("transferType").value;
+
+  if(!recipient || !amount || amount <= 0){
+    toast("Enter a valid recipient and amount.");
+    return;
+  }
+
+  try{
+
+    const {data,error} = await db.rpc(
+      "novara_request_transfer",
+      {
+        p_recipient:recipient,
+        p_amount:amount,
+        p_transfer_type:transferType
+      }
+    );
+
+    if(error) throw error;
+
+    closeModal("transferModal");
+
+    document.getElementById("transferRecipient").value = "";
+    document.getElementById("transferAmount").value = "";
+
+    toast(
+      transferType === "external"
+        ? "External transfer request submitted for authorization."
+        : "Internal transfer request submitted."
+    );
+
+    await loadDashboard();
+
+  }catch(error){
+    console.error(error);
+    toast(error.message || "Transfer request failed.");
+  }
+}
+
+
+/* =========================================================
+   BENEFICIARIES
+   ========================================================= */
+
+function openBeneficiary(){
+  openModal("beneficiaryModal");
+}
+
+
+async function addBeneficiary(){
+
+  const name =
+    document.getElementById("beneficiaryName").value.trim();
+
+  const reference =
+    document.getElementById("beneficiaryReference").value.trim();
+
+  const bank =
+    document.getElementById("beneficiaryBank").value.trim();
+
+  const country =
+    document.getElementById("beneficiaryCountry").value.trim();
+
+  if(!name){
+    toast("Enter the beneficiary name.");
+    return;
+  }
+
+  try{
+
+    const {error} = await db
+      .from("beneficiaries")
+      .insert({
+        user_id:currentUser.id,
+        name,
+        account_reference:reference || null,
+        bank_name:bank || null,
+        country:country || null
+      });
+
+    if(error) throw error;
+
+    closeModal("beneficiaryModal");
+
+    toast("Beneficiary saved.");
+
+    document.getElementById("beneficiaryName").value = "";
+    document.getElementById("beneficiaryReference").value = "";
+    document.getElementById("beneficiaryBank").value = "";
+    document.getElementById("beneficiaryCountry").value = "";
+
+  }catch(error){
+    console.error(error);
+    toast(error.message || "Unable to save beneficiary.");
+  }
+}
+
+
+/* =========================================================
+   SUPPORT
+   ========================================================= */
+
+function openSupport(){
+  openModal("supportModal");
+}
+
+
+async function submitSupport(){
+
+  const subject =
+    document.getElementById("supportSubject").value.trim();
+
+  const message =
+    document.getElementById("supportMessage").value.trim();
+
+  if(!subject || !message){
+    toast("Enter a subject and message.");
+    return;
+  }
+
+  try{
+
+    const {error} = await db.rpc(
+      "novara_create_support_ticket",
+      {
+        p_subject:subject,
+        p_message:message
+      }
+    );
+
+    if(error) throw error;
+
+    closeModal("supportModal");
+
+    document.getElementById("supportSubject").value = "";
+    document.getElementById("supportMessage").value = "";
+
+    toast("Your support request has been sent.");
+
+  }catch(error){
+    console.error(error);
+    toast(error.message || "Unable to contact support.");
+  }
+}
+
+
+/* =========================================================
+   ADMIN
+   ========================================================= */
+
+async function openAdmin(){
+
+  if(!currentUser){
+    toast("Please sign in first.");
+    showPage("signin");
+    return;
+  }
+
+  const {data,error} =
+    await db.rpc("novara_is_admin");
+
+  if(error || data !== true){
+    toast("Admin access denied.");
+    showPage("dashboard");
+    return;
+  }
+
+  isAdmin = true;
+
+  await loadAdminAccounts();
+  await loadAdminTransfers();
+  await loadSupportTickets();
+}
+
+
+async function loadAdminAccounts(){
+
+  const {data,error} =
+    await db.rpc("novara_admin_list_accounts");
+
+  const tbody =
+    document.getElementById("adminAccounts");
+
+  if(error){
+    console.error(error);
+    tbody.innerHTML =
+      `<tr><td colspan="5">Unable to load accounts.</td></tr>`;
+    return;
+  }
+
+  if(!data || data.length === 0){
+    tbody.innerHTML =
+      `<tr><td colspan="5">No customer accounts.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = data.map(account => `
+    <tr>
+      <td>${escapeHtml(account.account_name || "Novara Account")}</td>
+
+      <td>${escapeHtml(
+        account.account_number || account.id
+      )}</td>
+
+      <td><strong>${money(account.balance)}</strong></td>
+
+      <td>${escapeHtml(account.status)}</td>
+
+      <td>
+        <button
+          class="btn success"
+          onclick="openFundModal('${account.id}')"
+        >
+          Fund
+        </button>
+      </td>
+    </tr>
+  `).join("");
+}
+
+
+async function loadAdminTransfers(){
+
+  const {data,error} =
+    await db.rpc("novara_admin_list_pending_transfers");
+
+  const tbody =
+    document.getElementById("adminTransfers");
+
+  if(error){
+    console.error(error);
+    tbody.innerHTML =
+      `<tr><td colspan="4">Unable to load transfers.</td></tr>`;
+    return;
+  }
+
+  if(!data || data.length === 0){
+    tbody.innerHTML =
+      `<tr><td colspan="4">No pending internal transfers.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = data.map(item => `
+    <tr>
+
+      <td>${escapeHtml(item.recipient)}</td>
+
+      <td><strong>${money(item.amount)}</strong></td>
+
+      <td>${escapeHtml(item.transfer_type)}</td>
+
+      <td>
+        <button
+          class="btn success"
+          onclick="approveTransfer('${item.id}')"
+        >
+          Approve
+        </button>
+      </td>
+
+    </tr>
+  `).join("");
+}
+
+
+async function approveTransfer(id){
+
+  if(!confirm("Approve this internal transfer?")){
+    return;
+  }
+
+  try{
+
+    const {error} =
+      await db.rpc(
+        "novara_admin_approve_transfer",
+        {
+          p_request_id:id
+        }
+      );
+
+    if(error) throw error;
+
+    toast("Transfer approved.");
+
+    await loadAdminTransfers();
+    await loadAdminAccounts();
+
+  }catch(error){
+    console.error(error);
+    toast(error.message || "Unable to approve transfer.");
+  }
+}
+
+
+/* =========================================================
+   ADMIN FUNDING
+   ========================================================= */
+
+function openFundModal(accountId){
+
+  document.getElementById("fundAccountId").value = accountId;
+  document.getElementById("fundAmount").value = "";
+  document.getElementById("fundDescription").value =
+    "Novara admin funding";
+
+  openModal("fundModal");
+}
+
+
+async function fundAccount(){
+
+  const accountId =
+    document.getElementById("fundAccountId").value;
+
+  const amount =
+    Number(document.getElementById("fundAmount").value);
+
+  const description =
+    document.getElementById("fundDescription").value.trim()
+    || "Novara admin funding";
+
+  if(!amount || amount <= 0){
+    toast("Enter a valid amount.");
+    return;
+  }
+
+  try{
+
+    const {error} =
+      await db.rpc(
+        "novara_admin_fund_account",
+        {
+          p_account_id:accountId,
+          p_amount:amount,
+          p_description:description
+        }
+      );
+
+    if(error) throw error;
+
+    closeModal("fundModal");
+
+    toast("Account funded successfully.");
+
+    await loadAdminAccounts();
+
+  }catch(error){
+    console.error(error);
+    toast(error.message || "Unable to fund account.");
+  }
+}
+
+
+/* =========================================================
+   ADMIN SUPPORT
+   ========================================================= */
+
+async function loadSupportTickets(){
+
+  const {data,error} =
+    await db.rpc("novara_admin_list_support_tickets");
+
+  const tbody =
+    document.getElementById("supportTickets");
+
+  if(error){
+    console.error(error);
+    tbody.innerHTML =
+      `<tr><td colspan="4">Unable to load support tickets.</td></tr>`;
+    return;
+  }
+
+  if(!data || data.length === 0){
+    tbody.innerHTML =
+      `<tr><td colspan="4">No support tickets.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = data.map(ticket => `
+
+    <tr>
+
+      <td>
+        <strong>${escapeHtml(ticket.subject)}</strong>
+        <div class="muted" style="font-size:11px">
+          ${new Date(ticket.created_at).toLocaleString()}
+        </div>
+      </td>
+
+      <td>
+        ${escapeHtml(ticket.message)}
+      </td>
+
+      <td>
+        ${escapeHtml(ticket.status)}
+      </td>
+
+      <td>
+
+        ${
+          ticket.admin_reply
+          ? `<div style="margin-bottom:8px">
+               ${escapeHtml(ticket.admin_reply)}
+             </div>`
+          : ""
+        }
+
+        <button
+          class="btn secondary"
+          onclick="openReplyModal('${ticket.id}')"
+        >
+          Reply
+        </button>
+
+      </td>
+
+    </tr>
+
+  `).join("");
+}
+
+
+function openReplyModal(ticketId){
+
+  document.getElementById("replyTicketId").value = ticketId;
+  document.getElementById("replyText").value = "";
+
+  openModal("replyModal");
+}
+
+
+async function replySupport(){
+
+  const ticketId =
+    document.getElementById("replyTicketId").value;
+
+  const reply =
+    document.getElementById("replyText").value.trim();
+
+  const status =
+    document.getElementById("replyStatus").value;
+
+  if(!reply){
+    toast("Write a reply first.");
+    return;
+  }
+
+  try{
+
+    const {error} =
+      await db.rpc(
+        "novara_admin_reply_support_ticket",
+        {
+          p_ticket_id:ticketId,
+          p_reply:reply,
+          p_status:status
+        }
+      );
+
+    if(error) throw error;
+
+    closeModal("replyModal");
+
+    toast("Reply sent.");
+
+    await loadSupportTickets();
+
+  }catch(error){
+    console.error(error);
+    toast(error.message || "Unable to send reply.");
+  }
+}
+
+
+/* =========================================================
+   HIDDEN ADMIN ENTRY
+   Five clicks on NOVARA logo.
+   This is only a convenience feature.
+   Supabase still enforces admin authorization.
+   ========================================================= */
+
+let logoClicks = 0;
+let logoTimer = null;
+
+document.getElementById("logo").addEventListener("click",()=>{
+
+  logoClicks++;
+
+  clearTimeout(logoTimer);
+
+  logoTimer = setTimeout(()=>{
+    logoClicks = 0;
+  },1500);
+
+  if(logoClicks >= 5){
+
+    logoClicks = 0;
+
+    if(currentUser && isAdmin){
+      showPage("admin");
+    }else{
+      toast("Admin access requires an authorized account.");
+    }
+  }
+});
+
+
+/* =========================================================
+   ESCAPE HTML
+   ========================================================= */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+
+/* =========================================================
+   INITIAL SESSION
+   ========================================================= */
+
+db.auth.onAuthStateChange(async (event,session)=>{
+
+  currentUser = session?.user || null;
+
+  if(currentUser){
+
+    document.getElementById("publicNav")
+      .classList.add("hidden");
+
+    document.getElementById("userNav")
+      .classList.remove("hidden");
+
+    /*
+      Delay database calls slightly so Supabase has
+      completed the authentication state transition.
+    */
+
+    setTimeout(async()=>{
+      await refreshUserState();
+    },100);
+
+  }else{
+
+    document.getElementById("publicNav")
+      .classList.remove("hidden");
+
+    document.getElementById("userNav")
+      .classList.add("hidden");
+  }
+
+});
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+(async function(){
+
+  const {data} = await db.auth.getSession();
+
+  if(data.session){
+
+    currentUser = data.session.user;
+
+    await refreshUserState();
+
+  }
+
+})();
+</script>
+
+</body>
+</html>
