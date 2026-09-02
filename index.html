@@ -1,28 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Novara — Banking without borders</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Novara — Your money. Everywhere.</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     :root{
-      --bg:#070b16;
-      --panel:#0d1324;
-      --panel2:#111a30;
-      --line:rgba(255,255,255,.09);
-      --text:#f7f9ff;
-      --muted:#8d98b2;
-      --teal:#27e0c1;
-      --teal2:#0fb8a1;
-      --violet:#8268ff;
-      --danger:#ff6178;
-      --warning:#ffca62;
-      --success:#39df9a;
-      --shadow:0 24px 70px rgba(0,0,0,.32);
-      --radius:24px;
+      --navy:#07111f;
+      --navy2:#0b1728;
+      --panel:#101e31;
+      --panel2:#13243a;
+      --text:#f5f8fc;
+      --muted:#91a0b5;
+      --teal:#20d6c7;
+      --teal2:#10b8aa;
+      --violet:#765cff;
+      --border:rgba(255,255,255,.09);
+      --danger:#ff6678;
+      --success:#36d49a;
+      --shadow:0 25px 70px rgba(0,0,0,.25);
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
@@ -30,13 +29,10 @@
     html{scroll-behavior:smooth}
 
     body{
-      min-height:100vh;
       font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(circle at 10% 0%,rgba(39,224,193,.12),transparent 30%),
-        radial-gradient(circle at 90% 15%,rgba(130,104,255,.14),transparent 30%),
-        var(--bg);
+      background:#f6f9fc;
+      color:#0c1728;
+      line-height:1.5;
     }
 
     button,input,select,textarea{font:inherit}
@@ -45,20 +41,23 @@
 
     .hidden{display:none!important}
 
-    .app{
+    /* =========================
+       PUBLIC SITE
+    ========================= */
+
+    .public{
       min-height:100vh;
+      background:#07111f;
+      color:white;
     }
 
-    /* NAVIGATION */
-
-    .nav{
-      width:100%;
-      padding:20px 6%;
+    .public-nav{
+      width:min(1180px,calc(100% - 40px));
+      margin:auto;
+      height:82px;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      position:relative;
-      z-index:20;
     }
 
     .brand{
@@ -66,41 +65,35 @@
       align-items:center;
       gap:11px;
       font-weight:800;
-      font-size:21px;
+      font-size:23px;
       letter-spacing:-.5px;
-      cursor:pointer;
-      user-select:none;
     }
 
     .brand-mark{
-      width:38px;
-      height:38px;
-      border-radius:13px;
-      background:linear-gradient(135deg,var(--teal),var(--violet));
+      width:36px;
+      height:36px;
+      border-radius:11px;
       display:grid;
       place-items:center;
-      box-shadow:0 8px 30px rgba(39,224,193,.18);
+      background:linear-gradient(135deg,var(--teal),var(--violet));
+      box-shadow:0 10px 30px rgba(32,214,199,.22);
     }
 
     .brand-mark span{
-      width:17px;
-      height:17px;
-      border:3px solid white;
-      border-radius:6px 10px 6px 10px;
-      transform:rotate(45deg);
+      font-size:18px;
+      font-weight:900;
     }
 
     .nav-links{
       display:flex;
-      align-items:center;
       gap:30px;
+      color:#aab6c7;
+      font-size:14px;
     }
 
     .nav-links a{
-      color:var(--muted);
+      color:inherit;
       text-decoration:none;
-      font-size:14px;
-      font-weight:600;
     }
 
     .nav-links a:hover{color:white}
@@ -110,152 +103,93 @@
       gap:10px;
     }
 
-    /* BUTTONS */
-
     .btn{
       border:0;
-      border-radius:13px;
-      padding:12px 18px;
-      font-weight:750;
-      transition:.2s ease;
+      border-radius:12px;
+      padding:12px 19px;
+      font-weight:700;
+      transition:.2s;
     }
 
-    .btn:hover{
-      transform:translateY(-1px);
-    }
+    .btn:hover{transform:translateY(-1px)}
 
     .btn-primary{
-      color:#04100e;
-      background:linear-gradient(135deg,var(--teal),#65f2d9);
-      box-shadow:0 10px 30px rgba(39,224,193,.15);
+      color:#031310;
+      background:var(--teal);
     }
 
-    .btn-secondary{
+    .btn-dark{
       color:white;
-      background:rgba(255,255,255,.06);
-      border:1px solid var(--line);
+      background:rgba(255,255,255,.07);
+      border:1px solid var(--border);
     }
 
-    .btn-danger{
+    .btn-violet{
       color:white;
-      background:rgba(255,97,120,.12);
-      border:1px solid rgba(255,97,120,.2);
-    }
-
-    .btn-full{width:100%}
-
-    /* LANDING */
-
-    .landing{
-      min-height:calc(100vh - 80px);
+      background:var(--violet);
     }
 
     .hero{
-      max-width:1240px;
+      width:min(1180px,calc(100% - 40px));
       margin:auto;
-      padding:80px 6% 110px;
+      min-height:620px;
       display:grid;
       grid-template-columns:1.05fr .95fr;
-      gap:70px;
       align-items:center;
+      gap:70px;
+      padding:70px 0 100px;
     }
 
     .eyebrow{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:7px 11px;
-      border:1px solid rgba(39,224,193,.2);
-      background:rgba(39,224,193,.06);
       color:var(--teal);
-      border-radius:999px;
-      font-size:12px;
       font-weight:800;
-      margin-bottom:20px;
-    }
-
-    .eyebrow i{
-      width:7px;
-      height:7px;
-      border-radius:50%;
-      background:var(--teal);
-      box-shadow:0 0 12px var(--teal);
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:2px;
+      margin-bottom:18px;
     }
 
     .hero h1{
-      font-size:clamp(48px,7vw,88px);
-      line-height:.96;
-      letter-spacing:-5px;
-      max-width:800px;
+      font-size:clamp(48px,6vw,78px);
+      line-height:.98;
+      letter-spacing:-4px;
+      max-width:700px;
     }
 
     .hero h1 span{
-      background:linear-gradient(100deg,var(--teal),#d4fff6 45%,var(--violet));
+      background:linear-gradient(90deg,var(--teal),#9c8cff);
       -webkit-background-clip:text;
       color:transparent;
     }
 
     .hero p{
-      color:var(--muted);
-      max-width:610px;
+      color:#a9b6c8;
+      max-width:590px;
       font-size:18px;
-      line-height:1.7;
-      margin:28px 0;
+      margin:27px 0;
     }
 
-    .hero-actions{
+    .hero-buttons{
       display:flex;
       gap:12px;
       flex-wrap:wrap;
     }
 
-    /* HERO CARD */
-
-    .hero-visual{
+    .hero-card-wrap{
       position:relative;
-      min-height:480px;
-      display:grid;
-      place-items:center;
     }
 
-    .orb{
-      position:absolute;
-      width:360px;
-      height:360px;
-      border-radius:50%;
+    .hero-card{
+      min-height:370px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:30px;
+      padding:30px;
       background:
-        radial-gradient(circle at 35% 30%,rgba(39,224,193,.35),transparent 35%),
-        radial-gradient(circle at 70% 65%,rgba(130,104,255,.35),transparent 38%);
-      filter:blur(12px);
-    }
-
-    .bank-card{
-      width:min(440px,90vw);
-      aspect-ratio:1.62;
-      border-radius:27px;
-      padding:29px;
-      position:relative;
-      overflow:hidden;
-      background:
-        linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.025)),
-        linear-gradient(135deg,#111d35,#09111f);
-      border:1px solid rgba(255,255,255,.13);
-      box-shadow:0 40px 90px rgba(0,0,0,.42);
-      transform:rotate(-5deg);
-      z-index:2;
-    }
-
-    .bank-card:after{
-      content:"";
-      position:absolute;
-      width:230px;
-      height:230px;
-      border-radius:50%;
-      right:-100px;
-      bottom:-100px;
-      background:linear-gradient(135deg,var(--teal),var(--violet));
-      opacity:.22;
-      filter:blur(4px);
+        radial-gradient(circle at 85% 15%,rgba(118,92,255,.6),transparent 30%),
+        radial-gradient(circle at 10% 90%,rgba(32,214,199,.35),transparent 35%),
+        linear-gradient(145deg,#152b42,#081321);
+      box-shadow:var(--shadow);
+      transform:rotate(2deg);
     }
 
     .card-top{
@@ -264,268 +198,409 @@
       align-items:center;
     }
 
-    .card-brand{
-      font-size:18px;
-      font-weight:800;
-    }
-
-    .chip{
-      width:45px;
-      height:33px;
-      border-radius:8px;
-      background:linear-gradient(135deg,#d4c28a,#f4e6ad);
+    .card-chip{
+      width:48px;
+      height:36px;
+      border-radius:9px;
+      background:linear-gradient(135deg,#dce4ea,#778494);
     }
 
     .card-number{
-      margin-top:82px;
+      margin-top:120px;
       font-size:22px;
       letter-spacing:3px;
-      font-family:monospace;
     }
 
     .card-bottom{
+      margin-top:45px;
       display:flex;
       justify-content:space-between;
-      margin-top:27px;
-      color:#b8c2d8;
-      font-size:10px;
+      color:#cbd5e1;
+      font-size:12px;
       text-transform:uppercase;
-      letter-spacing:1.3px;
     }
 
-    /* FEATURES */
-
     .section{
-      max-width:1240px;
+      background:#fff;
+      color:#0c1728;
+      padding:95px 20px;
+    }
+
+    .section.dark{
+      background:#091525;
+      color:white;
+    }
+
+    .section-inner{
+      width:min(1180px,100%);
       margin:auto;
-      padding:90px 6%;
     }
 
     .section-heading{
-      max-width:650px;
-      margin-bottom:38px;
+      max-width:700px;
+      margin-bottom:45px;
     }
 
     .section-heading h2{
-      font-size:42px;
+      font-size:clamp(34px,4vw,52px);
       letter-spacing:-2px;
+      line-height:1.05;
+      margin-bottom:15px;
     }
 
     .section-heading p{
-      color:var(--muted);
-      margin-top:12px;
-      line-height:1.7;
+      color:#6e7d90;
+      font-size:17px;
     }
+
+    .dark .section-heading p{color:#93a2b6}
 
     .feature-grid{
       display:grid;
       grid-template-columns:repeat(3,1fr);
-      gap:16px;
+      gap:20px;
     }
 
     .feature{
-      background:rgba(255,255,255,.035);
-      border:1px solid var(--line);
-      padding:28px;
+      border:1px solid #e7edf3;
       border-radius:22px;
+      padding:28px;
+      background:white;
+      min-height:210px;
+    }
+
+    .dark .feature{
+      background:#101e31;
+      border-color:var(--border);
     }
 
     .feature-icon{
-      width:45px;
-      height:45px;
+      width:46px;
+      height:46px;
       border-radius:14px;
       display:grid;
       place-items:center;
-      background:rgba(39,224,193,.09);
-      color:var(--teal);
-      margin-bottom:22px;
-      font-size:20px;
+      background:#eafaf8;
+      color:#079e92;
+      margin-bottom:25px;
+      font-weight:900;
     }
 
     .feature h3{margin-bottom:9px}
 
     .feature p{
-      color:var(--muted);
-      line-height:1.6;
+      color:#718094;
       font-size:14px;
     }
 
-    /* AUTH */
+    .dark .feature p{color:#91a0b5}
 
-    .auth-wrap{
-      min-height:100vh;
+    .global{
       display:grid;
-      place-items:center;
-      padding:30px 20px;
+      grid-template-columns:1fr 1fr;
+      gap:60px;
+      align-items:center;
     }
 
-    .auth-card{
-      width:min(450px,100%);
-      padding:34px;
-      background:rgba(13,19,36,.92);
-      border:1px solid var(--line);
-      border-radius:27px;
+    .global-box{
+      min-height:360px;
+      border-radius:30px;
+      background:
+        radial-gradient(circle at 20% 30%,rgba(32,214,199,.25),transparent 25%),
+        radial-gradient(circle at 80% 70%,rgba(118,92,255,.3),transparent 30%),
+        #101e31;
+      border:1px solid var(--border);
+      padding:35px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+
+    .global-line{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      color:#cbd5e1;
+      margin:12px 0;
+    }
+
+    .dot{
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      background:var(--teal);
+    }
+
+    .mobile{
+      display:grid;
+      grid-template-columns:.9fr 1.1fr;
+      gap:80px;
+      align-items:center;
+    }
+
+    .phone{
+      width:270px;
+      height:520px;
+      margin:auto;
+      border:8px solid #17263a;
+      border-radius:40px;
+      background:#07111f;
+      padding:22px;
       box-shadow:var(--shadow);
     }
 
-    .auth-head{
-      margin-bottom:25px;
+    .phone-notch{
+      width:85px;
+      height:20px;
+      background:#17263a;
+      border-radius:20px;
+      margin:-12px auto 30px;
     }
 
-    .auth-head h2{
-      font-size:30px;
-      letter-spacing:-1px;
+    .phone-balance{
+      padding:22px 0;
+      border-bottom:1px solid var(--border);
     }
 
-    .auth-head p{
-      color:var(--muted);
-      margin-top:7px;
-      line-height:1.5;
-    }
+    .phone-balance small{color:#91a0b5}
 
-    .form-group{
-      margin-bottom:15px;
-    }
-
-    .form-group label{
+    .phone-balance strong{
       display:block;
-      color:#bdc6d9;
-      font-size:12px;
+      font-size:31px;
+      margin-top:5px;
+    }
+
+    .phone-row{
+      display:flex;
+      justify-content:space-between;
+      padding:18px 0;
+      border-bottom:1px solid var(--border);
+      color:#d6deea;
+      font-size:13px;
+    }
+
+    .public-footer{
+      background:#07111f;
+      border-top:1px solid var(--border);
+      padding:30px 20px;
+      color:#7e8da1;
+    }
+
+    .footer-inner{
+      width:min(1180px,100%);
+      margin:auto;
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+    }
+
+    /* =========================
+       AUTH
+    ========================= */
+
+    .auth-page{
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      background:#07111f;
+    }
+
+    .auth-brand{
+      padding:60px;
+      color:white;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      background:
+        radial-gradient(circle at 20% 20%,rgba(32,214,199,.15),transparent 35%),
+        radial-gradient(circle at 80% 80%,rgba(118,92,255,.18),transparent 35%),
+        #07111f;
+    }
+
+    .auth-brand h1{
+      font-size:60px;
+      line-height:1;
+      letter-spacing:-3px;
+      margin:35px 0 20px;
+    }
+
+    .auth-brand p{
+      color:#94a4b8;
+      max-width:500px;
+    }
+
+    .auth-box{
+      background:#f7f9fc;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:30px;
+    }
+
+    .auth-card{
+      width:min(440px,100%);
+      background:white;
+      border:1px solid #e6ebf1;
+      border-radius:24px;
+      padding:35px;
+      box-shadow:0 25px 70px rgba(0,0,0,.08);
+    }
+
+    .auth-card h2{
+      font-size:30px;
+      margin-bottom:7px;
+    }
+
+    .auth-card > p{
+      color:#78869a;
+      margin-bottom:28px;
+    }
+
+    .field{
+      margin-bottom:16px;
+    }
+
+    .field label{
+      display:block;
+      font-size:13px;
       font-weight:700;
       margin-bottom:7px;
     }
 
-    input,select,textarea{
+    .field input,
+    .field textarea,
+    .field select{
       width:100%;
-      background:#080e1c;
-      border:1px solid var(--line);
-      color:white;
-      border-radius:13px;
       padding:13px 14px;
+      border:1px solid #dce3eb;
+      border-radius:11px;
       outline:none;
+      background:white;
     }
 
-    textarea{
-      min-height:120px;
-      resize:vertical;
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus{
+      border-color:var(--teal2);
+      box-shadow:0 0 0 3px rgba(32,214,199,.1);
     }
 
-    input:focus,select:focus,textarea:focus{
-      border-color:rgba(39,224,193,.55);
-      box-shadow:0 0 0 3px rgba(39,224,193,.06);
+    .auth-submit{
+      width:100%;
+      margin-top:5px;
     }
 
     .auth-switch{
       text-align:center;
-      color:var(--muted);
+      color:#758398;
       margin-top:18px;
-      font-size:13px;
+      font-size:14px;
     }
 
     .auth-switch button{
-      border:0;
       background:none;
-      color:var(--teal);
-      font-weight:700;
+      border:0;
+      color:#087e77;
+      font-weight:800;
     }
 
-    .message{
-      padding:12px;
-      border-radius:12px;
-      font-size:13px;
+    .error{
+      color:#d63d52;
+      background:#fff0f2;
+      padding:10px 12px;
+      border-radius:10px;
       margin-bottom:15px;
-      display:none;
+      font-size:13px;
     }
 
-    .message.error{
-      display:block;
-      color:#ff9baa;
-      background:rgba(255,97,120,.08);
-      border:1px solid rgba(255,97,120,.15);
+    .success{
+      color:#087b57;
+      background:#eafaf4;
+      padding:10px 12px;
+      border-radius:10px;
+      margin-bottom:15px;
+      font-size:13px;
     }
 
-    .message.success{
-      display:block;
-      color:#8df0c5;
-      background:rgba(57,223,154,.08);
-      border:1px solid rgba(57,223,154,.15);
-    }
+    /* =========================
+       CUSTOMER APP
+    ========================= */
 
-    /* APP SHELL */
-
-    .app-shell{
+    .app{
       min-height:100vh;
-      display:grid;
-      grid-template-columns:240px 1fr;
+      background:#f5f7fa;
+      color:#101a29;
+      display:flex;
     }
 
     .sidebar{
-      border-right:1px solid var(--line);
-      padding:24px 16px;
-      background:rgba(7,11,22,.8);
-      position:sticky;
+      width:250px;
+      background:#07111f;
+      color:white;
+      min-height:100vh;
+      padding:25px 15px;
+      position:fixed;
+      left:0;
       top:0;
-      height:100vh;
+      bottom:0;
+      z-index:20;
     }
 
-    .side-brand{
-      padding:0 10px 35px;
+    .sidebar .brand{
+      padding:8px 12px 35px;
     }
 
-    .side-nav{
-      display:grid;
+    .side-links{
+      display:flex;
+      flex-direction:column;
       gap:5px;
     }
 
-    .side-nav button{
+    .side-link{
+      width:100%;
       border:0;
       background:transparent;
-      color:var(--muted);
+      color:#8f9eb2;
       text-align:left;
-      padding:13px 12px;
-      border-radius:12px;
+      padding:13px 14px;
+      border-radius:11px;
       font-weight:650;
     }
 
-    .side-nav button:hover,
-    .side-nav button.active{
-      background:rgba(39,224,193,.08);
-      color:var(--teal);
+    .side-link:hover,
+    .side-link.active{
+      color:white;
+      background:#142338;
     }
 
     .side-bottom{
       position:absolute;
-      bottom:22px;
-      left:16px;
-      right:16px;
+      left:15px;
+      right:15px;
+      bottom:20px;
     }
 
-    .main{
-      min-width:0;
+    .app-main{
+      margin-left:250px;
+      width:calc(100% - 250px);
     }
 
     .topbar{
-      height:75px;
-      border-bottom:1px solid var(--line);
+      height:76px;
+      background:white;
+      border-bottom:1px solid #e5eaf0;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      padding:0 34px;
-      background:rgba(7,11,22,.65);
-      backdrop-filter:blur(18px);
+      padding:0 35px;
       position:sticky;
       top:0;
       z-index:10;
     }
 
-    .topbar-title h1{
-      font-size:20px;
-    }
-
-    .topbar-title p{
-      color:var(--muted);
-      font-size:12px;
-      margin-top:2px;
+    .topbar-title{
+      font-weight:800;
+      font-size:18px;
     }
 
     .user-pill{
@@ -540,421 +615,461 @@
       border-radius:50%;
       display:grid;
       place-items:center;
-      background:linear-gradient(135deg,var(--teal),var(--violet));
-      color:#071016;
-      font-weight:850;
+      background:#dff8f5;
+      color:#087e77;
+      font-weight:900;
     }
 
     .content{
-      padding:34px;
-      max-width:1450px;
+      padding:35px;
+      max-width:1300px;
+      margin:auto;
     }
 
-    /* DASHBOARD */
-
-    .balance-grid{
-      display:grid;
-      grid-template-columns:1.5fr 1fr 1fr;
-      gap:16px;
-      margin-bottom:18px;
+    .page-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:20px;
+      margin-bottom:25px;
     }
 
-    .panel{
-      background:rgba(13,19,36,.82);
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:22px;
+    .page-head h1{
+      font-size:31px;
+      letter-spacing:-1px;
     }
+
+    .page-head p{color:#7c899b}
 
     .balance-card{
+      border-radius:24px;
+      padding:30px;
+      color:white;
       background:
-        radial-gradient(circle at 85% 15%,rgba(130,104,255,.23),transparent 34%),
-        linear-gradient(135deg,#0e192c,#0a1221);
+        radial-gradient(circle at 90% 15%,rgba(118,92,255,.55),transparent 30%),
+        linear-gradient(135deg,#0b1d31,#08111f);
+      box-shadow:0 20px 50px rgba(7,17,31,.16);
+      margin-bottom:20px;
     }
 
-    .label{
-      color:var(--muted);
-      font-size:12px;
-      font-weight:700;
+    .balance-top{
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
     }
 
-    .balance{
+    .balance-label{
+      color:#93a4b9;
+      font-size:13px;
+    }
+
+    .balance-amount{
       font-size:44px;
       font-weight:800;
       letter-spacing:-2px;
-      margin:10px 0;
+      margin:4px 0 12px;
     }
 
     .account-number{
-      color:#8e9bb5;
-      font-family:monospace;
-      font-size:12px;
+      color:#a8b6c8;
+      font-size:13px;
     }
 
     .status{
       display:inline-flex;
-      padding:6px 9px;
-      border-radius:999px;
+      align-items:center;
+      gap:7px;
+      color:#5be0b0;
+      font-size:13px;
+    }
+
+    .status-dot{
+      width:7px;
+      height:7px;
+      background:#36d49a;
+      border-radius:50%;
+    }
+
+    .account-meta{
+      margin-top:25px;
+      padding-top:20px;
+      border-top:1px solid rgba(255,255,255,.1);
+      display:flex;
+      gap:45px;
+      flex-wrap:wrap;
+    }
+
+    .meta-item small{
+      display:block;
+      color:#7f91a7;
       font-size:11px;
-      font-weight:800;
-      background:rgba(57,223,154,.08);
-      color:var(--success);
-      margin-top:15px;
+      margin-bottom:4px;
     }
 
-    .mini-value{
-      font-size:27px;
-      font-weight:800;
-      margin-top:13px;
-    }
+    .meta-item strong{font-size:14px}
 
-    .quick-actions{
+    .quick-grid{
       display:grid;
       grid-template-columns:repeat(4,1fr);
-      gap:10px;
-      margin:20px 0;
+      gap:15px;
+      margin-bottom:20px;
     }
 
     .quick{
-      padding:17px;
-      background:rgba(255,255,255,.035);
-      border:1px solid var(--line);
-      border-radius:16px;
-      color:white;
+      border:1px solid #e3e8ee;
+      background:white;
+      border-radius:18px;
+      padding:21px;
       text-align:left;
+      transition:.2s;
     }
 
     .quick:hover{
-      border-color:rgba(39,224,193,.25);
+      transform:translateY(-2px);
+      box-shadow:0 12px 30px rgba(15,30,50,.07);
     }
 
-    .quick strong{
-      display:block;
-      margin-bottom:5px;
+    .quick-icon{
+      width:40px;
+      height:40px;
+      display:grid;
+      place-items:center;
+      border-radius:12px;
+      background:#ecfaf8;
+      color:#078e84;
+      margin-bottom:15px;
     }
+
+    .quick strong{display:block}
 
     .quick span{
-      color:var(--muted);
-      font-size:11px;
+      color:#8490a0;
+      font-size:12px;
     }
 
     .dashboard-grid{
       display:grid;
-      grid-template-columns:1.4fr .8fr;
-      gap:16px;
+      grid-template-columns:1.25fr .75fr;
+      gap:20px;
     }
 
-    .panel-header{
+    .panel{
+      background:white;
+      border:1px solid #e3e8ee;
+      border-radius:20px;
+      padding:23px;
+    }
+
+    .panel-title{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      margin-bottom:18px;
+      margin-bottom:20px;
     }
 
-    .panel-header h2{
-      font-size:17px;
-    }
+    .panel-title h3{font-size:17px}
 
-    .muted{
-      color:var(--muted);
+    .panel-title button{
+      border:0;
+      background:none;
+      color:#087e77;
+      font-weight:750;
+      font-size:13px;
     }
 
     .transaction{
       display:flex;
+      justify-content:space-between;
       align-items:center;
-      gap:13px;
-      padding:15px 0;
-      border-bottom:1px solid var(--line);
+      padding:14px 0;
+      border-bottom:1px solid #edf0f4;
+      gap:15px;
     }
 
     .transaction:last-child{border-bottom:0}
 
-    .tx-icon{
+    .transaction-left{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+
+    .transaction-icon{
       width:40px;
       height:40px;
-      border-radius:13px;
+      border-radius:12px;
       display:grid;
       place-items:center;
-      background:rgba(255,255,255,.05);
+      background:#f0f4f8;
+      flex-shrink:0;
     }
 
-    .tx-main{flex:1}
-
-    .tx-main strong{
+    .transaction-name{
+      font-weight:700;
       font-size:13px;
-      display:block;
-    }
-
-    .tx-main span{
-      font-size:11px;
-      color:var(--muted);
-    }
-
-    .tx-amount{
-      font-weight:800;
-      font-size:13px;
-    }
-
-    .credit{color:var(--success)}
-    .debit{color:#ff8395}
-
-    /* CARD */
-
-    .account-card{
-      aspect-ratio:1.58;
-      border-radius:21px;
-      padding:23px;
-      background:linear-gradient(135deg,#17243d,#0d1527);
-      border:1px solid rgba(255,255,255,.1);
-      position:relative;
+      white-space:nowrap;
       overflow:hidden;
+      text-overflow:ellipsis;
     }
 
-    .account-card:after{
-      content:"";
-      position:absolute;
-      width:200px;
-      height:200px;
-      border-radius:50%;
-      right:-90px;
-      bottom:-100px;
-      background:var(--violet);
-      opacity:.22;
-      filter:blur(5px);
+    .transaction-date{
+      color:#8b97a7;
+      font-size:11px;
+    }
+
+    .transaction-amount{
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    .credit{color:#079667}
+    .debit{color:#192333}
+
+    .card-preview{
+      min-height:245px;
+      border-radius:20px;
+      padding:24px;
+      color:white;
+      background:
+        radial-gradient(circle at 90% 10%,rgba(118,92,255,.7),transparent 30%),
+        radial-gradient(circle at 10% 90%,rgba(32,214,199,.35),transparent 35%),
+        #0b1728;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
     }
 
     .card-number-small{
-      margin-top:50px;
-      font-family:monospace;
-      letter-spacing:3px;
-      font-size:16px;
+      font-size:17px;
+      letter-spacing:2px;
+      margin-top:35px;
     }
 
-    /* MODAL */
+    /* =========================
+       INNER PAGES
+    ========================= */
+
+    .inner-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:20px;
+    }
+
+    .empty{
+      padding:45px 20px;
+      text-align:center;
+      color:#8995a6;
+    }
+
+    .profile-card{
+      max-width:720px;
+    }
+
+    .profile-row{
+      display:grid;
+      grid-template-columns:160px 1fr;
+      padding:17px 0;
+      border-bottom:1px solid #edf0f4;
+    }
+
+    .profile-row:last-child{border:0}
+
+    .profile-row span{color:#8490a0;font-size:13px}
+
+    /* =========================
+       ADMIN
+    ========================= */
+
+    .admin-badge{
+      background:#fff0d7;
+      color:#9a6400;
+      padding:5px 9px;
+      border-radius:7px;
+      font-size:11px;
+      font-weight:800;
+    }
+
+    .admin-table{
+      width:100%;
+      border-collapse:collapse;
+    }
+
+    .admin-table th,
+    .admin-table td{
+      padding:13px 10px;
+      text-align:left;
+      border-bottom:1px solid #edf0f4;
+      font-size:12px;
+    }
+
+    .admin-table th{
+      color:#7c899a;
+      font-size:11px;
+      text-transform:uppercase;
+    }
+
+    /* =========================
+       MODAL
+    ========================= */
 
     .modal{
       position:fixed;
       inset:0;
-      background:rgba(0,0,0,.68);
-      backdrop-filter:blur(8px);
-      display:grid;
-      place-items:center;
+      background:rgba(3,9,17,.65);
+      display:flex;
+      align-items:center;
+      justify-content:center;
       padding:20px;
       z-index:100;
     }
 
     .modal-card{
-      width:min(520px,100%);
-      max-height:90vh;
-      overflow:auto;
-      background:#0d1425;
-      border:1px solid var(--line);
-      border-radius:24px;
-      padding:25px;
-      box-shadow:var(--shadow);
+      width:min(500px,100%);
+      background:white;
+      border-radius:22px;
+      padding:27px;
+      box-shadow:0 30px 90px rgba(0,0,0,.25);
     }
 
-    .modal-header{
+    .modal-head{
       display:flex;
       justify-content:space-between;
       align-items:center;
-      margin-bottom:20px;
+      margin-bottom:22px;
     }
 
-    .close{
+    .modal-close{
       border:0;
-      background:rgba(255,255,255,.06);
-      color:white;
+      background:#f1f4f7;
       width:34px;
       height:34px;
+      border-radius:50%;
+      font-size:20px;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    .mobile-menu{
+      display:none;
+      border:0;
+      background:#edf2f7;
+      width:40px;
+      height:40px;
       border-radius:10px;
     }
 
-    .modal-actions{
-      display:flex;
-      gap:9px;
-      margin-top:20px;
-    }
+    @media(max-width:900px){
+      .nav-links{display:none}
 
-    .modal-actions .btn{flex:1}
-
-    /* ADMIN */
-
-    .admin-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:16px;
-    }
-
-    .admin-card{
-      background:rgba(13,19,36,.82);
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:22px;
-    }
-
-    .admin-row{
-      padding:15px 0;
-      border-bottom:1px solid var(--line);
-    }
-
-    .admin-row:last-child{border-bottom:0}
-
-    .admin-row-top{
-      display:flex;
-      justify-content:space-between;
-      gap:15px;
-    }
-
-    .admin-row strong{font-size:13px}
-
-    .admin-row small{
-      color:var(--muted);
-      display:block;
-      margin-top:5px;
-      line-height:1.5;
-    }
-
-    .admin-row .actions{
-      display:flex;
-      gap:7px;
-      margin-top:10px;
-    }
-
-    .small-btn{
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.04);
-      color:white;
-      border-radius:9px;
-      padding:7px 10px;
-      font-size:11px;
-      font-weight:700;
-    }
-
-    /* EMPTY */
-
-    .empty{
-      text-align:center;
-      padding:35px 15px;
-      color:var(--muted);
-      font-size:13px;
-    }
-
-    /* FOOTER */
-
-    footer{
-      padding:35px 6%;
-      border-top:1px solid var(--line);
-      display:flex;
-      justify-content:space-between;
-      color:var(--muted);
-      font-size:12px;
-    }
-
-    footer strong{color:white}
-
-    /* TOAST */
-
-    #toast{
-      position:fixed;
-      right:22px;
-      bottom:22px;
-      z-index:300;
-      background:#111a2d;
-      border:1px solid var(--line);
-      padding:14px 17px;
-      border-radius:13px;
-      box-shadow:var(--shadow);
-      display:none;
-      max-width:360px;
-      font-size:13px;
-    }
-
-    #toast.show{display:block}
-
-    /* MOBILE */
-
-    @media(max-width:950px){
       .hero{
         grid-template-columns:1fr;
-        text-align:center;
+        gap:35px;
+        padding-top:45px;
       }
 
-      .hero p{margin-left:auto;margin-right:auto}
-      .hero-actions{justify-content:center}
+      .hero-card{
+        min-height:300px;
+      }
 
-      .feature-grid{grid-template-columns:1fr}
-      .balance-grid{grid-template-columns:1fr}
-      .dashboard-grid{grid-template-columns:1fr}
-      .admin-grid{grid-template-columns:1fr}
+      .feature-grid{
+        grid-template-columns:1fr;
+      }
 
-      .app-shell{grid-template-columns:1fr}
+      .global,
+      .mobile{
+        grid-template-columns:1fr;
+      }
+
+      .auth-page{
+        grid-template-columns:1fr;
+      }
+
+      .auth-brand{
+        display:none;
+      }
 
       .sidebar{
-        height:auto;
-        position:relative;
-        border-right:0;
-        border-bottom:1px solid var(--line);
-        padding:15px;
+        transform:translateX(-100%);
+        transition:.25s;
       }
 
-      .side-brand{padding-bottom:15px}
-
-      .side-nav{
-        display:flex;
-        overflow-x:auto;
+      .sidebar.open{
+        transform:translateX(0);
       }
 
-      .side-nav button{white-space:nowrap}
+      .app-main{
+        margin-left:0;
+        width:100%;
+      }
 
-      .side-bottom{
-        position:static;
-        margin-top:10px;
+      .mobile-menu{
+        display:block;
       }
 
       .topbar{
         padding:0 18px;
       }
 
-      .content{padding:20px}
+      .content{
+        padding:22px 16px;
+      }
 
-      .quick-actions{
+      .quick-grid{
         grid-template-columns:repeat(2,1fr);
       }
 
-      .nav-links{display:none}
+      .dashboard-grid{
+        grid-template-columns:1fr;
+      }
 
-      .hero h1{
-        letter-spacing:-3px;
+      .inner-grid{
+        grid-template-columns:1fr;
       }
     }
 
-    @media(max-width:600px){
-      .nav{padding:15px 20px}
-      .nav-actions .btn-secondary{display:none}
+    @media(max-width:560px){
+      .public-nav{
+        width:calc(100% - 24px);
+      }
+
+      .nav-actions .btn-dark{
+        display:none;
+      }
 
       .hero{
-        padding:60px 20px 80px;
+        width:calc(100% - 30px);
       }
 
-      .hero-visual{min-height:350px}
-
-      .bank-card{
-        transform:rotate(-3deg) scale(.9);
+      .hero h1{
+        font-size:48px;
       }
 
-      .section{padding:65px 20px}
+      .hero-card{
+        transform:none;
+      }
 
-      .section-heading h2{font-size:32px}
-
-      .balance{font-size:36px}
-
-      .quick-actions{
+      .quick-grid{
         grid-template-columns:1fr 1fr;
       }
 
-      footer{
-        padding:28px 20px;
+      .balance-amount{
+        font-size:35px;
+      }
+
+      .balance-top{
+        flex-direction:column;
+      }
+
+      .footer-inner{
+        flex-direction:column;
+      }
+
+      .profile-row{
+        grid-template-columns:1fr;
+        gap:5px;
       }
     }
   </style>
@@ -962,677 +1077,507 @@
 
 <body>
 
-<div id="app">
+<!-- =========================================================
+     PUBLIC WEBSITE
+========================================================= -->
 
-  <!-- LANDING -->
-  <section id="landingPage" class="landing">
+<section id="publicPage" class="public">
 
-    <nav class="nav">
-      <div class="brand" id="logoTrigger">
-        <div class="brand-mark"><span></span></div>
-        <span>Novara</span>
+  <nav class="public-nav">
+    <div class="brand" onclick="logoSecretClick()">
+      <div class="brand-mark"><span>N</span></div>
+      Novara
+    </div>
+
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#security">Security</a>
+      <a href="#global">Global</a>
+      <a href="#mobile">Mobile</a>
+    </div>
+
+    <div class="nav-actions">
+      <button class="btn btn-dark" onclick="showAuth('login')">Access account</button>
+      <button class="btn btn-primary" onclick="showAuth('signup')">Open account</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Modern global banking</div>
+
+      <h1>
+        Your money.<br>
+        <span>Everywhere.</span>
+      </h1>
+
+      <p>
+        A modern banking experience designed to make managing,
+        moving and accessing your money simple wherever life takes you.
+      </p>
+
+      <div class="hero-buttons">
+        <button class="btn btn-primary" onclick="showAuth('signup')">
+          Open an account
+        </button>
+
+        <button class="btn btn-dark" onclick="showAuth('login')">
+          Access your account
+        </button>
       </div>
+    </div>
 
-      <div class="nav-links">
-        <a href="#features">Features</a>
-        <a href="#experience">Experience</a>
-        <a href="#security">Security</a>
-      </div>
-
-      <div class="nav-actions">
-        <button class="btn btn-secondary" onclick="showAuth('login')">Sign in</button>
-        <button class="btn btn-primary" onclick="showAuth('signup')">Open account</button>
-      </div>
-    </nav>
-
-    <div class="hero">
-      <div>
-        <div class="eyebrow"><i></i> The modern way to move money</div>
-
-        <h1>
-          Your money.
-          <span>Everywhere.</span>
-        </h1>
-
-        <p>
-          A cleaner, smarter financial experience built around the way
-          people live, work and move around the world.
-        </p>
-
-        <div class="hero-actions">
-          <button class="btn btn-primary" onclick="showAuth('signup')">
-            Get started
-          </button>
-
-          <button class="btn btn-secondary" onclick="showAuth('login')">
-            Sign in to Novara
-          </button>
+    <div class="hero-card-wrap">
+      <div class="hero-card">
+        <div class="card-top">
+          <div class="brand">
+            <div class="brand-mark"><span>N</span></div>
+            Novara
+          </div>
+          <div class="card-chip"></div>
         </div>
-      </div>
 
-      <div class="hero-visual">
-        <div class="orb"></div>
+        <div class="card-number">
+          •••• •••• •••• 9017
+        </div>
 
-        <div class="bank-card">
-          <div class="card-top">
-            <div class="card-brand">Novara</div>
-            <div class="chip"></div>
+        <div class="card-bottom">
+          <div>
+            <small>Novara member</small>
           </div>
-
-          <div class="card-number">
-            4821&nbsp;&nbsp;••••&nbsp;&nbsp;••••&nbsp;&nbsp;9017
-          </div>
-
-          <div class="card-bottom">
-            <span>Novara Member</span>
-            <span>09/30</span>
+          <div>
+            <small>VIRTUAL</small>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <section class="section" id="features">
+  <section id="services" class="section">
+    <div class="section-inner">
+
       <div class="section-heading">
-        <h2>Everything in one place.</h2>
+        <div class="eyebrow">Banking, simplified</div>
+        <h2>Everything you need in one place.</h2>
         <p>
-          Designed to make everyday money management simple,
-          transparent and beautifully organized.
+          A clean financial workspace for everyday banking,
+          payments, account management and support.
         </p>
       </div>
 
       <div class="feature-grid">
+
         <div class="feature">
-          <div class="feature-icon">↗</div>
-          <h3>Move money</h3>
+          <div class="feature-icon">01</div>
+          <h3>Personal Banking</h3>
           <p>
-            Send and manage transfers from one simple financial workspace.
+            Keep track of your balance, activity, account information
+            and everyday financial needs.
           </p>
         </div>
 
         <div class="feature">
-          <div class="feature-icon">◈</div>
-          <h3>Smart accounts</h3>
+          <div class="feature-icon">02</div>
+          <h3>Business Banking</h3>
           <p>
-            See balances, account activity and transaction history at a glance.
+            A structured banking workspace designed for businesses
+            and growing operations.
           </p>
         </div>
 
         <div class="feature">
-          <div class="feature-icon">✦</div>
-          <h3>Built around you</h3>
+          <div class="feature-icon">03</div>
+          <h3>International Access</h3>
           <p>
-            Personal settings, beneficiaries, support and account controls
-            in one place.
+            Manage your banking experience from wherever your work
+            and life take you.
           </p>
         </div>
-      </div>
-    </section>
 
-    <section class="section" id="experience">
-      <div class="section-heading">
-        <h2>A calmer money experience.</h2>
-        <p>
-          Less clutter. More control. Everything important is exactly where
-          you expect it to be.
-        </p>
-      </div>
-    </section>
+        <div class="feature">
+          <div class="feature-icon">04</div>
+          <h3>Smart Transfers</h3>
+          <p>
+            Request transfers and manage recipients from one simple
+            banking interface.
+          </p>
+        </div>
 
-    <section class="section" id="security">
-      <div class="section-heading">
-        <h2>Security comes first.</h2>
-        <p>
-          Authentication, row-level database security and authorization
-          controls protect the application's data layer.
-        </p>
-      </div>
-    </section>
+        <div class="feature">
+          <div class="feature-icon">05</div>
+          <h3>Virtual Cards</h3>
+          <p>
+            Keep your card experience organized with a dedicated
+            digital card area.
+          </p>
+        </div>
 
-    <footer>
-      <strong>Novara</strong>
-      <span>© 2026 Novara</span>
-    </footer>
+        <div class="feature">
+          <div class="feature-icon">06</div>
+          <h3>Customer Support</h3>
+          <p>
+            Send support requests directly from your account
+            and keep track of responses.
+          </p>
+        </div>
+
+      </div>
+    </div>
   </section>
 
+  <section id="security" class="section dark">
+    <div class="section-inner global">
 
-  <!-- AUTH -->
-  <section id="authPage" class="auth-wrap hidden">
+      <div class="global-box">
+        <div>
+          <div class="eyebrow">Security</div>
+          <h2>Built around account security.</h2>
+        </div>
+
+        <div>
+          <div class="global-line">
+            <span class="dot"></span>
+            Authenticated account access
+          </div>
+
+          <div class="global-line">
+            <span class="dot"></span>
+            Database-level access controls
+          </div>
+
+          <div class="global-line">
+            <span class="dot"></span>
+            Protected customer records
+          </div>
+
+          <div class="global-line">
+            <span class="dot"></span>
+            Controlled transfer authorization
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="eyebrow">Confidence</div>
+        <h2>Designed to keep your financial workspace organized.</h2>
+        <p style="color:#93a2b6;margin-top:20px;font-size:17px">
+          Your account dashboard brings your balance, account details,
+          transactions, cards, recipients and support into one place.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="global" class="section">
+    <div class="section-inner global">
+
+      <div>
+        <div class="eyebrow">Global experience</div>
+        <h2>Banking that fits around your world.</h2>
+
+        <p style="color:#718094;margin-top:20px;font-size:17px">
+          Whether you're managing personal finances, running a business
+          or moving between countries, Novara gives you one consistent
+          digital experience.
+        </p>
+
+        <button class="btn btn-primary" style="margin-top:25px"
+                onclick="showAuth('signup')">
+          Get started
+        </button>
+      </div>
+
+      <div class="global-box">
+        <h3 style="font-size:25px">Your financial workspace</h3>
+
+        <div>
+          <div class="global-line">
+            <span class="dot"></span>
+            Account overview
+          </div>
+
+          <div class="global-line">
+            <span class="dot"></span>
+            Transaction history
+          </div>
+
+          <div class="global-line">
+            <span class="dot"></span>
+            Recipient management
+          </div>
+
+          <div class="global-line">
+            <span class="dot"></span>
+            Card management
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="mobile" class="section dark">
+    <div class="section-inner mobile">
+
+      <div class="phone">
+        <div class="phone-notch"></div>
+
+        <div class="brand">
+          <div class="brand-mark"><span>N</span></div>
+          Novara
+        </div>
+
+        <div class="phone-balance">
+          <small>Available balance</small>
+          <strong>$50,000.00</strong>
+        </div>
+
+        <div class="phone-row">
+          <span>Account</span>
+          <span>Active</span>
+        </div>
+
+        <div class="phone-row">
+          <span>Recent activity</span>
+          <span>View</span>
+        </div>
+
+        <div class="phone-row">
+          <span>Virtual card</span>
+          <span>••9017</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="eyebrow">Mobile banking</div>
+        <h2 style="font-size:50px;line-height:1.05">
+          Your account, wherever you are.
+        </h2>
+
+        <p style="color:#93a2b6;margin-top:20px;font-size:17px">
+          Novara is designed to work beautifully across phones,
+          tablets and desktops so your banking workspace stays
+          within reach.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="public-footer">
+    <div class="footer-inner">
+      <strong style="color:white">Novara</strong>
+      <span>© 2026 Novara</span>
+    </div>
+  </footer>
+
+</section>
+
+
+<!-- =========================================================
+     AUTH
+========================================================= -->
+
+<section id="authPage" class="auth-page hidden">
+
+  <div class="auth-brand">
+    <div class="brand">
+      <div class="brand-mark"><span>N</span></div>
+      Novara
+    </div>
+
+    <h1>Your money.<br><span style="color:var(--teal)">Everywhere.</span></h1>
+
+    <p>
+      Sign in to your Novara account or create your account
+      to access your personal banking workspace.
+    </p>
+  </div>
+
+  <div class="auth-box">
 
     <div class="auth-card">
 
-      <div class="brand" style="margin-bottom:30px" onclick="showLanding()">
-        <div class="brand-mark"><span></span></div>
-        <span>Novara</span>
-      </div>
+      <button
+        class="btn"
+        style="background:#eef2f6;margin-bottom:25px"
+        onclick="showPublic()">
+        ← Back
+      </button>
 
-      <!-- LOGIN -->
-      <div id="loginForm">
+      <h2 id="authTitle">Welcome back</h2>
+      <p id="authSubtitle">Sign in to access your Novara account.</p>
 
-        <div class="auth-head">
-          <h2>Welcome back</h2>
-          <p>Sign in to continue to your Novara account.</p>
+      <div id="authMessage"></div>
+
+      <form id="authForm">
+
+        <div id="nameField" class="field hidden">
+          <label>Full name</label>
+          <input id="fullName" type="text" autocomplete="name">
         </div>
 
-        <div id="loginMessage" class="message"></div>
-
-        <form onsubmit="login(event)">
-          <div class="form-group">
-            <label>Email</label>
-            <input id="loginEmail" type="email" required autocomplete="email">
-          </div>
-
-          <div class="form-group">
-            <label>Password</label>
-            <input id="loginPassword" type="password" required autocomplete="current-password">
-          </div>
-
-          <button class="btn btn-primary btn-full" type="submit">
-            Sign in
-          </button>
-        </form>
-
-        <div class="auth-switch">
-          Don't have an account?
-          <button onclick="showAuth('signup')">Create one</button>
-        </div>
-      </div>
-
-
-      <!-- SIGNUP -->
-      <div id="signupForm" class="hidden">
-
-        <div class="auth-head">
-          <h2>Create your account</h2>
-          <p>Set up your Novara profile in a few steps.</p>
+        <div class="field">
+          <label>Email address</label>
+          <input id="authEmail" type="email" required autocomplete="email">
         </div>
 
-        <div id="signupMessage" class="message"></div>
-
-        <form onsubmit="signup(event)">
-
-          <div class="form-group">
-            <label>Full name</label>
-            <input id="signupName" required autocomplete="name">
-          </div>
-
-          <div class="form-group">
-            <label>Email</label>
-            <input id="signupEmail" type="email" required autocomplete="email">
-          </div>
-
-          <div class="form-group">
-            <label>Phone</label>
-            <input id="signupPhone" autocomplete="tel">
-          </div>
-
-          <div class="form-group">
-            <label>Country</label>
-            <input id="signupCountry" placeholder="Country">
-          </div>
-
-          <div class="form-group">
-            <label>Password</label>
-            <input id="signupPassword" type="password" minlength="8" required autocomplete="new-password">
-          </div>
-
-          <button class="btn btn-primary btn-full" type="submit">
-            Create account
-          </button>
-
-        </form>
-
-        <div class="auth-switch">
-          Already have an account?
-          <button onclick="showAuth('login')">Sign in</button>
+        <div class="field">
+          <label>Password</label>
+          <input id="authPassword" type="password" required autocomplete="current-password">
         </div>
+
+        <button id="authSubmit" class="btn btn-primary auth-submit">
+          Sign in
+        </button>
+
+      </form>
+
+      <div class="auth-switch">
+        <span id="switchText">Don't have an account?</span>
+        <button id="switchButton" onclick="toggleAuthMode()">
+          Create one
+        </button>
       </div>
 
     </div>
-  </section>
 
+  </div>
 
-  <!-- CUSTOMER APP -->
-  <section id="customerPage" class="hidden">
+</section>
 
-    <div class="app-shell">
 
-      <aside class="sidebar">
+<!-- =========================================================
+     CUSTOMER APP
+========================================================= -->
 
-        <div class="side-brand">
-          <div class="brand">
-            <div class="brand-mark"><span></span></div>
-            <span>Novara</span>
-          </div>
-        </div>
+<section id="appPage" class="app hidden">
 
-        <nav class="side-nav">
-          <button class="active" onclick="customerSection('overview',this)">
-            Overview
-          </button>
+  <aside id="sidebar" class="sidebar">
 
-          <button onclick="customerSection('transactions',this)">
-            Transactions
-          </button>
+    <div class="brand" onclick="logoSecretClick()">
+      <div class="brand-mark"><span>N</span></div>
+      Novara
+    </div>
 
-          <button onclick="customerSection('cards',this)">
-            Cards
-          </button>
+    <div class="side-links">
 
-          <button onclick="customerSection('beneficiaries',this)">
-            Beneficiaries
-          </button>
+      <button class="side-link active"
+              data-page="overview"
+              onclick="navigate('overview')">
+        Overview
+      </button>
 
-          <button onclick="customerSection('profile',this)">
-            Profile
-          </button>
+      <button class="side-link"
+              data-page="transactions"
+              onclick="navigate('transactions')">
+        Transactions
+      </button>
 
-          <button onclick="customerSection('support',this)">
-            Support
-          </button>
-        </nav>
+      <button class="side-link"
+              data-page="cards"
+              onclick="navigate('cards')">
+        Cards
+      </button>
 
-        <div class="side-bottom">
-          <button class="btn btn-secondary btn-full" onclick="logout()">
-            Sign out
-          </button>
-        </div>
+      <button class="side-link"
+              data-page="beneficiaries"
+              onclick="navigate('beneficiaries')">
+        Beneficiaries
+      </button>
 
-      </aside>
+      <button class="side-link"
+              data-page="profile"
+              onclick="navigate('profile')">
+        Profile
+      </button>
 
-
-      <main class="main">
-
-        <header class="topbar">
-          <div class="topbar-title">
-            <h1 id="pageTitle">Overview</h1>
-            <p id="welcomeText">Welcome back</p>
-          </div>
-
-          <div class="user-pill">
-            <div class="avatar" id="userAvatar">N</div>
-          </div>
-        </header>
-
-
-        <div class="content">
-
-          <!-- OVERVIEW -->
-          <div id="sectionOverview">
-
-            <div class="balance-grid">
-
-              <div class="panel balance-card">
-                <div class="label">Available balance</div>
-                <div class="balance" id="mainBalance">$0.00</div>
-                <div class="account-number" id="mainAccountNumber">
-                  Account loading...
-                </div>
-                <div class="status">● Account active</div>
-              </div>
-
-              <div class="panel">
-                <div class="label">Currency</div>
-                <div class="mini-value" id="mainCurrency">USD</div>
-                <div class="muted" style="font-size:12px;margin-top:5px">
-                  Primary account
-                </div>
-              </div>
-
-              <div class="panel">
-                <div class="label">Account status</div>
-                <div class="mini-value" style="color:var(--success)">
-                  Active
-                </div>
-                <div class="muted" style="font-size:12px;margin-top:5px">
-                  In good standing
-                </div>
-              </div>
-
-            </div>
-
-
-            <div class="quick-actions">
-
-              <button class="quick" onclick="openModal('transferModal')">
-                <strong>Send money</strong>
-                <span>Start a transfer</span>
-              </button>
-
-              <button class="quick" onclick="openModal('beneficiaryModal')">
-                <strong>Add recipient</strong>
-                <span>Save a beneficiary</span>
-              </button>
-
-              <button class="quick" onclick="customerSection('cards')">
-                <strong>My card</strong>
-                <span>View card details</span>
-              </button>
-
-              <button class="quick" onclick="customerSection('support')">
-                <strong>Get help</strong>
-                <span>Contact support</span>
-              </button>
-
-            </div>
-
-
-            <div class="dashboard-grid">
-
-              <div class="panel">
-                <div class="panel-header">
-                  <h2>Recent activity</h2>
-                  <button class="small-btn" onclick="customerSection('transactions')">
-                    View all
-                  </button>
-                </div>
-
-                <div id="recentTransactions"></div>
-              </div>
-
-
-              <div class="panel">
-                <div class="panel-header">
-                  <h2>Your Novara card</h2>
-                </div>
-
-                <div class="account-card">
-                  <div style="display:flex;justify-content:space-between">
-                    <strong>Novara</strong>
-                    <span style="color:var(--teal)">VIRTUAL</span>
-                  </div>
-
-                  <div class="card-number-small">
-                    •••• •••• •••• <span id="cardLastFour">9017</span>
-                  </div>
-
-                  <div style="position:absolute;bottom:22px;left:23px;font-size:11px;color:#9ca9c2">
-                    NOVARA MEMBER
-                  </div>
-                </div>
-
-                <button class="btn btn-secondary btn-full" style="margin-top:12px"
-                  onclick="customerSection('cards')">
-                  Manage card
-                </button>
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <!-- TRANSACTIONS -->
-          <div id="sectionTransactions" class="hidden">
-
-            <div class="panel">
-              <div class="panel-header">
-                <div>
-                  <h2>Transactions</h2>
-                  <div class="muted" style="font-size:12px;margin-top:4px">
-                    Your account activity
-                  </div>
-                </div>
-              </div>
-
-              <div id="allTransactions"></div>
-            </div>
-
-          </div>
-
-
-          <!-- CARDS -->
-          <div id="sectionCards" class="hidden">
-
-            <div class="panel">
-              <div class="panel-header">
-                <h2>Cards</h2>
-              </div>
-
-              <div class="account-card" style="max-width:520px">
-                <div style="display:flex;justify-content:space-between">
-                  <strong>Novara</strong>
-                  <span>VIRTUAL</span>
-                </div>
-
-                <div class="card-number-small">
-                  •••• •••• •••• <span id="cardLastFour2">9017</span>
-                </div>
-
-                <div style="position:absolute;bottom:23px;left:23px">
-                  <div style="font-size:10px;color:#98a4ba">CARDHOLDER</div>
-                  <div style="font-weight:750;margin-top:3px" id="cardHolder">
-                    NOVARA MEMBER
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <!-- BENEFICIARIES -->
-          <div id="sectionBeneficiaries" class="hidden">
-
-            <div class="panel">
-              <div class="panel-header">
-                <h2>Beneficiaries</h2>
-
-                <button class="btn btn-primary" onclick="openModal('beneficiaryModal')">
-                  Add recipient
-                </button>
-              </div>
-
-              <div id="beneficiaryList"></div>
-            </div>
-
-          </div>
-
-
-          <!-- PROFILE -->
-          <div id="sectionProfile" class="hidden">
-
-            <div class="panel">
-              <div class="panel-header">
-                <h2>Your profile</h2>
-              </div>
-
-              <div class="form-group">
-                <label>Full name</label>
-                <input id="profileName">
-              </div>
-
-              <div class="form-group">
-                <label>Email</label>
-                <input id="profileEmail" disabled>
-              </div>
-
-              <div class="form-group">
-                <label>Phone</label>
-                <input id="profilePhone">
-              </div>
-
-              <div class="form-group">
-                <label>Country</label>
-                <input id="profileCountry">
-              </div>
-
-              <button class="btn btn-primary" onclick="saveProfile()">
-                Save changes
-              </button>
-            </div>
-
-          </div>
-
-
-          <!-- SUPPORT -->
-          <div id="sectionSupport" class="hidden">
-
-            <div class="panel">
-              <div class="panel-header">
-                <div>
-                  <h2>Support</h2>
-                  <div class="muted" style="font-size:12px;margin-top:4px">
-                    We're here to help.
-                  </div>
-                </div>
-
-                <button class="btn btn-primary" onclick="openModal('supportModal')">
-                  New request
-                </button>
-              </div>
-
-              <div id="supportList"></div>
-            </div>
-
-          </div>
-
-        </div>
-      </main>
+      <button class="side-link"
+              data-page="support"
+              onclick="navigate('support')">
+        Support
+      </button>
 
     </div>
-  </section>
 
-
-  <!-- ADMIN -->
-  <section id="adminPage" class="hidden">
-
-    <div class="app-shell">
-
-      <aside class="sidebar">
-
-        <div class="side-brand">
-          <div class="brand">
-            <div class="brand-mark"><span></span></div>
-            <span>Novara</span>
-          </div>
-        </div>
-
-        <nav class="side-nav">
-          <button class="active">Admin overview</button>
-        </nav>
-
-        <div class="side-bottom">
-          <button class="btn btn-secondary btn-full" onclick="logout()">
-            Sign out
-          </button>
-        </div>
-
-      </aside>
-
-
-      <main class="main">
-
-        <header class="topbar">
-          <div class="topbar-title">
-            <h1>Admin</h1>
-            <p>Novara administration</p>
-          </div>
-
-          <div class="user-pill">
-            <div class="avatar">A</div>
-          </div>
-        </header>
-
-
-        <div class="content">
-
-          <div class="admin-grid">
-
-            <div class="admin-card">
-              <div class="panel-header">
-                <div>
-                  <h2>Customer accounts</h2>
-                  <div class="muted" style="font-size:12px;margin-top:4px">
-                    Account balances and status
-                  </div>
-                </div>
-              </div>
-
-              <div id="adminAccounts"></div>
-            </div>
-
-
-            <div class="admin-card">
-              <div class="panel-header">
-                <div>
-                  <h2>Pending transfers</h2>
-                  <div class="muted" style="font-size:12px;margin-top:4px">
-                    Internal authorization queue
-                  </div>
-                </div>
-              </div>
-
-              <div id="adminTransfers"></div>
-            </div>
-
-
-            <div class="admin-card" style="grid-column:1/-1">
-              <div class="panel-header">
-                <div>
-                  <h2>Support tickets</h2>
-                  <div class="muted" style="font-size:12px;margin-top:4px">
-                    Customer support requests
-                  </div>
-                </div>
-              </div>
-
-              <div id="adminSupport"></div>
-            </div>
-
-          </div>
-
-        </div>
-
-      </main>
-
+    <div class="side-bottom">
+      <button class="side-link" onclick="signOut()">
+        Sign out
+      </button>
     </div>
-  </section>
 
-</div>
+  </aside>
+
+  <main class="app-main">
+
+    <header class="topbar">
+
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mobile-menu" onclick="toggleSidebar()">☰</button>
+        <div id="topbarTitle" class="topbar-title">Overview</div>
+      </div>
+
+      <div class="user-pill">
+        <div>
+          <strong id="topUserName">Novara</strong>
+        </div>
+        <div id="topAvatar" class="avatar">N</div>
+      </div>
+
+    </header>
+
+    <div id="appContent" class="content"></div>
+
+  </main>
+
+</section>
 
 
-<!-- TRANSFER MODAL -->
+<!-- =========================================================
+     MODALS
+========================================================= -->
+
 <div id="transferModal" class="modal hidden">
-
   <div class="modal-card">
 
-    <div class="modal-header">
+    <div class="modal-head">
       <h2>Send money</h2>
-      <button class="close" onclick="closeModal('transferModal')">×</button>
+      <button class="modal-close" onclick="closeModal('transferModal')">×</button>
     </div>
 
-    <div id="transferMessage" class="message"></div>
+    <div id="transferMessage"></div>
 
-    <form onsubmit="requestTransfer(event)">
+    <form id="transferForm">
 
-      <div class="form-group">
+      <div class="field">
         <label>Recipient</label>
-        <input id="transferRecipient" placeholder="Email, account number or account ID" required>
+        <input id="transferRecipient"
+               required
+               placeholder="Account number or email">
       </div>
 
-      <div class="form-group">
+      <div class="field">
         <label>Amount</label>
-        <input id="transferAmount" type="number" min="0.01" step="0.01" placeholder="0.00" required>
+        <input id="transferAmount"
+               type="number"
+               min="0.01"
+               step="0.01"
+               required
+               placeholder="0.00">
       </div>
 
-      <div class="form-group">
+      <div class="field">
         <label>Transfer type</label>
         <select id="transferType">
           <option value="internal">Internal transfer</option>
-          <option value="external">External transfer</option>
+          <option value="external">External transfer request</option>
         </select>
       </div>
 
-      <div class="modal-actions">
-        <button type="button" class="btn btn-secondary" onclick="closeModal('transferModal')">
-          Cancel
-        </button>
-
-        <button class="btn btn-primary" type="submit">
-          Continue
-        </button>
-      </div>
+      <button class="btn btn-primary" style="width:100%">
+        Submit transfer
+      </button>
 
     </form>
 
@@ -1640,49 +1585,41 @@
 </div>
 
 
-<!-- BENEFICIARY MODAL -->
 <div id="beneficiaryModal" class="modal hidden">
-
   <div class="modal-card">
 
-    <div class="modal-header">
+    <div class="modal-head">
       <h2>Add recipient</h2>
-      <button class="close" onclick="closeModal('beneficiaryModal')">×</button>
+      <button class="modal-close" onclick="closeModal('beneficiaryModal')">×</button>
     </div>
 
-    <div id="beneficiaryMessage" class="message"></div>
+    <div id="beneficiaryMessage"></div>
 
-    <form onsubmit="addBeneficiary(event)">
+    <form id="beneficiaryForm">
 
-      <div class="form-group">
+      <div class="field">
         <label>Name</label>
         <input id="beneficiaryName" required>
       </div>
 
-      <div class="form-group">
+      <div class="field">
         <label>Account reference</label>
         <input id="beneficiaryReference">
       </div>
 
-      <div class="form-group">
-        <label>Bank</label>
+      <div class="field">
+        <label>Bank name</label>
         <input id="beneficiaryBank">
       </div>
 
-      <div class="form-group">
+      <div class="field">
         <label>Country</label>
         <input id="beneficiaryCountry">
       </div>
 
-      <div class="modal-actions">
-        <button type="button" class="btn btn-secondary" onclick="closeModal('beneficiaryModal')">
-          Cancel
-        </button>
-
-        <button class="btn btn-primary">
-          Save recipient
-        </button>
-      </div>
+      <button class="btn btn-primary" style="width:100%">
+        Save recipient
+      </button>
 
     </form>
 
@@ -1690,39 +1627,33 @@
 </div>
 
 
-<!-- SUPPORT MODAL -->
 <div id="supportModal" class="modal hidden">
-
   <div class="modal-card">
 
-    <div class="modal-header">
+    <div class="modal-head">
       <h2>Contact support</h2>
-      <button class="close" onclick="closeModal('supportModal')">×</button>
+      <button class="modal-close" onclick="closeModal('supportModal')">×</button>
     </div>
 
-    <div id="supportMessage" class="message"></div>
+    <div id="supportMessage"></div>
 
-    <form onsubmit="createSupportTicket(event)">
+    <form id="supportForm">
 
-      <div class="form-group">
+      <div class="field">
         <label>Subject</label>
         <input id="supportSubject" required>
       </div>
 
-      <div class="form-group">
+      <div class="field">
         <label>Message</label>
-        <textarea id="supportBody" required></textarea>
+        <textarea id="supportText"
+                  rows="5"
+                  required></textarea>
       </div>
 
-      <div class="modal-actions">
-        <button type="button" class="btn btn-secondary" onclick="closeModal('supportModal')">
-          Cancel
-        </button>
-
-        <button class="btn btn-primary">
-          Send request
-        </button>
-      </div>
+      <button class="btn btn-primary" style="width:100%">
+        Send message
+      </button>
 
     </form>
 
@@ -1730,1382 +1661,2039 @@
 </div>
 
 
-<!-- FUND MODAL -->
 <div id="fundModal" class="modal hidden">
-
   <div class="modal-card">
 
-    <div class="modal-header">
+    <div class="modal-head">
       <h2>Fund account</h2>
-      <button class="close" onclick="closeModal('fundModal')">×</button>
+      <button class="modal-close" onclick="closeModal('fundModal')">×</button>
     </div>
 
-    <div id="fundMessage" class="message"></div>
+    <div id="fundMessage"></div>
 
-    <input type="hidden" id="fundAccountId">
+    <form id="fundForm">
 
-    <div class="form-group">
-      <label>Amount</label>
-      <input id="fundAmount" type="number" min="0.01" step="0.01">
-    </div>
+      <div class="field">
+        <label>Account</label>
+        <select id="fundAccount" required></select>
+      </div>
 
-    <div class="form-group">
-      <label>Description</label>
-      <input id="fundDescription" value="Novara account funding">
-    </div>
+      <div class="field">
+        <label>Amount</label>
+        <input id="fundAmount"
+               type="number"
+               min="0.01"
+               step="0.01"
+               required>
+      </div>
 
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModal('fundModal')">
-        Cancel
-      </button>
+      <div class="field">
+        <label>Description</label>
+        <input id="fundDescription"
+               value="Novara admin funding">
+      </div>
 
-      <button class="btn btn-primary" onclick="fundAccount()">
+      <button class="btn btn-primary" style="width:100%">
         Fund account
       </button>
-    </div>
+
+    </form>
 
   </div>
 </div>
 
 
-<!-- ADMIN REPLY -->
 <div id="replyModal" class="modal hidden">
-
   <div class="modal-card">
 
-    <div class="modal-header">
+    <div class="modal-head">
       <h2>Reply to customer</h2>
-      <button class="close" onclick="closeModal('replyModal')">×</button>
+      <button class="modal-close" onclick="closeModal('replyModal')">×</button>
     </div>
 
-    <input type="hidden" id="replyTicketId">
+    <div id="replyMessage"></div>
 
-    <div class="form-group">
-      <label>Reply</label>
-      <textarea id="replyText"></textarea>
-    </div>
+    <form id="replyForm">
 
-    <div class="form-group">
-      <label>Status</label>
-      <select id="replyStatus">
-        <option value="resolved">Resolved</option>
-        <option value="open">Open</option>
-      </select>
-    </div>
+      <input id="replyTicketId" type="hidden">
 
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModal('replyModal')">
-        Cancel
-      </button>
+      <div class="field">
+        <label>Reply</label>
+        <textarea id="replyText" rows="6" required></textarea>
+      </div>
 
-      <button class="btn btn-primary" onclick="replySupportTicket()">
+      <div class="field">
+        <label>Status</label>
+        <select id="replyStatus">
+          <option value="resolved">Resolved</option>
+          <option value="open">Open</option>
+        </select>
+      </div>
+
+      <button class="btn btn-primary" style="width:100%">
         Send reply
       </button>
-    </div>
+
+    </form>
 
   </div>
 </div>
-
-
-<div id="toast"></div>
 
 
 <script>
-  const SUPABASE_URL = "https://galtogdwvldgtlwdgxwm.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_-KV6yebEl6ntJFVNO2i5sg_Zh5WHVGc";
+/* =========================================================
+   SUPABASE
+========================================================= */
 
-  const { createClient } = supabase;
-  const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+const SUPABASE_URL =
+  "https://galtogdwvldgtlwdgxwm.supabase.co";
 
-  let currentUser = null;
-  let currentProfile = null;
-  let currentAccount = null;
-  let logoClicks = 0;
-  let logoTimer = null;
+const SUPABASE_KEY =
+  "sb_publishable_-KV6yebEl6ntJFVNO2i5sg_Zh5WHVGc";
+
+const { createClient } =
+  supabase;
+
+const db = createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
 
-  /* -----------------------------
-     BASIC UI
-  ----------------------------- */
+/* =========================================================
+   STATE
+========================================================= */
 
-  function qs(id){
-    return document.getElementById(id);
-  }
+let currentUser = null;
+let currentProfile = null;
+let currentAccount = null;
+let currentPage = "overview";
+let authMode = "login";
+let logoClicks = 0;
+let logoTimer = null;
 
-  function show(id){
-    qs(id).classList.remove("hidden");
-  }
 
-  function hide(id){
-    qs(id).classList.add("hidden");
-  }
+/* =========================================================
+   HELPERS
+========================================================= */
 
-  function showOnly(id){
-    [
-      "landingPage",
-      "authPage",
-      "customerPage",
-      "adminPage"
-    ].forEach(x => hide(x));
+function money(amount, currency = "USD"){
+  return new Intl.NumberFormat("en-US",{
+    style:"currency",
+    currency:currency
+  }).format(Number(amount || 0));
+}
 
-    show(id);
-  }
+function escapeHtml(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
 
-  function showLanding(){
-    showOnly("landingPage");
-    window.scrollTo({top:0,behavior:"smooth"});
-  }
+function formatDate(value){
+  if(!value) return "";
+  return new Date(value).toLocaleDateString("en-US",{
+    month:"short",
+    day:"numeric",
+    year:"numeric"
+  });
+}
 
-  function showAuth(mode){
-    showOnly("authPage");
+function initials(name){
+  if(!name) return "N";
 
-    hide("loginForm");
-    hide("signupForm");
+  return name
+    .trim()
+    .split(/\s+/)
+    .slice(0,2)
+    .map(x => x[0])
+    .join("")
+    .toUpperCase();
+}
 
-    if(mode === "signup"){
-      show("signupForm");
-    }else{
-      show("loginForm");
+
+/* =========================================================
+   PAGE SWITCHING
+========================================================= */
+
+function showPublic(){
+  document.getElementById("publicPage").classList.remove("hidden");
+  document.getElementById("authPage").classList.add("hidden");
+  document.getElementById("appPage").classList.add("hidden");
+}
+
+function showAuth(mode="login"){
+  authMode = mode;
+
+  document.getElementById("publicPage").classList.add("hidden");
+  document.getElementById("authPage").classList.remove("hidden");
+  document.getElementById("appPage").classList.add("hidden");
+
+  updateAuthUI();
+}
+
+function updateAuthUI(){
+
+  const login = authMode === "login";
+
+  document.getElementById("authTitle").textContent =
+    login ? "Welcome back" : "Create your account";
+
+  document.getElementById("authSubtitle").textContent =
+    login
+      ? "Sign in to access your Novara account."
+      : "Create your Novara account in a few moments.";
+
+  document.getElementById("nameField")
+    .classList.toggle("hidden",login);
+
+  document.getElementById("authSubmit").textContent =
+    login ? "Sign in" : "Create account";
+
+  document.getElementById("switchText").textContent =
+    login
+      ? "Don't have an account?"
+      : "Already have an account?";
+
+  document.getElementById("switchButton").textContent =
+    login ? "Create one" : "Sign in";
+
+  document.getElementById("authMessage").innerHTML = "";
+}
+
+function toggleAuthMode(){
+  authMode = authMode === "login" ? "signup" : "login";
+  updateAuthUI();
+}
+
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+document.getElementById("authForm")
+.addEventListener("submit", async event => {
+
+  event.preventDefault();
+
+  const email =
+    document.getElementById("authEmail").value.trim();
+
+  const password =
+    document.getElementById("authPassword").value;
+
+  const fullName =
+    document.getElementById("fullName").value.trim();
+
+  const box =
+    document.getElementById("authMessage");
+
+  box.innerHTML = "";
+
+  if(authMode === "signup"){
+
+    if(!fullName){
+      box.innerHTML =
+        '<div class="error">Please enter your full name.</div>';
+      return;
     }
-  }
 
-  function openModal(id){
-    show(id);
-  }
-
-  function closeModal(id){
-    hide(id);
-  }
-
-  function toast(message){
-    const el = qs("toast");
-    el.textContent = message;
-    el.classList.add("show");
-
-    clearTimeout(window.toastTimer);
-
-    window.toastTimer = setTimeout(() => {
-      el.classList.remove("show");
-    },3500);
-  }
-
-  function setMessage(id,message,type="error"){
-    const el = qs(id);
-    el.textContent = message;
-    el.className = "message " + type;
-  }
-
-  function clearMessage(id){
-    const el = qs(id);
-    el.textContent = "";
-    el.className = "message";
-  }
-
-
-  /* -----------------------------
-     AUTH
-  ----------------------------- */
-
-  async function signup(event){
-
-    event.preventDefault();
-
-    clearMessage("signupMessage");
-
-    const name = qs("signupName").value.trim();
-    const email = qs("signupEmail").value.trim();
-    const phone = qs("signupPhone").value.trim();
-    const country = qs("signupCountry").value.trim();
-    const password = qs("signupPassword").value;
-
-    const button = event.submitter;
-    button.disabled = true;
-    button.textContent = "Creating account...";
-
-    try{
-
-      const {data,error} = await db.auth.signUp({
+    const {data,error} =
+      await db.auth.signUp({
         email,
         password,
         options:{
           data:{
-            full_name:name,
-            phone,
-            country
+            full_name:fullName
           }
         }
       });
 
-      if(error) throw error;
+    if(error){
+      box.innerHTML =
+        `<div class="error">${escapeHtml(error.message)}</div>`;
+      return;
+    }
 
-      if(!data.user){
-        throw new Error("Account creation did not return a user.");
-      }
+    if(data.user){
 
       /*
-        Create profile/account through the existing
-        SECURITY DEFINER functions.
+       Create profile/account using the authenticated user.
+       The database functions handle the user ID server-side.
       */
 
-      const profileResult = await db.rpc("novara_create_profile",{
-        p_full_name:name,
-        p_email:email,
-        p_phone:phone,
-        p_country:country
-      });
+      const profile =
+        await db.rpc("novara_create_profile",{
+          p_full_name:fullName,
+          p_email:email
+        });
 
-      if(profileResult.error){
-        console.warn("Profile creation:",profileResult.error);
+      if(profile.error){
+        console.warn("Profile creation:",profile.error);
       }
 
-      const accountResult = await db.rpc("novara_create_account");
+      const account =
+        await db.rpc("novara_create_account");
 
-      if(accountResult.error){
-        console.warn("Account creation:",accountResult.error);
+      if(account.error){
+        console.warn("Account creation:",account.error);
       }
-
-      setMessage(
-        "signupMessage",
-        "Your Novara account has been created. Check your email if email confirmation is enabled.",
-        "success"
-      );
-
-      setTimeout(() => showAuth("login"),1500);
-
-    }catch(error){
-
-      setMessage(
-        "signupMessage",
-        error.message || "Unable to create your account.",
-        "error"
-      );
-
-    }finally{
-      button.disabled = false;
-      button.textContent = "Create account";
     }
+
+    box.innerHTML =
+      '<div class="success">Account created. Check your email if email confirmation is enabled, then sign in.</div>';
+
+    authMode = "login";
+    updateAuthUI();
+
+    return;
   }
 
 
-  async function login(event){
+  const {data,error} =
+    await db.auth.signInWithPassword({
+      email,
+      password
+    });
 
-    event.preventDefault();
+  if(error){
 
-    clearMessage("loginMessage");
+    box.innerHTML =
+      `<div class="error">${escapeHtml(error.message)}</div>`;
 
-    const email = qs("loginEmail").value.trim();
-    const password = qs("loginPassword").value;
-
-    const button = event.submitter;
-    button.disabled = true;
-    button.textContent = "Signing in...";
-
-    try{
-
-      const {data,error} = await db.auth.signInWithPassword({
-        email,
-        password
-      });
-
-      if(error) throw error;
-
-      currentUser = data.user;
-
-      await enterApplication();
-
-    }catch(error){
-
-      setMessage(
-        "loginMessage",
-        error.message || "Unable to sign in.",
-        "error"
-      );
-
-    }finally{
-      button.disabled = false;
-      button.textContent = "Sign in";
-    }
+    return;
   }
 
+  currentUser = data.user;
 
-  async function logout(){
+  await openApp();
 
-    await db.auth.signOut();
+});
 
-    currentUser = null;
-    currentProfile = null;
+
+/* =========================================================
+   OPEN CUSTOMER APP
+========================================================= */
+
+async function openApp(){
+
+  document.getElementById("publicPage").classList.add("hidden");
+  document.getElementById("authPage").classList.add("hidden");
+  document.getElementById("appPage").classList.remove("hidden");
+
+  await loadUserData();
+
+  currentPage = "overview";
+
+  navigate("overview");
+}
+
+
+/* =========================================================
+   LOAD USER / PROFILE / ACCOUNT
+========================================================= */
+
+async function loadUserData(){
+
+  /*
+   IMPORTANT:
+   Always get the authenticated user's ID directly
+   from Supabase Auth.
+  */
+
+  const {
+    data:{
+      user
+    },
+    error:userError
+  } = await db.auth.getUser();
+
+  if(userError || !user){
+    console.error(userError);
+    await signOut();
+    return;
+  }
+
+  currentUser = user;
+
+  console.log("Authenticated user:",currentUser.id);
+
+
+  /* PROFILE */
+
+  const {
+    data:profile,
+    error:profileError
+  } = await db
+    .from("profiles")
+    .select(`
+      id,
+      full_name,
+      email,
+      phone,
+      country,
+      avatar_url
+    `)
+    .eq("id",currentUser.id)
+    .maybeSingle();
+
+  if(profileError){
+    console.error("Profile error:",profileError);
+  }
+
+  currentProfile = profile || {
+    id:currentUser.id,
+    full_name:
+      currentUser.user_metadata?.full_name ||
+      currentUser.email?.split("@")[0] ||
+      "Novara",
+    email:currentUser.email || ""
+  };
+
+
+  /* ACCOUNT */
+
+  const {
+    data:accounts,
+    error:accountError
+  } = await db
+    .from("accounts")
+    .select(`
+      id,
+      user_id,
+      account_name,
+      account_number,
+      currency,
+      balance,
+      status,
+      created_at
+    `)
+    .eq("user_id",currentUser.id)
+    .order("created_at",{ascending:true});
+
+  if(accountError){
+
+    console.error("Account lookup error:",accountError);
+
     currentAccount = null;
 
-    showLanding();
+  }else{
 
-    toast("Signed out successfully.");
+    /*
+     Prefer an active account.
+    */
+
+    currentAccount =
+      (accounts || []).find(
+        account => account.status === "active"
+      ) ||
+      (accounts || [])[0] ||
+      null;
   }
 
+  console.log("Matching accounts:",accounts);
+  console.log("Selected account:",currentAccount);
 
-  /* -----------------------------
-     APPLICATION
-  ----------------------------- */
 
-  async function enterApplication(){
+  updateUserHeader();
+}
 
-    const {data} = await db.auth.getUser();
 
-    if(!data.user){
-      showLanding();
-      return;
-    }
+/* =========================================================
+   USER HEADER
+========================================================= */
 
-    currentUser = data.user;
+function updateUserHeader(){
 
-    const {data:isAdmin,error:adminError} =
-      await db.rpc("novara_is_admin");
+  const name =
+    currentProfile?.full_name ||
+    currentUser?.user_metadata?.full_name ||
+    "Novara";
 
-    if(!adminError && isAdmin === true){
-      await loadAdmin();
-      return;
-    }
+  document.getElementById("topUserName")
+    .textContent = name;
 
-    showOnly("customerPage");
+  document.getElementById("topAvatar")
+    .textContent = initials(name);
+}
 
-    await loadCustomer();
 
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function navigate(page){
+
+  currentPage = page;
+
+  document.querySelectorAll(".side-link[data-page]")
+    .forEach(button => {
+      button.classList.toggle(
+        "active",
+        button.dataset.page === page
+      );
+    });
+
+  const titles = {
+    overview:"Overview",
+    transactions:"Transactions",
+    cards:"Cards",
+    beneficiaries:"Beneficiaries",
+    profile:"Profile",
+    support:"Support",
+    admin:"Administration"
+  };
+
+  document.getElementById("topbarTitle")
+    .textContent = titles[page] || "Novara";
+
+  const content =
+    document.getElementById("appContent");
+
+  if(page === "overview"){
+    renderOverview();
   }
 
-
-  async function loadCustomer(){
-
-    await Promise.all([
-      loadProfile(),
-      loadAccount(),
-      loadTransactions(),
-      loadCard(),
-      loadBeneficiaries(),
-      loadSupport()
-    ]);
-
-    updateCustomerHeader();
+  if(page === "transactions"){
+    renderTransactions();
   }
 
-
-  /* -----------------------------
-     PROFILE
-  ----------------------------- */
-
-  async function loadProfile(){
-
-    const {data,error} = await db
-      .from("profiles")
-      .select("*")
-      .eq("id",currentUser.id)
-      .maybeSingle();
-
-    if(error){
-      console.error(error);
-      return;
-    }
-
-    currentProfile = data;
-
-    if(data){
-      qs("profileName").value = data.full_name || "";
-      qs("profileEmail").value = data.email || currentUser.email || "";
-      qs("profilePhone").value = data.phone || "";
-      qs("profileCountry").value = data.country || "";
-    }
+  if(page === "cards"){
+    renderCards();
   }
 
-
-  async function saveProfile(){
-
-    const full_name = qs("profileName").value.trim();
-    const phone = qs("profilePhone").value.trim();
-    const country = qs("profileCountry").value.trim();
-
-    const {error} = await db
-      .from("profiles")
-      .update({
-        full_name,
-        phone,
-        country,
-        updated_at:new Date().toISOString()
-      })
-      .eq("id",currentUser.id);
-
-    if(error){
-      toast(error.message);
-      return;
-    }
-
-    currentProfile = {
-      ...(currentProfile || {}),
-      full_name,
-      phone,
-      country
-    };
-
-    updateCustomerHeader();
-
-    toast("Profile updated.");
+  if(page === "beneficiaries"){
+    renderBeneficiaries();
   }
 
-
-  function updateCustomerHeader(){
-
-    const name =
-      currentProfile?.full_name ||
-      currentUser?.user_metadata?.full_name ||
-      "Novara Member";
-
-    qs("welcomeText").textContent =
-      "Welcome back, " + name.split(" ")[0];
-
-    qs("userAvatar").textContent =
-      name.charAt(0).toUpperCase();
-
-    qs("cardHolder").textContent =
-      name.toUpperCase();
+  if(page === "profile"){
+    renderProfile();
   }
 
-
-  /* -----------------------------
-     ACCOUNT
-  ----------------------------- */
-
-  async function loadAccount(){
-
-    const {data,error} = await db
-      .from("accounts")
-      .select("*")
-      .eq("user_id",currentUser.id)
-      .order("created_at",{ascending:true})
-      .limit(1)
-      .maybeSingle();
-
-    if(error){
-      console.error(error);
-      return;
-    }
-
-    currentAccount = data;
-
-    if(!data){
-      qs("mainBalance").textContent = "$0.00";
-      qs("mainAccountNumber").textContent = "Account not available";
-      return;
-    }
-
-    qs("mainBalance").textContent =
-      formatMoney(data.balance,data.currency);
-
-    qs("mainCurrency").textContent =
-      data.currency || "USD";
-
-    qs("mainAccountNumber").textContent =
-      data.account_number
-        ? "Account • " + data.account_number
-        : "Account active";
+  if(page === "support"){
+    renderSupport();
   }
 
-
-  function formatMoney(amount,currency="USD"){
-
-    return new Intl.NumberFormat("en-US",{
-      style:"currency",
-      currency:currency || "USD"
-    }).format(Number(amount || 0));
+  if(page === "admin"){
+    renderAdmin();
   }
 
+  document.getElementById("sidebar")
+    .classList.remove("open");
+}
 
-  /* -----------------------------
-     TRANSACTIONS
-  ----------------------------- */
 
-  async function loadTransactions(){
+/* =========================================================
+   OVERVIEW
+========================================================= */
 
-    if(!currentUser) return;
+async function renderOverview(){
 
-    const {data,error} = await db
-      .from("transactions")
-      .select(`
-        id,
-        account_id,
-        user_id,
-        type,
-        amount,
-        currency,
-        description,
-        reference,
-        status,
-        created_at
-      `)
-      .eq("user_id",currentUser.id)
-      .order("created_at",{ascending:false})
-      .limit(50);
+  const content =
+    document.getElementById("appContent");
 
-    if(error){
-      console.error(error);
-      return;
+  const name =
+    currentProfile?.full_name ||
+    currentUser?.email?.split("@")[0] ||
+    "Novara";
+
+  const firstName =
+    name.split(" ")[0];
+
+  const account = currentAccount;
+
+  content.innerHTML = `
+
+    <div class="page-head">
+      <div>
+        <h1>Welcome back, ${escapeHtml(firstName)}</h1>
+        <p>Your Novara banking overview.</p>
+      </div>
+    </div>
+
+    <div class="balance-card">
+
+      <div class="balance-top">
+
+        <div>
+          <div class="balance-label">
+            Available balance
+          </div>
+
+          <div class="balance-amount">
+            ${
+              account
+                ? money(account.balance,account.currency)
+                : "$0.00"
+            }
+          </div>
+
+          <div class="account-number">
+            ${
+              account?.account_number
+                ? "Account • " + escapeHtml(account.account_number)
+                : "Account loading..."
+            }
+          </div>
+        </div>
+
+        <div>
+          <div class="status">
+            <span class="status-dot"></span>
+            ${
+              account?.status === "active"
+                ? "Account active"
+                : "Account unavailable"
+            }
+          </div>
+        </div>
+
+      </div>
+
+      <div class="account-meta">
+
+        <div class="meta-item">
+          <small>Currency</small>
+          <strong>${escapeHtml(account?.currency || "USD")}</strong>
+        </div>
+
+        <div class="meta-item">
+          <small>Primary account</small>
+          <strong>${escapeHtml(account?.account_name || "Novara Account")}</strong>
+        </div>
+
+        <div class="meta-item">
+          <small>Account status</small>
+          <strong>${escapeHtml(account?.status || "Active")}</strong>
+        </div>
+
+        <div class="meta-item">
+          <small>Customer email</small>
+          <strong>${escapeHtml(currentProfile?.email || currentUser?.email || "")}</strong>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="quick-grid">
+
+      <button class="quick" onclick="openTransfer()">
+        <div class="quick-icon">↗</div>
+        <strong>Send money</strong>
+        <span>Start a transfer</span>
+      </button>
+
+      <button class="quick" onclick="openBeneficiary()">
+        <div class="quick-icon">+</div>
+        <strong>Add recipient</strong>
+        <span>Save a beneficiary</span>
+      </button>
+
+      <button class="quick" onclick="navigate('cards')">
+        <div class="quick-icon">▣</div>
+        <strong>My card</strong>
+        <span>View card details</span>
+      </button>
+
+      <button class="quick" onclick="openSupport()">
+        <div class="quick-icon">?</div>
+        <strong>Get help</strong>
+        <span>Contact support</span>
+      </button>
+
+    </div>
+
+
+    <div class="dashboard-grid">
+
+      <div class="panel">
+
+        <div class="panel-title">
+          <h3>Recent activity</h3>
+
+          <button onclick="navigate('transactions')">
+            View all
+          </button>
+        </div>
+
+        <div id="recentTransactions">
+          Loading activity...
+        </div>
+
+      </div>
+
+
+      <div class="panel">
+
+        <div class="panel-title">
+          <h3>Your Novara card</h3>
+
+          <button onclick="navigate('cards')">
+            Manage
+          </button>
+        </div>
+
+        <div class="card-preview">
+
+          <div class="card-top">
+            <strong>Novara</strong>
+            <span>VIRTUAL</span>
+          </div>
+
+          <div class="card-number-small">
+            •••• •••• •••• 9017
+          </div>
+
+          <div style="display:flex;justify-content:space-between">
+            <small>NOVARA MEMBER</small>
+            <small>VIRTUAL</small>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  `;
+
+  await loadRecentTransactions();
+}
+
+
+/* =========================================================
+   TRANSACTIONS
+========================================================= */
+
+async function loadRecentTransactions(){
+
+  const container =
+    document.getElementById("recentTransactions");
+
+  if(!container || !currentAccount){
+    if(container){
+      container.innerHTML =
+        '<div class="empty">No account activity available.</div>';
     }
-
-    renderTransactions(data || []);
+    return;
   }
 
+  const {
+    data,
+    error
+  } = await db
+    .from("transactions")
+    .select(`
+      id,
+      type,
+      amount,
+      currency,
+      description,
+      reference,
+      status,
+      created_at
+    `)
+    .eq("account_id",currentAccount.id)
+    .eq("user_id",currentUser.id)
+    .order("created_at",{ascending:false})
+    .limit(6);
 
-  function transactionIsCredit(tx){
+  if(error){
+    console.error(error);
 
-    if(tx.type === "admin_funding"){
-      return true;
-    }
+    container.innerHTML =
+      '<div class="empty">Unable to load activity.</div>';
 
-    if(
-      tx.type === "internal_transfer" &&
-      (tx.description || "").toLowerCase().includes("from")
-    ){
-      return true;
-    }
+    return;
+  }
 
+  if(!data?.length){
+
+    container.innerHTML =
+      '<div class="empty">No transactions yet.</div>';
+
+    return;
+  }
+
+  container.innerHTML =
+    data.map(transactionHTML).join("");
+}
+
+
+function transactionIsCredit(tx){
+
+  if(tx.type === "admin_funding")
+    return true;
+
+  if(tx.type === "credit")
+    return true;
+
+  if(
+    tx.type === "internal_transfer" &&
+    /from/i.test(tx.description || "")
+  ){
+    return true;
+  }
+
+  return false;
+}
+
+
+function transactionHTML(tx){
+
+  const credit =
+    transactionIsCredit(tx);
+
+  const sign =
+    credit ? "+" : "−";
+
+  return `
+    <div class="transaction">
+
+      <div class="transaction-left">
+
+        <div class="transaction-icon">
+          ${credit ? "↓" : "↑"}
+        </div>
+
+        <div>
+          <div class="transaction-name">
+            ${escapeHtml(
+              tx.description ||
+              tx.type ||
+              "Transaction"
+            )}
+          </div>
+
+          <div class="transaction-date">
+            ${formatDate(tx.created_at)}
+          </div>
+        </div>
+
+      </div>
+
+      <div class="transaction-amount ${credit ? "credit" : "debit"}">
+        ${sign}${money(tx.amount,tx.currency || "USD")}
+      </div>
+
+    </div>
+  `;
+}
+
+
+async function renderTransactions(){
+
+  const content =
+    document.getElementById("appContent");
+
+  content.innerHTML = `
+
+    <div class="page-head">
+      <div>
+        <h1>Transactions</h1>
+        <p>Your account activity.</p>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div id="allTransactions">
+        Loading transactions...
+      </div>
+    </div>
+  `;
+
+  if(!currentAccount){
+    document.getElementById("allTransactions").innerHTML =
+      '<div class="empty">No account found.</div>';
+    return;
+  }
+
+  const {
+    data,
+    error
+  } = await db
+    .from("transactions")
+    .select(`
+      id,
+      type,
+      amount,
+      currency,
+      description,
+      reference,
+      status,
+      created_at
+    `)
+    .eq("account_id",currentAccount.id)
+    .eq("user_id",currentUser.id)
+    .order("created_at",{ascending:false})
+    .limit(100);
+
+  const container =
+    document.getElementById("allTransactions");
+
+  if(error){
+    container.innerHTML =
+      '<div class="empty">Unable to load transactions.</div>';
+    return;
+  }
+
+  if(!data?.length){
+    container.innerHTML =
+      '<div class="empty">No transactions yet.</div>';
+    return;
+  }
+
+  container.innerHTML =
+    data.map(transactionHTML).join("");
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+async function renderCards(){
+
+  const content =
+    document.getElementById("appContent");
+
+  let card = null;
+
+  if(currentUser){
+
+    const result =
+      await db
+        .from("cards")
+        .select(`
+          id,
+          card_name,
+          card_type,
+          last_four,
+          status
+        `)
+        .eq("user_id",currentUser.id)
+        .limit(1)
+        .maybeSingle();
+
+    card = result.data;
+  }
+
+  content.innerHTML = `
+
+    <div class="page-head">
+      <div>
+        <h1>Cards</h1>
+        <p>Manage your Novara card.</p>
+      </div>
+    </div>
+
+    <div class="inner-grid">
+
+      <div class="panel">
+
+        <div class="card-preview">
+
+          <div class="card-top">
+            <strong>Novara</strong>
+            <span>${escapeHtml(card?.card_type || "VIRTUAL").toUpperCase()}</span>
+          </div>
+
+          <div class="card-number-small">
+            •••• •••• •••• ${escapeHtml(card?.last_four || "9017")}
+          </div>
+
+          <div style="display:flex;justify-content:space-between">
+            <small>NOVARA MEMBER</small>
+            <small>${escapeHtml(card?.status || "active").toUpperCase()}</small>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="panel">
+
+        <h3 style="margin-bottom:20px">
+          Card details
+        </h3>
+
+        <div class="profile-row">
+          <span>Card name</span>
+          <strong>${escapeHtml(card?.card_name || "Novara Card")}</strong>
+        </div>
+
+        <div class="profile-row">
+          <span>Card type</span>
+          <strong>${escapeHtml(card?.card_type || "virtual")}</strong>
+        </div>
+
+        <div class="profile-row">
+          <span>Status</span>
+          <strong>${escapeHtml(card?.status || "active")}</strong>
+        </div>
+
+      </div>
+
+    </div>
+  `;
+}
+
+
+/* =========================================================
+   BENEFICIARIES
+========================================================= */
+
+async function renderBeneficiaries(){
+
+  const content =
+    document.getElementById("appContent");
+
+  content.innerHTML = `
+
+    <div class="page-head">
+      <div>
+        <h1>Beneficiaries</h1>
+        <p>Your saved recipients.</p>
+      </div>
+
+      <button class="btn btn-primary"
+              onclick="openBeneficiary()">
+        Add recipient
+      </button>
+    </div>
+
+    <div class="panel">
+      <div id="beneficiaryList">
+        Loading recipients...
+      </div>
+    </div>
+  `;
+
+  const {
+    data,
+    error
+  } = await db
+    .from("beneficiaries")
+    .select(`
+      id,
+      name,
+      account_reference,
+      bank_name,
+      country,
+      created_at
+    `)
+    .eq("user_id",currentUser.id)
+    .order("created_at",{ascending:false});
+
+  const container =
+    document.getElementById("beneficiaryList");
+
+  if(error){
+
+    console.error(error);
+
+    container.innerHTML =
+      '<div class="empty">Unable to load recipients.</div>';
+
+    return;
+  }
+
+  if(!data?.length){
+
+    container.innerHTML =
+      '<div class="empty">You have no saved recipients yet.</div>';
+
+    return;
+  }
+
+  container.innerHTML =
+    data.map(item => `
+
+      <div class="transaction">
+
+        <div class="transaction-left">
+
+          <div class="transaction-icon">
+            ${initials(item.name)}
+          </div>
+
+          <div>
+            <div class="transaction-name">
+              ${escapeHtml(item.name)}
+            </div>
+
+            <div class="transaction-date">
+              ${escapeHtml(item.account_reference || "")}
+              ${item.bank_name ? " • " + escapeHtml(item.bank_name) : ""}
+            </div>
+          </div>
+
+        </div>
+
+        <span>
+          ${escapeHtml(item.country || "")}
+        </span>
+
+      </div>
+
+    `).join("");
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+function renderProfile(){
+
+  const content =
+    document.getElementById("appContent");
+
+  const name =
+    currentProfile?.full_name ||
+    currentUser?.user_metadata?.full_name ||
+    "Novara";
+
+  const email =
+    currentProfile?.email ||
+    currentUser?.email ||
+    "";
+
+  content.innerHTML = `
+
+    <div class="page-head">
+      <div>
+        <h1>Profile</h1>
+        <p>Your customer information.</p>
+      </div>
+    </div>
+
+    <div class="panel profile-card">
+
+      <div class="profile-row">
+        <span>Account holder</span>
+        <strong>${escapeHtml(name)}</strong>
+      </div>
+
+      <div class="profile-row">
+        <span>Email</span>
+        <strong>${escapeHtml(email)}</strong>
+      </div>
+
+      <div class="profile-row">
+        <span>Phone</span>
+        <strong>${escapeHtml(currentProfile?.phone || "Not added")}</strong>
+      </div>
+
+      <div class="profile-row">
+        <span>Country</span>
+        <strong>${escapeHtml(currentProfile?.country || "Not added")}</strong>
+      </div>
+
+      <div class="profile-row">
+        <span>Account number</span>
+        <strong>${escapeHtml(currentAccount?.account_number || "Unavailable")}</strong>
+      </div>
+
+      <div class="profile-row">
+        <span>Currency</span>
+        <strong>${escapeHtml(currentAccount?.currency || "USD")}</strong>
+      </div>
+
+      <div class="profile-row">
+        <span>Status</span>
+        <strong>${escapeHtml(currentAccount?.status || "Active")}</strong>
+      </div>
+
+    </div>
+  `;
+}
+
+
+/* =========================================================
+   SUPPORT
+========================================================= */
+
+async function renderSupport(){
+
+  const content =
+    document.getElementById("appContent");
+
+  content.innerHTML = `
+
+    <div class="page-head">
+
+      <div>
+        <h1>Support</h1>
+        <p>We're here to help.</p>
+      </div>
+
+      <button class="btn btn-primary"
+              onclick="openSupport()">
+        Contact support
+      </button>
+
+    </div>
+
+    <div class="panel">
+      <div id="supportList">
+        Loading support requests...
+      </div>
+    </div>
+  `;
+
+  const {
+    data,
+    error
+  } = await db
+    .from("support_tickets")
+    .select(`
+      id,
+      subject,
+      message,
+      status,
+      admin_reply,
+      created_at,
+      updated_at
+    `)
+    .eq("user_id",currentUser.id)
+    .order("created_at",{ascending:false});
+
+  const container =
+    document.getElementById("supportList");
+
+  if(error){
+
+    container.innerHTML =
+      '<div class="empty">Unable to load support requests.</div>';
+
+    return;
+  }
+
+  if(!data?.length){
+
+    container.innerHTML =
+      '<div class="empty">You have no support requests.</div>';
+
+    return;
+  }
+
+  container.innerHTML =
+    data.map(ticket => `
+
+      <div class="panel"
+           style="margin-bottom:12px;background:#f9fafc">
+
+        <div style="display:flex;justify-content:space-between;gap:20px">
+
+          <strong>${escapeHtml(ticket.subject)}</strong>
+
+          <span style="font-size:11px;font-weight:800">
+            ${escapeHtml(ticket.status)}
+          </span>
+
+        </div>
+
+        <p style="margin-top:10px;color:#657286;font-size:13px">
+          ${escapeHtml(ticket.message)}
+        </p>
+
+        ${
+          ticket.admin_reply
+          ? `
+            <div style="margin-top:15px;padding:15px;background:white;border-radius:12px">
+              <strong style="font-size:12px">Novara Support</strong>
+              <p style="margin-top:5px;font-size:13px;color:#657286">
+                ${escapeHtml(ticket.admin_reply)}
+              </p>
+            </div>
+          `
+          : ""
+        }
+
+      </div>
+
+    `).join("");
+}
+
+
+/* =========================================================
+   TRANSFER
+========================================================= */
+
+function openTransfer(){
+
+  document.getElementById("transferMessage").innerHTML = "";
+
+  document.getElementById("transferForm").reset();
+
+  document
+    .getElementById("transferModal")
+    .classList.remove("hidden");
+}
+
+document.getElementById("transferForm")
+.addEventListener("submit",async event => {
+
+  event.preventDefault();
+
+  const recipient =
+    document.getElementById("transferRecipient")
+      .value.trim();
+
+  const amount =
+    Number(
+      document.getElementById("transferAmount").value
+    );
+
+  const transferType =
+    document.getElementById("transferType").value;
+
+  const message =
+    document.getElementById("transferMessage");
+
+  message.innerHTML = "";
+
+  if(!recipient || amount <= 0){
+    message.innerHTML =
+      '<div class="error">Enter a valid recipient and amount.</div>';
+    return;
+  }
+
+  const {error} =
+    await db.rpc("novara_request_transfer",{
+      p_recipient:recipient,
+      p_amount:amount,
+      p_transfer_type:transferType
+    });
+
+  if(error){
+
+    console.error(error);
+
+    message.innerHTML =
+      `<div class="error">${escapeHtml(error.message)}</div>`;
+
+    return;
+  }
+
+  message.innerHTML =
+    '<div class="success">Transfer request submitted successfully.</div>';
+
+  setTimeout(async ()=>{
+    closeModal("transferModal");
+    await loadUserData();
+    navigate("overview");
+  },800);
+});
+
+
+/* =========================================================
+   BENEFICIARY
+========================================================= */
+
+function openBeneficiary(){
+
+  document.getElementById("beneficiaryMessage").innerHTML = "";
+
+  document.getElementById("beneficiaryForm").reset();
+
+  document
+    .getElementById("beneficiaryModal")
+    .classList.remove("hidden");
+}
+
+document.getElementById("beneficiaryForm")
+.addEventListener("submit",async event => {
+
+  event.preventDefault();
+
+  const message =
+    document.getElementById("beneficiaryMessage");
+
+  const name =
+    document.getElementById("beneficiaryName").value.trim();
+
+  if(!name){
+    message.innerHTML =
+      '<div class="error">Enter the recipient name.</div>';
+    return;
+  }
+
+  const {error} =
+    await db
+      .from("beneficiaries")
+      .insert({
+        user_id:currentUser.id,
+        name,
+        account_reference:
+          document.getElementById("beneficiaryReference").value.trim(),
+        bank_name:
+          document.getElementById("beneficiaryBank").value.trim(),
+        country:
+          document.getElementById("beneficiaryCountry").value.trim()
+      });
+
+  if(error){
+
+    console.error(error);
+
+    message.innerHTML =
+      `<div class="error">${escapeHtml(error.message)}</div>`;
+
+    return;
+  }
+
+  message.innerHTML =
+    '<div class="success">Recipient saved successfully.</div>';
+
+  setTimeout(()=>{
+    closeModal("beneficiaryModal");
+    navigate("beneficiaries");
+  },700);
+});
+
+
+/* =========================================================
+   SUPPORT
+========================================================= */
+
+function openSupport(){
+
+  document.getElementById("supportMessage").innerHTML = "";
+
+  document.getElementById("supportForm").reset();
+
+  document
+    .getElementById("supportModal")
+    .classList.remove("hidden");
+}
+
+document.getElementById("supportForm")
+.addEventListener("submit",async event => {
+
+  event.preventDefault();
+
+  const message =
+    document.getElementById("supportMessage");
+
+  const subject =
+    document.getElementById("supportSubject").value.trim();
+
+  const text =
+    document.getElementById("supportText").value.trim();
+
+  const {error} =
+    await db.rpc("novara_create_support_ticket",{
+      p_subject:subject,
+      p_message:text
+    });
+
+  if(error){
+
+    console.error(error);
+
+    message.innerHTML =
+      `<div class="error">${escapeHtml(error.message)}</div>`;
+
+    return;
+  }
+
+  message.innerHTML =
+    '<div class="success">Your support request has been sent.</div>';
+
+  setTimeout(()=>{
+    closeModal("supportModal");
+    navigate("support");
+  },700);
+});
+
+
+/* =========================================================
+   ADMIN
+========================================================= */
+
+async function isAdmin(){
+
+  const {data,error} =
+    await db.rpc("novara_is_admin");
+
+  if(error){
+    console.error(error);
     return false;
   }
 
+  return data === true;
+}
 
-  function renderTransactions(transactions){
 
-    const recent = qs("recentTransactions");
-    const all = qs("allTransactions");
+async function renderAdmin(){
 
-    if(!transactions.length){
+  const allowed =
+    await isAdmin();
 
-      const empty = `<div class="empty">No transactions yet.</div>`;
+  if(!allowed){
 
-      recent.innerHTML = empty;
-      all.innerHTML = empty;
-      return;
-    }
-
-    const html = transactions.map(tx => {
-
-      const credit = transactionIsCredit(tx);
-      const sign = credit ? "+" : "-";
-
-      const date = new Date(tx.created_at).toLocaleDateString(
-        undefined,
-        {
-          month:"short",
-          day:"numeric",
-          year:"numeric"
-        }
-      );
-
-      return `
-        <div class="transaction">
-          <div class="tx-icon">
-            ${credit ? "↓" : "↑"}
-          </div>
-
-          <div class="tx-main">
-            <strong>${escapeHtml(tx.description || tx.type || "Transaction")}</strong>
-            <span>${date} · ${escapeHtml(tx.status || "completed")}</span>
-          </div>
-
-          <div class="tx-amount ${credit ? "credit" : "debit"}">
-            ${sign}${formatMoney(tx.amount,tx.currency)}
-          </div>
+    document.getElementById("appContent").innerHTML = `
+      <div class="panel">
+        <div class="empty">
+          Administration access is unavailable.
         </div>
-      `;
-    }).join("");
+      </div>
+    `;
 
-    recent.innerHTML = transactions.slice(0,6).map(tx => {
-
-      const credit = transactionIsCredit(tx);
-      const sign = credit ? "+" : "-";
-
-      return `
-        <div class="transaction">
-          <div class="tx-icon">${credit ? "↓" : "↑"}</div>
-          <div class="tx-main">
-            <strong>${escapeHtml(tx.description || tx.type)}</strong>
-            <span>${new Date(tx.created_at).toLocaleDateString()}</span>
-          </div>
-          <div class="tx-amount ${credit ? "credit" : "debit"}">
-            ${sign}${formatMoney(tx.amount,tx.currency)}
-          </div>
-        </div>
-      `;
-    }).join("");
-
-    all.innerHTML = html;
+    return;
   }
 
+  const content =
+    document.getElementById("appContent");
 
-  /* -----------------------------
-     CARD
-  ----------------------------- */
+  content.innerHTML = `
 
-  async function loadCard(){
+    <div class="page-head">
 
-    const {data,error} = await db
-      .from("cards")
-      .select("*")
-      .eq("user_id",currentUser.id)
-      .order("created_at",{ascending:true})
-      .limit(1)
-      .maybeSingle();
+      <div>
+        <h1>Administration</h1>
+        <p>Manage Novara customer operations.</p>
+      </div>
 
-    if(error){
-      console.error(error);
-      return;
-    }
+      <span class="admin-badge">
+        ADMIN
+      </span>
 
-    if(data && data.last_four){
+    </div>
 
-      qs("cardLastFour").textContent = data.last_four;
-      qs("cardLastFour2").textContent = data.last_four;
+    <div class="quick-grid">
 
-    }else{
+      <button class="quick"
+              onclick="openFundModal()">
+        <div class="quick-icon">+</div>
+        <strong>Fund account</strong>
+        <span>Add account funds</span>
+      </button>
 
-      qs("cardLastFour").textContent = "9017";
-      qs("cardLastFour2").textContent = "9017";
-    }
+    </div>
+
+    <div class="panel" style="margin-bottom:20px">
+
+      <div class="panel-title">
+        <h3>Customer accounts</h3>
+      </div>
+
+      <div id="adminAccounts">
+        Loading...
+      </div>
+
+    </div>
+
+    <div class="panel" style="margin-bottom:20px">
+
+      <div class="panel-title">
+        <h3>Pending internal transfers</h3>
+      </div>
+
+      <div id="adminTransfers">
+        Loading...
+      </div>
+
+    </div>
+
+    <div class="panel">
+
+      <div class="panel-title">
+        <h3>Support tickets</h3>
+      </div>
+
+      <div id="adminSupport">
+        Loading...
+      </div>
+
+    </div>
+  `;
+
+  await loadAdminAccounts();
+  await loadAdminTransfers();
+  await loadAdminSupport();
+}
+
+
+async function loadAdminAccounts(){
+
+  const container =
+    document.getElementById("adminAccounts");
+
+  const {data,error} =
+    await db.rpc("novara_admin_list_accounts");
+
+  if(error){
+
+    container.innerHTML =
+      `<div class="error">${escapeHtml(error.message)}</div>`;
+
+    return;
   }
 
+  if(!data?.length){
 
-  /* -----------------------------
-     BENEFICIARIES
-  ----------------------------- */
+    container.innerHTML =
+      '<div class="empty">No accounts.</div>';
 
-  async function loadBeneficiaries(){
+    return;
+  }
 
-    const {data,error} = await db
-      .from("beneficiaries")
-      .select("*")
-      .eq("user_id",currentUser.id)
-      .order("created_at",{ascending:false});
+  container.innerHTML = `
 
-    if(error){
-      console.error(error);
-      return;
-    }
+    <div style="overflow:auto">
 
-    const list = qs("beneficiaryList");
+      <table class="admin-table">
 
-    if(!data?.length){
-      list.innerHTML =
-        `<div class="empty">No saved recipients yet.</div>`;
-      return;
-    }
+        <thead>
+          <tr>
+            <th>Account</th>
+            <th>Holder</th>
+            <th>Currency</th>
+            <th>Balance</th>
+            <th>Status</th>
+          </tr>
+        </thead>
 
-    list.innerHTML = data.map(item => `
-      <div class="admin-row">
+        <tbody>
 
-        <div class="admin-row-top">
-          <div>
-            <strong>${escapeHtml(item.name)}</strong>
-            <small>
-              ${escapeHtml(item.bank_name || "Bank not specified")}
-              ${item.country ? " · " + escapeHtml(item.country) : ""}
-            </small>
+          ${data.map(account => `
+
+            <tr>
+
+              <td>
+                ${escapeHtml(account.account_number || "—")}
+              </td>
+
+              <td>
+                ${escapeHtml(account.account_name || "Novara Account")}
+              </td>
+
+              <td>
+                ${escapeHtml(account.currency)}
+              </td>
+
+              <td>
+                ${money(account.balance,account.currency)}
+              </td>
+
+              <td>
+                ${escapeHtml(account.status)}
+              </td>
+
+            </tr>
+
+          `).join("")}
+
+        </tbody>
+
+      </table>
+
+    </div>
+  `;
+}
+
+
+async function loadAdminTransfers(){
+
+  const container =
+    document.getElementById("adminTransfers");
+
+  const {data,error} =
+    await db.rpc("novara_admin_list_pending_transfers");
+
+  if(error){
+
+    container.innerHTML =
+      `<div class="error">${escapeHtml(error.message)}</div>`;
+
+    return;
+  }
+
+  if(!data?.length){
+
+    container.innerHTML =
+      '<div class="empty">No pending internal transfers.</div>';
+
+    return;
+  }
+
+  container.innerHTML =
+    data.map(request => `
+
+      <div class="transaction">
+
+        <div>
+          <div class="transaction-name">
+            ${escapeHtml(request.recipient)}
+          </div>
+
+          <div class="transaction-date">
+            ${money(request.amount,request.currency)}
+            • ${formatDate(request.created_at)}
           </div>
         </div>
 
-        <small>
-          ${escapeHtml(item.account_reference || "No account reference")}
-        </small>
+        <button
+          class="btn btn-primary"
+          style="padding:8px 12px;font-size:12px"
+          onclick="approveTransfer('${request.id}')">
+          Approve
+        </button>
 
       </div>
+
     `).join("");
-  }
+}
 
 
-  async function addBeneficiary(event){
+async function approveTransfer(id){
 
-    event.preventDefault();
+  if(!confirm("Approve this internal transfer?"))
+    return;
 
-    clearMessage("beneficiaryMessage");
-
-    const payload = {
-      user_id:currentUser.id,
-      name:qs("beneficiaryName").value.trim(),
-      account_reference:qs("beneficiaryReference").value.trim(),
-      bank_name:qs("beneficiaryBank").value.trim(),
-      country:qs("beneficiaryCountry").value.trim()
-    };
-
-    const {error} = await db
-      .from("beneficiaries")
-      .insert(payload);
-
-    if(error){
-
-      setMessage(
-        "beneficiaryMessage",
-        error.message,
-        "error"
-      );
-
-      return;
-    }
-
-    event.target.reset();
-
-    closeModal("beneficiaryModal");
-
-    await loadBeneficiaries();
-
-    toast("Recipient saved.");
-  }
-
-
-  /* -----------------------------
-     TRANSFERS
-  ----------------------------- */
-
-  async function requestTransfer(event){
-
-    event.preventDefault();
-
-    clearMessage("transferMessage");
-
-    const recipient =
-      qs("transferRecipient").value.trim();
-
-    const amount =
-      Number(qs("transferAmount").value);
-
-    const transfer_type =
-      qs("transferType").value;
-
-    try{
-
-      const {data,error} = await db.rpc(
-        "novara_request_transfer",
-        {
-          p_recipient:recipient,
-          p_amount:amount,
-          p_transfer_type:transfer_type
-        }
-      );
-
-      if(error) throw error;
-
-      closeModal("transferModal");
-
-      event.target.reset();
-
-      await loadTransactions();
-
-      toast(
-        transfer_type === "external"
-          ? "External transfer request submitted for authorization."
-          : "Internal transfer request submitted."
-      );
-
-    }catch(error){
-
-      setMessage(
-        "transferMessage",
-        error.message || "Unable to create transfer request.",
-        "error"
-      );
-    }
-  }
-
-
-  /* -----------------------------
-     SUPPORT
-  ----------------------------- */
-
-  async function createSupportTicket(event){
-
-    event.preventDefault();
-
-    clearMessage("supportMessage");
-
-    const subject =
-      qs("supportSubject").value.trim();
-
-    const message =
-      qs("supportBody").value.trim();
-
-    const {data,error} = await db.rpc(
-      "novara_create_support_ticket",
-      {
-        p_subject:subject,
-        p_message:message
-      }
-    );
-
-    if(error){
-
-      setMessage(
-        "supportMessage",
-        error.message,
-        "error"
-      );
-
-      return;
-    }
-
-    event.target.reset();
-
-    closeModal("supportModal");
-
-    await loadSupport();
-
-    toast("Support request sent.");
-  }
-
-
-  async function loadSupport(){
-
-    const {data,error} = await db
-      .from("support_tickets")
-      .select("*")
-      .eq("user_id",currentUser.id)
-      .order("created_at",{ascending:false});
-
-    if(error){
-      console.error(error);
-      return;
-    }
-
-    const list = qs("supportList");
-
-    if(!data?.length){
-      list.innerHTML =
-        `<div class="empty">No support requests yet.</div>`;
-      return;
-    }
-
-    list.innerHTML = data.map(ticket => `
-      <div class="admin-row">
-
-        <div class="admin-row-top">
-          <div>
-            <strong>${escapeHtml(ticket.subject)}</strong>
-            <small>
-              ${new Date(ticket.created_at).toLocaleString()}
-            </small>
-          </div>
-
-          <span class="status">
-            ${escapeHtml(ticket.status)}
-          </span>
-        </div>
-
-        <small>${escapeHtml(ticket.message)}</small>
-
-        ${
-          ticket.admin_reply
-            ? `
-              <div style="
-                margin-top:12px;
-                padding:12px;
-                border-radius:12px;
-                background:rgba(39,224,193,.05);
-                color:#c4d0e6;
-                font-size:12px;
-              ">
-                <strong style="color:var(--teal)">Novara Support</strong><br>
-                ${escapeHtml(ticket.admin_reply)}
-              </div>
-            `
-            : ""
-        }
-
-      </div>
-    `).join("");
-  }
-
-
-  /* -----------------------------
-     CUSTOMER NAVIGATION
-  ----------------------------- */
-
-  function customerSection(section,button){
-
-    const sections = [
-      "Overview",
-      "Transactions",
-      "Cards",
-      "Beneficiaries",
-      "Profile",
-      "Support"
-    ];
-
-    sections.forEach(name => {
-      hide("section" + name);
+  const {error} =
+    await db.rpc("novara_admin_approve_transfer",{
+      p_request_id:id
     });
 
-    show(
-      "section" +
-      section.charAt(0).toUpperCase() +
-      section.slice(1)
+  if(error){
+
+    alert(error.message);
+    return;
+  }
+
+  await renderAdmin();
+}
+
+
+async function loadAdminSupport(){
+
+  const container =
+    document.getElementById("adminSupport");
+
+  const {data,error} =
+    await db.rpc("novara_admin_list_support_tickets");
+
+  if(error){
+
+    container.innerHTML =
+      `<div class="error">${escapeHtml(error.message)}</div>`;
+
+    return;
+  }
+
+  if(!data?.length){
+
+    container.innerHTML =
+      '<div class="empty">No support tickets.</div>';
+
+    return;
+  }
+
+  container.innerHTML =
+    data.map(ticket => `
+
+      <div class="transaction">
+
+        <div style="min-width:0">
+
+          <div class="transaction-name">
+            ${escapeHtml(ticket.subject)}
+          </div>
+
+          <div class="transaction-date">
+            ${escapeHtml(ticket.status)}
+            • ${formatDate(ticket.created_at)}
+          </div>
+
+        </div>
+
+        <button
+          class="btn btn-violet"
+          style="padding:8px 12px;font-size:12px"
+          onclick="openReply('${ticket.id}')">
+          Reply
+        </button>
+
+      </div>
+
+    `).join("");
+}
+
+
+async function openFundModal(){
+
+  const allowed =
+    await isAdmin();
+
+  if(!allowed){
+    alert("Administration access required.");
+    return;
+  }
+
+  const select =
+    document.getElementById("fundAccount");
+
+  const {data,error} =
+    await db.rpc("novara_admin_list_accounts");
+
+  if(error){
+    alert(error.message);
+    return;
+  }
+
+  select.innerHTML =
+    (data || []).map(account => `
+
+      <option value="${account.id}">
+        ${escapeHtml(account.account_number || account.id)}
+        — ${money(account.balance,account.currency)}
+      </option>
+
+    `).join("");
+
+  document.getElementById("fundMessage").innerHTML = "";
+
+  document
+    .getElementById("fundModal")
+    .classList.remove("hidden");
+}
+
+
+document.getElementById("fundForm")
+.addEventListener("submit",async event => {
+
+  event.preventDefault();
+
+  const message =
+    document.getElementById("fundMessage");
+
+  const accountId =
+    document.getElementById("fundAccount").value;
+
+  const amount =
+    Number(
+      document.getElementById("fundAmount").value
     );
 
-    document.querySelectorAll(".side-nav button")
-      .forEach(btn => btn.classList.remove("active"));
+  const description =
+    document.getElementById("fundDescription").value.trim();
 
-    if(button){
-      button.classList.add("active");
-    }
+  const {error} =
+    await db.rpc("novara_admin_fund_account",{
+      p_account_id:accountId,
+      p_amount:amount,
+      p_description:
+        description || "Novara admin funding"
+    });
 
-    qs("pageTitle").textContent =
-      section.charAt(0).toUpperCase() + section.slice(1);
+  if(error){
+
+    message.innerHTML =
+      `<div class="error">${escapeHtml(error.message)}</div>`;
+
+    return;
   }
 
+  message.innerHTML =
+    '<div class="success">Account funded successfully.</div>';
 
-  /* -----------------------------
-     ADMIN
-  ----------------------------- */
-
-  async function loadAdmin(){
-
-    showOnly("adminPage");
-
-    await Promise.all([
-      loadAdminAccounts(),
-      loadAdminTransfers(),
-      loadAdminSupport()
-    ]);
-  }
-
-
-  async function loadAdminAccounts(){
-
-    const {data,error} =
-      await db.rpc("novara_admin_list_accounts");
-
-    const list = qs("adminAccounts");
-
-    if(error){
-
-      list.innerHTML =
-        `<div class="empty">${escapeHtml(error.message)}</div>`;
-
-      return;
-    }
-
-    if(!data?.length){
-
-      list.innerHTML =
-        `<div class="empty">No accounts found.</div>`;
-
-      return;
-    }
-
-    list.innerHTML = data.map(account => `
-
-      <div class="admin-row">
-
-        <div class="admin-row-top">
-
-          <div>
-            <strong>
-              ${escapeHtml(account.account_name || "Novara Account")}
-            </strong>
-
-            <small>
-              ${escapeHtml(account.account_number || account.id)}
-            </small>
-
-            <small>
-              User: ${escapeHtml(account.user_id)}
-            </small>
-          </div>
-
-          <strong>
-            ${formatMoney(account.balance,account.currency)}
-          </strong>
-
-        </div>
-
-        <div class="actions">
-          <button
-            class="small-btn"
-            onclick="openFundModal('${account.id}')">
-            Fund account
-          </button>
-        </div>
-
-      </div>
-
-    `).join("");
-  }
-
-
-  async function loadAdminTransfers(){
-
-    const {data,error} =
-      await db.rpc("novara_admin_list_pending_transfers");
-
-    const list = qs("adminTransfers");
-
-    if(error){
-
-      list.innerHTML =
-        `<div class="empty">${escapeHtml(error.message)}</div>`;
-
-      return;
-    }
-
-    if(!data?.length){
-
-      list.innerHTML =
-        `<div class="empty">No pending internal transfers.</div>`;
-
-      return;
-    }
-
-    list.innerHTML = data.map(request => `
-
-      <div class="admin-row">
-
-        <div class="admin-row-top">
-
-          <div>
-            <strong>
-              ${escapeHtml(request.recipient)}
-            </strong>
-
-            <small>
-              ${formatMoney(request.amount,request.currency)}
-              · ${escapeHtml(request.transfer_type)}
-            </small>
-
-            <small>
-              ${new Date(request.created_at).toLocaleString()}
-            </small>
-          </div>
-
-        </div>
-
-        <div class="actions">
-
-          <button
-            class="small-btn"
-            onclick="approveTransfer('${request.id}')">
-            Approve
-          </button>
-
-        </div>
-
-      </div>
-
-    `).join("");
-  }
-
-
-  async function approveTransfer(id){
-
-    if(!confirm("Approve this internal transfer?")){
-      return;
-    }
-
-    const {error} =
-      await db.rpc(
-        "novara_admin_approve_transfer",
-        {p_request_id:id}
-      );
-
-    if(error){
-
-      toast(error.message);
-      return;
-    }
-
-    await loadAdmin();
-
-    toast("Internal transfer approved.");
-  }
-
-
-  /* -----------------------------
-     ADMIN FUNDING
-  ----------------------------- */
-
-  function openFundModal(accountId){
-
-    qs("fundAccountId").value = accountId;
-    qs("fundAmount").value = "";
-    qs("fundDescription").value =
-      "Novara account funding";
-
-    clearMessage("fundMessage");
-
-    openModal("fundModal");
-  }
-
-
-  async function fundAccount(){
-
-    const accountId =
-      qs("fundAccountId").value;
-
-    const amount =
-      Number(qs("fundAmount").value);
-
-    const description =
-      qs("fundDescription").value.trim();
-
-    if(!amount || amount <= 0){
-
-      setMessage(
-        "fundMessage",
-        "Enter a valid amount.",
-        "error"
-      );
-
-      return;
-    }
-
-    const {error} =
-      await db.rpc(
-        "novara_admin_fund_account",
-        {
-          p_account_id:accountId,
-          p_amount:amount,
-          p_description:description || "Novara account funding"
-        }
-      );
-
-    if(error){
-
-      setMessage(
-        "fundMessage",
-        error.message,
-        "error"
-      );
-
-      return;
-    }
-
+  setTimeout(()=>{
     closeModal("fundModal");
+    renderAdmin();
+  },700);
+});
 
-    await loadAdmin();
 
-    toast("Account funded successfully.");
+function openReply(id){
+
+  document.getElementById("replyTicketId").value = id;
+  document.getElementById("replyText").value = "";
+  document.getElementById("replyMessage").innerHTML = "";
+
+  document
+    .getElementById("replyModal")
+    .classList.remove("hidden");
+}
+
+
+document.getElementById("replyForm")
+.addEventListener("submit",async event => {
+
+  event.preventDefault();
+
+  const message =
+    document.getElementById("replyMessage");
+
+  const ticketId =
+    document.getElementById("replyTicketId").value;
+
+  const reply =
+    document.getElementById("replyText").value.trim();
+
+  const status =
+    document.getElementById("replyStatus").value;
+
+  const {error} =
+    await db.rpc("novara_admin_reply_support_ticket",{
+      p_ticket_id:ticketId,
+      p_reply:reply,
+      p_status:status
+    });
+
+  if(error){
+
+    message.innerHTML =
+      `<div class="error">${escapeHtml(error.message)}</div>`;
+
+    return;
   }
 
+  message.innerHTML =
+    '<div class="success">Reply sent.</div>';
 
-  /* -----------------------------
-     ADMIN SUPPORT
-  ----------------------------- */
-
-  async function loadAdminSupport(){
-
-    const {data,error} =
-      await db.rpc("novara_admin_list_support_tickets");
-
-    const list = qs("adminSupport");
-
-    if(error){
-
-      list.innerHTML =
-        `<div class="empty">${escapeHtml(error.message)}</div>`;
-
-      return;
-    }
-
-    if(!data?.length){
-
-      list.innerHTML =
-        `<div class="empty">No support tickets.</div>`;
-
-      return;
-    }
-
-    list.innerHTML = data.map(ticket => `
-
-      <div class="admin-row">
-
-        <div class="admin-row-top">
-
-          <div>
-            <strong>${escapeHtml(ticket.subject)}</strong>
-
-            <small>
-              User: ${escapeHtml(ticket.user_id)}
-            </small>
-
-            <small>
-              ${new Date(ticket.created_at).toLocaleString()}
-            </small>
-          </div>
-
-          <span class="status">
-            ${escapeHtml(ticket.status)}
-          </span>
-
-        </div>
-
-        <small>
-          ${escapeHtml(ticket.message)}
-        </small>
-
-        ${
-          ticket.admin_reply
-            ? `
-              <small style="margin-top:10px;color:var(--teal)">
-                Reply: ${escapeHtml(ticket.admin_reply)}
-              </small>
-            `
-            : ""
-        }
-
-        <div class="actions">
-
-          <button
-            class="small-btn"
-            onclick="openReplyModal('${ticket.id}')">
-            Reply
-          </button>
-
-        </div>
-
-      </div>
-
-    `).join("");
-  }
-
-
-  function openReplyModal(id){
-
-    qs("replyTicketId").value = id;
-    qs("replyText").value = "";
-
-    openModal("replyModal");
-  }
-
-
-  async function replySupportTicket(){
-
-    const id =
-      qs("replyTicketId").value;
-
-    const reply =
-      qs("replyText").value.trim();
-
-    const status =
-      qs("replyStatus").value;
-
-    if(!reply){
-
-      toast("Enter a reply.");
-      return;
-    }
-
-    const {error} =
-      await db.rpc(
-        "novara_admin_reply_support_ticket",
-        {
-          p_ticket_id:id,
-          p_reply:reply,
-          p_status:status
-        }
-      );
-
-    if(error){
-
-      toast(error.message);
-      return;
-    }
-
+  setTimeout(()=>{
     closeModal("replyModal");
+    renderAdmin();
+  },700);
+});
 
-    await loadAdminSupport();
 
-    toast("Support reply sent.");
+/* =========================================================
+   SECRET ADMIN ACCESS
+========================================================= */
+
+function logoSecretClick(){
+
+  logoClicks++;
+
+  clearTimeout(logoTimer);
+
+  logoTimer =
+    setTimeout(()=>{
+      logoClicks = 0;
+    },1800);
+
+  if(logoClicks >= 5){
+
+    logoClicks = 0;
+
+    openAdmin();
+  }
+}
+
+
+async function openAdmin(){
+
+  const allowed =
+    await isAdmin();
+
+  if(!allowed){
+    return;
   }
 
-
-  /* -----------------------------
-     SECURITY / HELPERS
-  ----------------------------- */
-
-  function escapeHtml(value){
-
-    return String(value ?? "")
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#039;");
-  }
+  navigate("admin");
+}
 
 
-  /* -----------------------------
-     HIDDEN ADMIN ACCESS
-  ----------------------------- */
+/* =========================================================
+   MODALS
+========================================================= */
 
-  qs("logoTrigger").addEventListener("click",async () => {
+function closeModal(id){
+  document.getElementById(id)
+    .classList.add("hidden");
+}
 
-    logoClicks++;
+document.querySelectorAll(".modal")
+.forEach(modal => {
 
-    clearTimeout(logoTimer);
+  modal.addEventListener("click",event => {
 
-    logoTimer = setTimeout(() => {
-      logoClicks = 0;
-    },1200);
-
-    if(logoClicks >= 5){
-
-      logoClicks = 0;
-
-      const {data,error} =
-        await db.rpc("novara_is_admin");
-
-      if(error || data !== true){
-        toast("Access unavailable.");
-        return;
-      }
-
-      await loadAdmin();
+    if(event.target === modal){
+      modal.classList.add("hidden");
     }
 
   });
 
+});
 
-  /* -----------------------------
-     SESSION CHECK
-  ----------------------------- */
 
-  async function init(){
+/* =========================================================
+   SIDEBAR
+========================================================= */
 
-    const {data} =
-      await db.auth.getSession();
+function toggleSidebar(){
 
-    if(data.session){
+  document.getElementById("sidebar")
+    .classList.toggle("open");
+}
 
-      currentUser = data.session.user;
 
-      await enterApplication();
+/* =========================================================
+   SIGN OUT
+========================================================= */
 
-    }else{
+async function signOut(){
 
-      showLanding();
+  await db.auth.signOut();
 
+  currentUser = null;
+  currentProfile = null;
+  currentAccount = null;
+
+  showPublic();
+}
+
+
+/* =========================================================
+   SESSION RESTORE
+========================================================= */
+
+async function restoreSession(){
+
+  const {
+    data:{
+      session
     }
+  } = await db.auth.getSession();
+
+  if(session?.user){
+
+    currentUser = session.user;
+
+    await openApp();
+
+  }else{
+
+    showPublic();
+
+  }
+}
+
+
+db.auth.onAuthStateChange(async (event,session)=>{
+
+  if(event === "SIGNED_OUT"){
+    showPublic();
   }
 
-
-  db.auth.onAuthStateChange(async (event,session) => {
-
-    if(event === "SIGNED_OUT"){
-      showLanding();
-      return;
-    }
-
-    if(event === "SIGNED_IN" && session){
-
-      currentUser = session.user;
-
-      await enterApplication();
-    }
-
-  });
+});
 
 
-  init();
+/* =========================================================
+   START
+========================================================= */
+
+restoreSession();
+
 </script>
 
 </body>
